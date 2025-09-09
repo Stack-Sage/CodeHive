@@ -17,14 +17,14 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="relative"
+        className="relative bg-transparent"
       >
         <img
           src="/logo.png"
           alt="CodeHype Logo"
           width={100}
           height={100}
-          className="rounded-full -hue-rotate-15   shadow-[0_0_40px_rgba(59,130,146,0.5)] hover:shadow-pink-900 transition-shadow duration-500"
+          className="rounded-full bg-transparent hue-rotate-30  object-cover  shadow-[0_0_40px_rgba(59,130,146,0.5)] hover:shadow-pink-900 transition-shadow duration-500"
         />
       </motion.div>
 

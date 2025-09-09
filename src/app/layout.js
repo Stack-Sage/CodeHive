@@ -22,9 +22,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased animate-gradient-x contrast-[1.1] brightness-110`}
+        className={`${geistSans.variable} ${geistMono.variable} w-screen  antialiased animate-gradient-x contrast-[1.1] brightness-110`}
       >
+       
         <LenisWrapper>
+       
           {children}
          <Footer />
         </LenisWrapper>

@@ -12,19 +12,24 @@ import Loader from "./components/comingSoon/Loader";
 import LoaderBall from './components/comingSoon/LoaderBall';
 import SecondPageAbout from './components/comingSoon/SecondPageAbout';
 import LenisWrapper from './ui/LenisWrapper';
+import Image from 'next/image';
 
 
 
 export default function page() {
   
   return (
-    <main className="h-full   overflow-hidden scroll-smooth    ">
+    <main className="h-full min-h-screen max-w-screen overflow-x-hidden  relative scroll-smooth   z-10 ">
       <LenisWrapper>
-
-     
+         
+          
       <section className="relative h-screen w-full  flex flex-col  scale-100  items-center justify-center">
- 
-     
+        <img
+                className="absolute top-0 left-0 w-full h-full object-cover opacity-10 grayscale -z-10"
+                src="/bg_2.jpg"
+                alt="Background image"
+              />
+    
         <div className="absolute inset-0  "></div>
         <div className="absolute inset-0 backdrop-blur-2xl  "></div>
 
@@ -66,10 +71,12 @@ export default function page() {
 
   </div>
 
- 
+     
 
 
 </section>
+
+     
 
     </LenisWrapper>
     </main>
