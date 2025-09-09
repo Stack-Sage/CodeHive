@@ -5,13 +5,13 @@ import Loader from "./Loader";
 
 export default function Hero() {
   return (
-    <section className="flex flex-col items-center text-center mt-16 px-4 relative ">
+    <section className="flex flex-col items-center text-center lg:mt-10 px-4 relative scale-95 ">
       
    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
-      className="flex flex-col md:flex-row items-center gap-6 justify-center mt-12"
+      className="flex flex-col md:flex-row items-center gap-6 justify-center lg:mt-6"
     >
      
       <motion.div
@@ -19,16 +19,16 @@ export default function Hero() {
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         className="relative"
       >
-        <Image
+        <img
           src="/logo.png"
           alt="CodeHype Logo"
           width={100}
           height={100}
-          className="rounded-full hue-rotate-90 invert  shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:shadow-[0_0_60px_rgba(255,0,150,0.6)] transition-shadow duration-500"
+          className="rounded-full -hue-rotate-15   shadow-[0_0_40px_rgba(59,130,146,0.5)] hover:shadow-pink-900 transition-shadow duration-500"
         />
       </motion.div>
 
-      {/* Project Name with neon gradient + glow */}
+
       <motion.h1
         animate={{ y: [0, -5, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
