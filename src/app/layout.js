@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/comingSoon/Footer";
+import LenisWrapper from "./ui/LenisWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,14 +22,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased animate-gradient-x contrast-[1.1] brightness-110  `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased animate-gradient-x contrast-[1.1] brightness-110`}
       >
-        {children}
-         
-
-        
-        
-     
+        <LenisWrapper>
+          {children}
+         <Footer />
+        </LenisWrapper>
       </body>
     </html>
   );

@@ -32,7 +32,7 @@ export default function SecondPageAbout() {
   ];
 
   return (
-    <section className="h-auto w-full snap-start flex flex-col items-center justify-center relative px-4 sm:px-6 md:px-12 py-12 overflow-hidden">
+    <section className="h-fit w-full snap-start flex flex-col items-center justify-center relative px-4 sm:px-6 md:px-12 py-12 overflow-hidden">
       
       {/* Quote */}
       <motion.h2

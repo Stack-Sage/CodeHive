@@ -11,7 +11,7 @@
 }
 
 .animate-gradient-x {
-  background: linear-gradient(135deg, #ffc2e1, #b8deff, #d3c1fd, #ffd8ed);
+  background: linear-gradient(135deg, #ffdcf2, #b8deff, #d9c9fc, #fcc0e0);
   background-size: 300% 300%;
   background-repeat: no-repeat;
   animation: gradient-magical 25s ease-in-out infinite;

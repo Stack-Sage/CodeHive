@@ -57,7 +57,7 @@ export default function Countdown({ targetDate }) {
           <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600 animate-glow"></div>
 
       
-          <div className="relative z-10 flex flex-row gap-2 p-2 items-center justify-center w-auto h-auto rounded-2xl bg-white/70 backdrop-blur-xl">
+          <div className="relative z-10 flex flex-row gap-2 p-2 items-center justify-center w-auto h-auto rounded-2xl bg-white/50 backdrop-blur-xl">
           
             <span
               className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 
