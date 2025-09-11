@@ -9,10 +9,10 @@ export default function LenisWrapper({ children }) {
     if (!enabled) return;
 
     const lenis = new Lenis({
-      duration: 0.8, // fast but still smooth
-      easing: (t) => 1 - Math.pow(1 - t, 4), // responsive ease-out
+      duration: 0.8, 
+      easing: (t) => 1 - Math.pow(1 - t, 4), 
       smooth: true,
-      smoothTouch: false, // keep touch devices native
+      smoothTouch: false, 
     });
 
     function raf(time) {

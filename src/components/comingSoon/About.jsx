@@ -6,17 +6,26 @@ import { motion } from "framer-motion";
 
 export default function About() {
   const skills = [
+
     { id: 1, icon: "💻", title: "Coding", colorFrom: "from-pink-200/30", colorTo: "to-purple-300", description: "Master coding skills 1v1.", tooltip: "Learn to code!" },
+
     { id: 2, icon: "🎨", title: "Art", colorFrom: "from-blue-200/40", colorTo: "to-indigo-300", description: "Improve your creativity.", tooltip: "Master your art skills!" },
+
     { id: 3, icon: "♟️", title: "Chess", colorFrom: "from-green-200/30", colorTo: "to-pink-300/20", description: "Sharpen your strategy.", tooltip: "Sharpen your chess!" },
+
     { id: 4, icon: "🎵", title: "Music", colorFrom: "from-yellow-200/30", colorTo: "to-orange-300/20", description: "Learn instruments & compose.", tooltip: "Play and compose!" },
+
     { id: 5, icon: "🖋️", title: "Calligraphy", colorFrom: "from-purple-200/40", colorTo: "to-pink-300/20", description: "Write beautifully.", tooltip: "Master calligraphy!" },
+
     { id: 6, icon: "🏀", title: "Sports", colorFrom: "from-green-200/30", colorTo: "to-blue-300/30", description: "Improve your skills.", tooltip: "Train your sports!" }
+
+
   ];
 
   const repeatedSkills = [...skills, ...skills, ...skills]; 
 
   return (
+
     <section className="max-w-7xl mx-auto text-center lg:mb-32 px-6 relative overflow-hidden">
       
     
@@ -52,8 +61,7 @@ export default function About() {
               key={idx}
               data-tooltip-id={`tooltip-${skill.id}-${idx}`}
               whileHover={{ y: -4, scale: 1.05, boxShadow: "0 10px 30px rgba(59,130,246,0.4)" }}
-              className={`inline-flex flex-col items-center justify-center min-w-[160px]  sm:min-w-[180px] md:min-w-[200px] max-w-[220px] h-24 md:h-44 lg:h-48
-                          bg-gradient-to-br ${skill.colorFrom} via-white/30 ${skill.colorTo} shadow-lg rounded-2xl
+              className={`inline-flex flex-col items-center justify-center min-w-[160px]  sm:min-w-[180px] md:min-w-[200px] max-w-[220px] h-24 md:h-44 lg:h-48  bg-gradient-to-br ${skill.colorFrom} via-white/30 ${skill.colorTo} shadow-lg rounded-2xl
                           cursor-pointer transition-all duration-300 hover:ring-2 hover:ring-rose-400 px-3 py-3`}
             >
               <span className="text-3xl sm:text-4xl md:text-5xl mb-1">{skill.icon}</span>
@@ -67,8 +75,11 @@ export default function About() {
 
   
       <div className="absolute top-0 left-1/4 w-24 sm:w-32 h-24 sm:h-32 rounded-full bg-pink-400 opacity-50 blur-3xl animate-blob"></div>
+    
       <div className="absolute top-1/3 right-1/4 w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-rose-400 opacity-30 blur-3xl animate-blob animation-delay-2000"></div>
+
       <div className="absolute bottom-0 left-1/3 w-28 sm:w-36 h-28 sm:h-36 rounded-full bg-purple-400 opacity-50 blur-3xl animate-blob animation-delay-4000"></div>
+      
     </section>
   );
 }

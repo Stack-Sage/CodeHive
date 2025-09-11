@@ -10,16 +10,16 @@ export default function NotifyForm() {
     e.preventDefault();
 
     if (!email) return;
-    setIsSent("Please Wait ...")
+    setIsSent("Please Wait ... ")
     emailjs
       .send(
         "service_nfq1gql",     
         "template_yzukbeh",    
         {
           email: email,  
-          owner_email: "official.adirajpu@gmail.com", 
+          owner_email: "official.adirajpu@gmail.com",  // don't know kanishka's mail
         },
-        "Yt7duJ8PkQlj2j1w7"      
+        "Yt7duJ8PkQlj2j1w7"   // for now my public key --    
       )
       .then(
         (res) => {
@@ -40,7 +40,7 @@ export default function NotifyForm() {
       onSubmit={handleSubmit}
       className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 mb-16"
     >
-      {/* Input */}
+    
       <div className="relative w-72 sm:w-80">
         <input
           type="email"

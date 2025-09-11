@@ -44,7 +44,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.6 }}
         className="mt-6 max-w-2xl text-gray-700 text-lg md:text-xl leading-relaxed shadow-sm"
       >
-        A modern platform where anyone can share their skills 🐝 — from coding to chess, art to calligraphy.{" "}
+        A modern platform where anyone can share their skills — from coding to chess, art to calligraphy.{" "}
         <span className="font-semibold hover:text-blue-500 transition-colors duration-300">
           CodeHype
         </span>{" "}

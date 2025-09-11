@@ -33,8 +33,7 @@ export default function SecondPageAbout() {
 
   return (
     <section className="h-fit w-full snap-start flex flex-col items-center justify-center relative px-4 sm:px-6 md:px-12 py-12 overflow-hidden">
-      
-      {/* Quote */}
+   
       <motion.h2
         className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center mb-4 sm:mb-6 max-w-full md:max-w-3xl lg:max-w-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600"
         initial={{ opacity: 0, y: 20 }}
@@ -73,10 +72,14 @@ export default function SecondPageAbout() {
         ))}
       </div>
 
-      {/* Decorative Blobs */}
       <div className="absolute top-8 left-1/4 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-pink-400 opacity-20 blur-3xl animate-blob"></div>
+   
       <div className="absolute bottom-16 right-1/4 w-20 sm:w-32 h-20 sm:h-32 rounded-full bg-blue-400 opacity-20 blur-3xl animate-blob animation-delay-2000"></div>
+     
       <div className="absolute top-1/3 right-1/3 w-14 sm:w-28 h-14 sm:h-28 rounded-full bg-purple-400 opacity-20 blur-3xl animate-blob animation-delay-4000"></div>
+
+
+      
     </section>
   );
 }

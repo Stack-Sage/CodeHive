@@ -2,16 +2,16 @@
 
 import { motion } from 'framer-motion';
 
+import NotifyForm from '../components/comingSoon/NotifyForm';
 
-import NotifyForm from "./components/comingSoon/NotifyForm";
-import About from "./components/comingSoon/About";
-import Hero from "./components/comingSoon/Hero";
-import Countdown from "./components/comingSoon/Countdown";
-import Footer from "./components/comingSoon/Footer";
-import Loader from "./components/comingSoon/Loader";
-import LoaderBall from './components/comingSoon/LoaderBall';
-import SecondPageAbout from './components/comingSoon/SecondPageAbout';
-import LenisWrapper from './ui/LenisWrapper';
+import About from "../components/comingSoon/About";
+import Hero from "../components/comingSoon/Hero";
+import Countdown from "../components/comingSoon/Countdown";
+import Footer from "../components/comingSoon/Footer";
+import Loader from "../components/comingSoon/Loader";
+import LoaderBall from '../components/comingSoon/LoaderBall';
+import SecondPageAbout from '../components/comingSoon/SecondPageAbout';
+import LenisWrapper from '../ui/LenisWrapper';
 import Image from 'next/image';
 
 
@@ -60,7 +60,7 @@ export default function page() {
 
 
   <motion.h1
-    className="text-4xl font-bold  text-gray-700 lg:mt-16 z-10 relative"
+    className="text-4xl font-bold  text-gray-700 lg:mt-16 z-10 relative "
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}

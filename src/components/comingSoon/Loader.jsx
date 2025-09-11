@@ -6,7 +6,6 @@ export default function Loader() {
   return (
     <div className="relative flex flex-row rounded-full lg:mt-10 md:mt-4 -mt-10 gap-4 items-center justify-center overflow-hidden px-4 lg:scale-100 md:scale-90 scale-75">
       
-      {/* Coming Soon Neon Text */}
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
