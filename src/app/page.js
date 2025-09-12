@@ -6,20 +6,18 @@ import NotifyForm from '../components/comingSoon/NotifyForm';
 
 import About from "../components/comingSoon/About";
 import Hero from "../components/comingSoon/Hero";
-import Countdown from "../components/comingSoon/Countdown";
-import Footer from "../components/comingSoon/Footer";
-import Loader from "../components/comingSoon/Loader";
-import LoaderBall from '../components/comingSoon/LoaderBall';
+
 import SecondPageAbout from '../components/comingSoon/SecondPageAbout';
 import LenisWrapper from '../ui/LenisWrapper';
 import Image from 'next/image';
+import Explore from "../components/comingSoon/Explore";
 
 
 
 export default function page() {
   
   return (
-    <main className="h-full min-h-screen max-w-screen overflow-x-hidden  relative scroll-smooth   z-10 ">
+    <main className="h-full min-h-screen max-w-screen overflow-x-hidden  relative scroll-smooth animate-gradient-x  z-10 ">
       <LenisWrapper>
          
           
@@ -42,10 +40,7 @@ export default function page() {
           transition={{ duration: 0.8 }}
         >
           <Hero />
-          <Countdown targetDate="2025-10-16T00:00:00" />
-          <div className="mt-10">
-            <Loader />
-          </div>
+          <Explore/>
           <NotifyForm />
           <About />
         

@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} w-screen h-full  antialiased animate-gradient-x contrast-[1.2] brightness-110`}
+        className={`${geistSans.variable} ${geistMono.variable} w-screen h-full  antialiased bg-gradient-to-bl from-indigo-200/60 via-blue-300/20 to-indigo-300/40 contrast-[1.2] brightness-110`}
       >
        
         <LenisWrapper>
