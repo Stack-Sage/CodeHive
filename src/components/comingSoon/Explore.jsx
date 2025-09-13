@@ -24,7 +24,7 @@ const Explore = () => {
       setIsLogin(true);
       showSuccess( `Welcome back, ${JSON.parse(storedUser).fullname}!`);
       console.log("user is ",user)
-      router.push("/student");
+      router.push("/profile");
     }
   }
   

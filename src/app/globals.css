@@ -21,6 +21,17 @@
   animation: gradient-magical 20s ease-in-out infinite;
 }
 
+/* Fix Lenis breaking fixed elements */
+html.lenis, 
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-root] {
+  transform: none !important; /* 🔑 stops breaking fixed elements */
+}
+
+
 @keyframes slide-in {
   from { transform: translateX(120%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }

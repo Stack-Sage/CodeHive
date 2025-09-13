@@ -27,8 +27,24 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} relative w-screen min-h-screen overflow-x-hidden antialiased text-gray-900 contrast-[1.1] font-sans`}
         >
 
+       <div className="fixed  top-10 left-0 w-full h-full  pointer-events-none z-50">
+
+       <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              zIndex: 999999,
+            },
+          }}
+          containerStyle={{
+            position: "fixed", 
+            top: 20,
+            right: 20,
+          }}
+        />
+       </div>
+
         <GlobalProvider>
-        <Toaster position="bottom-right" />
 
         <div className="absolute inset-0 -z-10 animate-gradient-magical  opacity-90 " />
 

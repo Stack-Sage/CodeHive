@@ -43,7 +43,8 @@ export const logoutUserApi = async () => {
 
 export const getUserByIdApi = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/users/get/${id}`, { withCredentials: true });
+    console.log("fetching user by id api called with id ",id)
+    const response = await axios.get(`${API_URL}/users/get/${id}`,{});
     return response.data;
   } catch (error) {
     console.error("Error in getUserByIdApi:", error.response?.data || error.message);
