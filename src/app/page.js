@@ -23,7 +23,7 @@ export default function page() {
          
           
       <section className="relative h-auto w-full  flex flex-col  scale-100  items-center justify-center">
-        <Image width={screen.width} height={screen.height}
+        <Image width={1920} height={1080}
                 className="absolute top-0 left-0 w-full h-full object-cover opacity-20 grayscale blur-[3px] -z-10"
                 src="/bg_1.jpg"
                 alt="Background image"

@@ -23,11 +23,11 @@ const ListedEducators = () => {
       {(!allUser || allUser.length === 0) ? (
         <p className="text-gray-500 text-center">No educators found.</p>
       ) : (
-        <div className="space-y-6 flex items-center justify-center mx-auto  flex-wrap space-x-6 ">
+        <div className=" flex items-center justify-center mx-auto  flex-col  gap-8 ">
           {allUser.map(user => (
             <div
               key={user._id}
-              className="bg-white/10  magical-gradient min-w-[90%] lg:min-w-[40%]   rounded-2xl shadow-lg hover:shadow-2xl border border-gray-200 dark:border-gray-700 transition transform hover:scale-[1.01] cursor-pointer overflow-hidden"
+              className="bg-white/10  magical-gradient min-w-[90%]  flex flex-col lg:flex-row md:flex-row hover:contrast-125 hover:brightness-110   rounded-2xl shadow-lg hover:shadow-2xl ring-1 ring-white/50 hover:ring-sky-500 hover:shadow-black/60 transition-all  duration-300 ease-out hover:scale-[1.01] cursor-pointer overflow-hidden hover:bg-white/20"
               onClick={() => setVisitedUser(user)}
             >
               <div className="flex items-center gap-6 p-6">
@@ -35,7 +35,7 @@ const ListedEducators = () => {
                 <img
                   src={user.avatar || "/default-avatar.png"}
                   alt={user.fullname}
-                  className="w-24 h-24 rounded-full object-cover border-4 border-indigo-300 shadow-md"
+                  className="lg:w-40 lg:h-40 w-20 h-20  rounded-full object-cover border-2 border-indigo-900 shadow-md"
                 />
 
                 {/* Info */}
@@ -50,7 +50,7 @@ const ListedEducators = () => {
                     </p>
                   )}
 
-                  <div className="mt-3 space-y-1 text-sm text-gray-700 ">
+                  <div className="mt-3 gap-2 text-md text-gray-700 flex not-lg:flex-col ">
                     <p><span className="font-medium">📧 Email:</span> {user.email}</p>
                     <p><span className="font-medium">📞 Contact:</span> {user.contact}</p>
                   </div>
