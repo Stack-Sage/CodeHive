@@ -26,7 +26,7 @@ export default function About() {
 
   return (
 
-    <section className="max-w-7xl mx-auto text-center lg:mb-32 px-6 relative overflow-hidden">
+    <section className="max-w-7xl mx-auto text-center lg:mb-32 px-6 py-4  relative overflow-hidden">
       
     
       <motion.h3
@@ -43,7 +43,7 @@ export default function About() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.3 }}
-        className="text-gray-700 text-md mx-10 lg:mx-auto md:text-base lg:text-lg leading-relaxed lg:mb-16 md:mb-10 mb-4 max-w-4xl "
+        className="text-gray-700 text-md mx-10 lg:mx-auto md:text-base lg:text-lg leading-relaxed lg:mb-10  mb-10 max-w-4xl "
       >
         We believe every skill has value  from <span className="font-semibold">coding</span> to <span className="font-semibold">chess</span>, <span className="font-semibold">art</span> to <span className="font-semibold">music</span>. <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600">CodeHive</span> empowers you to showcase your talents and connect with learners in engaging 1v1 sessions.
       </motion.p>

@@ -1,55 +1,62 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_URL;
+const API_URL = process.env.NEXT_PUBLIC_URL; // Make sure this is defined in .env.local
 
-console.log("API_URL is : ",API_URL);
+// Register User
+export const registerUserApi = async (userData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/register`, userData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // needed if uploading files
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in registerUserApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
 
-const registerUserApi = async(userData)=>{
-   try {
-      const response = await axios.post(`${API_URL}/users/register`,userData,{
-            headers:{
-                  "Content-Type":"application/json"
-            }
-      });
-      console.log("Response from registerUserApi : ",response);
-      return response.data;
-   } 
-   catch (error) {
-      console.error('Error registering user:', error);
-      throw error;
-   }           
- }
+export const loginUserApi = async (userData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/login`, userData, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in loginUserApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
 
-const loginUserApi = async(userData)=>{
-   try {
-      const response = await axios.post(`${API_URL}/users/login`,userData,{
-            headers:{
-                  "Content-Type":"application/json"
-            }
-      });
-      console.log("Response from loginUserApi : ",response);
-      return response.data;
-   } 
-   catch (error) {
-      console.error('Error logging in user:', error);
-      throw error;
-   }           
- }
+// Logout User
+export const logoutUserApi = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/users/logout`, {}, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in logoutUserApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
 
+export const getUserByIdApi = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/get/${id}`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in getUserByIdApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
 
-const logoutUserApi = async()=>{
-   try {
-      const response = await axios.post(`${API_URL}/users/logout`,{}, {
-         withCredentials: true,
-      });
-      console.log("Response from logoutUserApi : ",response);
-      return response.data;
-   } 
-   catch (error) {
-      console.error('Error logging out user:', error);
-      throw error;
-   }           
- }
-
-
- export { registerUserApi , loginUserApi , logoutUserApi }
+export const getAllUserApi = async () =>{
+  try {
+    const response = await axios.get(`${API_URL}/users/getAll`, {});
+    return response.data; 
+  } catch (error) {
+    console.error("Error in getAllUserApi:", error.response?.data || error.message);
+    throw error;
+  }
+}

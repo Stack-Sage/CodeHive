@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/comingSoon/Footer";
 import LenisWrapper from "../ui/LenisWrapper";
+import {Toaster} from 'react-hot-toast'
+import { GlobalProvider } from "@/context/global.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,18 +24,23 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} w-screen h-full  antialiased bg-gradient-to-bl from-indigo-200/60 via-blue-300/20 to-indigo-300/40 contrast-[1.2] brightness-110`}
-      >
-       
+        className={`${geistSans.variable} ${geistMono.variable} relative w-screen min-h-screen overflow-x-hidden antialiased text-gray-900 contrast-[1.1] font-sans`}
+        >
+
+        <GlobalProvider>
+        <Toaster position="bottom-right" />
+
+        <div className="absolute inset-0 -z-10 animate-gradient-magical  opacity-90 " />
+
         <LenisWrapper>
-       
+        
+
           {children}
-
-          <div className=" bottom-0 left-0 w-screen ">
-
-         <Footer />
-          </div>
+          {/* <Footer /> */}
+          
+         
         </LenisWrapper>
+        </GlobalProvider>
       </body>
     </html>
   );

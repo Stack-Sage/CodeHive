@@ -1,20 +1,32 @@
 @import "tailwindcss";
 
-
 @keyframes gradient-magical {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 50% 50%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 50% 50%; }
-  100% { background-position: 0% 0%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+  
 }
 
-.animate-gradient-x {
-  background: linear-gradient(135deg, #ffddf3, #abd8ff, #ded4f4ea, #c9acff);
-  background-size: 300% 300%;
-  background-repeat: no-repeat;
-  animation: gradient-magical 25s ease-in-out infinite;
- 
+.animate-gradient-magical {
+  background: linear-gradient(
+    135deg,
+    #cbe2ff 0%,
+    #d5c6ff 20%,
+    #c1f2ff 45%,
+    #c2b3ff 75%,
+    #a7cdff 100%
+  );
+  background-size: 400% 400%;
+
+  animation: gradient-magical 20s ease-in-out infinite;
+}
+
+@keyframes slide-in {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in {
+  animation: slide-in 0.4s ease-out forwards;
 }
 
 

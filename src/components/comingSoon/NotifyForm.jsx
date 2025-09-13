@@ -4,7 +4,7 @@ import emailjs from "@emailjs/browser";
 
 export default function NotifyForm() {
   const [email, setEmail] = useState("");
-  const [isSent, setIsSent]  = useState("Notify Me")
+  const [isSent, setIsSent]  = useState("Subscribe");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ export default function NotifyForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 mb-16"
+      className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-5"
     >
     
       <div className="relative w-72 sm:w-80">

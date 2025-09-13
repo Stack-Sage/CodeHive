@@ -1,9 +1,14 @@
 
+import ListedEducators from '@/components/student/ListedEducators'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>student</div>
+    <div>
+
+      <ListedEducators/>
+      
+    </div>
   )
 }
 

@@ -4,7 +4,7 @@ import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaBook } from "react-icons
 
 export default function Footer() {
   return (
-    <footer className="relative lg:h-[26vh] h-auto w-full bg-white/10 backdrop-blur-xl text-gray-700 pt-10  pb-6 lg:px-6 px-3">
+    <footer className=" relative  lg:h-[26vh]  w-full  backdrop-blur-xl text-gray-700 pt-10  pb-6 lg:px-6 px-3">
       
      
       <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600 opacity-50 animate-gradient" />

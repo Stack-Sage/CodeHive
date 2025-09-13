@@ -32,7 +32,7 @@ export default function SecondPageAbout() {
   ];
 
   return (
-    <section className="h-fit w-full snap-start flex flex-col items-center justify-center relative px-4 sm:px-6 md:px-12 py-12 overflow-hidden">
+    <section className="h-fit w-full snap-start flex flex-col items-center justify-center relative px-4 mt-10 sm:px-6 md:px-12 py-12 overflow-hidden">
    
       <motion.h2
         className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center mb-4 sm:mb-6 max-w-full md:max-w-3xl lg:max-w-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600"

@@ -1,36 +1,65 @@
 'use client'
-import { register } from "next/dist/next-devtools/userspace/pages/pages-dev-overlay-setup";
-import AuthForm from "./AuthForm";
+import { useState } from 'react';
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import AuthForm from './AuthForm';
+import { registerUserApi } from '@/services/user.service';
+import { showError, showSuccess } from '@/ui/toast';
 
-import React from 'react'
 
-const registerFilds = [
-  { label: "Name", type: "text", name: "name", placeholder: "Enter your full name", required: true },
-  { label: "Email", type: "email", name: "email", placeholder: "Enter your email", required: true },  
-   { label: "Password", type: "password", name: "password", placeholder: "Enter your password", required: true },
-   { label: "Contact", type: "number", name: "contact", placeholder: "Enter your contact number", required: true },
-  { label: "Bio", type: "textarea", name: "bio", placeholder: "Enter your bio", required: true }
+const registerFields = [
+  { label: "fullname", type: "text", name: "fullname", placeholder: "Enter your full name", required: true },
+  { label: "Email", type: "email", name: "email", placeholder: "Enter your email", required: true },
+  { label: "Password", type: "password", name: "password", placeholder: "Enter your password", required: true },
+  { label: "Contact", type: "tel", name: "contact", placeholder: "Enter your contact number", required: true },
 ];
 
+
 const Register = () => {
-   const handleRegister = (e) => {
+const [message ,setMessage] = useState("Register")
+
+
+  const router = useRouter()
+  const handleRegister = async(e) =>{
     e.preventDefault();
-   
+    const formData = new FormData(e.target);
+    try {
+      setMessage("Creating Account!")
+      const response = await registerUserApi(formData);
+
+
+      if(response){
+        console.log("data is ",response)
+        setMessage("Registered Successfully")
+        showSuccess(response.message)
+        
+        router.push('/login')
+        showSuccess(response.message || "Registered Successfully")
+
+      }
+      else{
+        
+      }
+    } catch (error) {
+      
+      showError(error?.response?.data?.message || "Failed")
+     
+    }
   }
 
   return (
-     <AuthForm
+    <AuthForm
       title="Register"
-      fields={registerFilds}
-      buttonText="Register"
-      showSocial = {false}
+      fields={registerFields}
+      buttonText={message}
+      showSocial={false}
       onSubmit={handleRegister}
       showBio={true}
       showImageUpload={true}
       agreementLink="/login"
       agreementText="Already have an account? Log In"
     />
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
