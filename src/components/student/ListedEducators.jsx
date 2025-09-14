@@ -30,7 +30,7 @@ const ListedEducators = () => {
           {allUser.map(user => (
             <div
               key={user._id}
-              className="bg-white/10 magical-gradient min-w-[90%] lg:max-w-[80%] items-center justify-center rounded-2xl shadow-lg hover:shadow-2xl 
+              className="bg-white/10 magical-gradient min-w-[90%] lg:max-w-[90%] items-center justify-center rounded-2xl shadow-lg hover:shadow-2xl 
                          ring-1 ring-white/50 hover:ring-sky-500 transition-all duration-300 
                          ease-out hover:scale-[1.01] cursor-pointer overflow-hidden  hover:bg-white/20"
               onClick={() => router.push(`/student/${user._id}`)}
