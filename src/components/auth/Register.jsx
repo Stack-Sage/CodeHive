@@ -24,7 +24,7 @@ export default function Register() {
       setMessage("Creating Account!");
       const res = await registerUserApi(formData);
       setMessage("Registered Successfully");
-      showSuccess(res?.message || "Registered Successfully");
+      showSuccess(res?.data.message || "Registered Successfully");
       router.push('/login');
     } catch (err) {
       showError(err?.response?.data?.message || "Failed");
