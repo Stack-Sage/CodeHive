@@ -10,6 +10,7 @@ export const GlobalProvider = ({ children }) => {
   const [visitedUser, setVisitedUser] = useState(null);
   const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
 //   useEffect(() => {
 //     const storedUser = localStorage.getItem("user");
@@ -23,7 +24,7 @@ export const GlobalProvider = ({ children }) => {
 
 
   return (
-    <GlobalContext.Provider value={{ user, setUser, isLogin, setIsLogin, allUser, setAllUser, visitedUser, setVisitedUser }}>
+    <GlobalContext.Provider value={{ user, setUser, isLogin, setIsLogin, allUser, setAllUser, visitedUser, setVisitedUser, searchResults, setSearchResults }}>
       {children}
     </GlobalContext.Provider>
   );

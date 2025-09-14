@@ -45,11 +45,18 @@ const ListedEducators = () => {
                     className="w-14 h-14 rounded-full object-cover border-2 border-indigo-900 shadow-md"
                   />
                   <h3 className="text-lg font-bold text-gray-900">{user.fullname}</h3>
+                    {user?.price && (
+                        <p className="text-sm font-semibold italic tracking-tight text-gray-800 absolute right-2  ">
+                          Hourly Rate: {user?.price}
+                        </p>
+                     )}
                      {user.createdAt && (
-                    <p className="text-xs text-gray-800 absolute right-2 ">
+                    <p className="text-xs text-gray-800 absolute right-2 mt-10 ">
                       Joined {new Date(user.createdAt).toLocaleDateString()}
                     </p>
-                  )}
+                     )}
+
+                   
                 </div>
 
                 {/* Bio */}
@@ -96,17 +103,23 @@ const ListedEducators = () => {
               </div>
 
               {/* Desktop / Tablet Layout */}
-              <div className="hidden md:flex items-center justify-between p-6 gap-6">
-                {/* Left - avatar */}
+              <div className="hidden md:flex lg:flex items-center justify-between p-6 gap-6">
+        
                 <img
                   src={user.avatar || "/default-avatar.png"}
                   alt={user.fullname}
-                  className="lg:w-32 lg:h-32 w-24 h-24 rounded-full object-cover border-2 border-indigo-900 shadow-md"
+                  className="  w-32 h-32 not-lg:w-24 not-lg:h-24 rounded-full object-cover border-2 border-indigo-900 shadow-md"
                 />
+                
                 <div className=' flex flex-row gap-4 justify-between  w-full  '>
-                {/* Middle - info spread out */}
+           
                 <div className="flex-1 flex flex-col gap-2">
-                  <h3 className="text-xl font-bold text-gray-900">{user.fullname}</h3>
+                  <h3 className="text-xl font-bold text-gray-900">{user.fullname}  {user?.price && (
+                        <p className="text-sm font-semibold italic tracking-tight text-gray-800   ">
+                          Hourly Rate: {user?.price}
+                        </p>
+                     )} </h3>
+                  
                  
                    <div className="flex flex-col gap-3 text-sm text-gray-700 items-start justify-start ">
                  

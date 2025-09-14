@@ -52,7 +52,8 @@ const MyProfile = () => {
         </div>
 
         <div className="flex-1 flex flex-col gap-4">
-          <h2 className="text-3xl font-bold text-gray-900">{user.fullname}</h2>
+          <h2 className="text-3xl font-bold flex flex-row text-gray-900">{user.fullname}  </h2>
+           <p className="text-md italic font-semibold font-sans "> Hourly Rate: {user.price}  </p>
           <p className="text-gray-600 italic">{user.bio || "No bio added."}</p>
           <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-800">
             <div>

@@ -36,7 +36,7 @@ const Login = () => {
     const identifier = formData.get("identifier")?.trim();
     const password = formData.get("password");
 
-    // Validate identifier
+  
     const isEmail = /\S+@\S+\.\S+/.test(identifier);
     const isPhone = /^\d{10}$/.test(identifier); 
 

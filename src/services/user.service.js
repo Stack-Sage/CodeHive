@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_URL; // Make sure this is defined in .env.local
+const API_URL = process.env.NEXT_PUBLIC_URL; 
 
-// Register User
+
 export const registerUserApi = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/users/register`, userData, {
       headers: {
-        "Content-Type": "multipart/form-data", // needed if uploading files
+        "Content-Type": "multipart/form-data", 
       },
     });
     return response.data;
@@ -30,7 +30,7 @@ export const loginUserApi = async (userData) => {
   }
 };
 
-// Logout User
+
 export const logoutUserApi = async () => {
   try {
     const response = await axios.post(`${API_URL}/users/logout`, {}, { withCredentials: true });
@@ -61,3 +61,15 @@ export const getAllUserApi = async () =>{
     throw error;
   }
 }
+
+export const searchUserApi = async (query) => {
+  try {
+    const res = await axios.get(`${API_URL}/users/search/${encodeURIComponent(query)}`);
+    return res.data?.data ?? res.data; // normalize ApiResponse
+  } catch (error) {
+    console.error("Error in searchUserApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+

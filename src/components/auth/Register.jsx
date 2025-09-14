@@ -12,6 +12,7 @@ const registerFields = [
   { label: "Email", type: "email", name: "email", placeholder: "Enter your email", required: true },
   { label: "Password", type: "password", name: "password", placeholder: "Enter your password", required: true },
   { label: "Contact", type: "tel", name: "contact", placeholder: "Enter your contact number", required: true },
+  { label: "Price", type: "number", name: "price", placeholder: "Enter your Hourly Rate / Price", required: true },
 ];
 
 

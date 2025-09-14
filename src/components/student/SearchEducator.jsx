@@ -1,32 +1,61 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
+import { FaSearch, FaBars, FaTimes, FaBackward } from "react-icons/fa";
 import Link from "next/link";
+import { searchUserApi } from "@/services/user.service";
+import { useGlobalContext } from "@/context/global.context";
 
-const Navbar = () => {
+const Navbar = ({goBack}) => {
+  
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const {setSearchResults} = useGlobalContext();
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-    router.push(`/search?query=${encodeURIComponent(query)}`);
+
+const handleSearch = async (e) => {
+  e.preventDefault();
+  const q = query.trim();
+  if (!q) return;
+
+  try {
+    const res = await searchUserApi(q);          
+    const users = res?.data ?? res;        
+    setSearchResults(Array.isArray(users) ? users : []);   
+    
+      console.log("search result is", users);
+      router.push(`/student/searchResult`);       
+
+  } catch (error) {
+    console.error("Search error:", error);
+    setSearchResults([]);
+  } finally {
     setQuery("");
-    setMenuOpen(false); // close menu on search (optional)
-  };
+    setMenuOpen(false);
+  }
+};
+
 
   return (
     <nav className="w-full sticky top-0 z-50 bg-black/20 backdrop-blur-3xl hover:bg-white/20 transition-all duration-300 ease-in-out  shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
-          {/* LEFT - Logo */}
+        
+          {goBack && (
+            <button
+              onClick={() => router.back()}
+              className="text-black lg:flex-row lg:flex hover:text-blue-700 cursor-pointer hover:scale-105 duration-300 transition-all ease-out hidden left-0 mr-10 text-xl font-medium hover:underline "
+            >
+                <FaBackward/> 
+            </button>
+          )}
+     
           <div className=" flex-shrink-0 lg:text-2xl tracking-tighter text-lg md:tracking-tight lg:tracking-wider font-extrabold text-black cursor-pointer">
+
             <Link href="/">CodeHive</Link>
           </div>
 
-     
           <form
             onSubmit={handleSearch}
             className="hidden sm:flex flex-1 items-center justify-center px-4"

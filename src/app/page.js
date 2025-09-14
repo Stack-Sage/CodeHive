@@ -12,6 +12,7 @@ import LenisWrapper from '../ui/LenisWrapper';
 import Image from 'next/image';
 import Explore from "../components/comingSoon/Explore";
 import Footer from '@/components/comingSoon/Footer';
+import { Toaster } from 'react-hot-toast';
 
 
 
@@ -20,7 +21,7 @@ export default function page() {
   return (
     <main className="h-fit min-h-screen max-w-screen min-w-screen  relative ">
      
-         
+          <Toaster position="top-right"  />
           
       <section className="relative h-auto w-full  flex flex-col  scale-100  items-center justify-center">
         <Image width={1920} height={1080}

@@ -27,13 +27,8 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} relative w-screen min-h-screen overflow-x-hidden antialiased text-gray-900 contrast-[1.1] font-sans`}
         >
 
-       <div className="fixed  top-10 left-0 w-full h-full  pointer-events-none z-50">
-
-       <Toaster
-          position="bottom-right"
-          
-        />
-       </div>
+       
+      
 
         <GlobalProvider>
 
@@ -43,7 +38,7 @@ export default function RootLayout({ children }) {
         
 
           {children}
-          {/* <Footer /> */}
+      
           
          
         </LenisWrapper>
