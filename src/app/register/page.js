@@ -1,13 +1,12 @@
-'use client'
 import Register from '@/components/auth/Register'
 import React from 'react'
 import Image from 'next/image'
-import { Toaster } from 'react-hot-toast'
+
 const page = () => {
   return (
     <div
     >
-       <Toaster position="bottom-right"  />
+    
       <Image
         src="/bg_2.jpg"
         alt="Background image"

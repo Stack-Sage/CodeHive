@@ -1,13 +1,13 @@
 import Login from '@/components/auth/Login'
 import React from 'react'
 import Image from 'next/image' 
-import { Toaster } from 'react-hot-toast'  
+
 
 const page = () => {
   return (
    <div
     >
-       <Toaster position="bottom-right"  />
+
       <Image
         src="/bg_2.jpg"
         alt="Background image"

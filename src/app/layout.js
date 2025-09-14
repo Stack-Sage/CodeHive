@@ -27,7 +27,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} relative w-screen min-h-screen overflow-x-hidden antialiased text-gray-900 contrast-[1.1] font-sans`}
         >
 
-       
+       <Toaster
+          position="bottom-right"
+          
+        />
       
 
         <GlobalProvider>
@@ -38,7 +41,7 @@ export default function RootLayout({ children }) {
         
 
           {children}
-      
+          {/* <Footer /> */}
           
          
         </LenisWrapper>
