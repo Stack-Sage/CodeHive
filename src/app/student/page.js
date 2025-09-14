@@ -1,4 +1,4 @@
-'use client'
+
 import ListedEducators from '@/components/student/ListedEducators'
 import Navbar from '@/components/student/SearchEducator'
 import React from 'react'

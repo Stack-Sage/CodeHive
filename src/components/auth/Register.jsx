@@ -25,6 +25,7 @@ export default function Register() {
       const res = await registerUserApi(formData);
       setMessage("Registered Successfully");
       showSuccess(res?.data.message || "Registered Successfully");
+      console.log("Registration response:", res);
       router.push('/login');
     } catch (err) {
       showError(err?.response?.data?.message || "Failed");
