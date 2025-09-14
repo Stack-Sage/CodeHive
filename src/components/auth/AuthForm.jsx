@@ -22,7 +22,8 @@ const AuthForm = ({
         <div className="flex flex-col items-center space-y-3">
           <label htmlFor="avatar" className="relative cursor-pointer group" tabIndex={0}>
             <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-purple-500 shadow-md flex items-center justify-center bg-gradient-to-br from-pink-200 to-purple-200">
-              <img id="preview-image" src="/vercel.svg" alt="Profile" className="w-full h-full object-cover" />
+              Upload Image
+              <img id="preview-image" src="/vercel.svg" alt="Profile" className="w-full h-full object-cover"  />
             </div>
           </label>
 
