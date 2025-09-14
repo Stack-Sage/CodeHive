@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaLock, FaKey, FaFlag } from "react-icons/fa";
 import { buttonStyleTwo } from "@/ui/CustomCSS";
+import { useRouter } from "next/navigation";
 
 const MyProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem("user") : null;
@@ -101,6 +103,18 @@ const MyProfile = () => {
         <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
           <FaFlag /> Report Flag
         </button>
+
+        <div className="col-span-full text-center text-sm text-gray-600 italic">
+          Note: Some actions may not be functional in this demo yet 
+        </div>  
+        <button className="col-span-full text-center text-lg bg-black/40 rounded-xl px-4 py-4 flex items-center gap-2 shadow-xl text-gray-900 italic"
+          onClick={() => router.push('/student')}
+        >
+
+          Check other Teachers
+
+        </button>
+
       </div>
     </section>
   );
