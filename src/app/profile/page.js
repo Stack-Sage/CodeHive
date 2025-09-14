@@ -1,3 +1,4 @@
+'use client'
 import MyProfile from '@/components/auth/MyProfile'
 import React from 'react'
 import Toaster from 'react-hot-toast'
