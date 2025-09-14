@@ -30,17 +30,8 @@ export default function RootLayout({ children }) {
        <div className="fixed  top-10 left-0 w-full h-full  pointer-events-none z-50">
 
        <Toaster
-          position="top-right"
-          toastOptions={{
-            style: {
-              zIndex: 999999,
-            },
-          }}
-          containerStyle={{
-            position: "fixed", 
-            top: 20,
-            right: 20,
-          }}
+          position="bottom-right"
+          
         />
        </div>
 
