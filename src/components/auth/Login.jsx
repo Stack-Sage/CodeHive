@@ -67,7 +67,7 @@ const Login = () => {
         setUser(user);
         setIsLogin(true);
       }
-      router.push("/student");
+      router.push("/profile");
       
 
     } catch (error) {
