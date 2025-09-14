@@ -27,7 +27,7 @@ export default function LenisWrapper({ children }) {
 
   useEffect(() => {
     function handleKey(e) {
-      if (e?.key.toLowerCase() === "s") {
+      if (e?.key?.toLowerCase() === "l" && ( e.ctrlKey)) {
         setEnabled((prev) => !prev);
         console.log(`[Lenis] Smooth scroll ${!enabled ? "enabled" : "disabled"}`);
       }
