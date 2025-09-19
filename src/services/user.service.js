@@ -72,4 +72,102 @@ export const searchUserApi = async (query) => {
   }
 };
 
+// refer from these route 
+// userRouter.route("/forgot-password").post(verifyJWT, forgotPassword);
+// userRouter.route("/verify-otp").post(verifyJWT, verifyOtp);
+// userRouter.route("/enter-new-password").patch(verifyJWT, enterNewPassword);
+
+
+// userRouter.route("/change-fullname").patch(verifyJWT, changeFullname);
+// userRouter.route("/change-password").patch(verifyJWT, changePassword);
+// userRouter.route("/change-contact").patch(verifyJWT, changeContact);
+// userRouter.route("/change-email").patch(verifyJWT, changeEmail);
+
+
+export const changeFullnameApi = async (newFullname) => {
+  try {
+    const response = await axios.patch(`${API_URL}/users/change-fullname`, { fullname: newFullname }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in changeFullnameApi:", error.response?.data || error.message);
+    throw error;
+  } 
+
+}
+
+export const changePasswordApi = async (currentPassword, newPassword) => {
+  try {
+    const response = await axios.patch(`${API_URL}/users/change-password`, { currentPassword, newPassword }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in changePasswordApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+
+export const changeContactApi = async (newContact) => {
+  try {
+    const response = await axios.patch(`${API_URL}/users/change-contact`, { contact: newContact }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in changeContactApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export const changeEmailApi = async (newEmail) => {
+  try {
+    const response = await axios.patch(`${API_URL}/users/change-email`, { email: newEmail }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in changeEmailApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+
+export const forgetPasswordApi = async () => {
+  try {
+    const response = await axios.post(`${API_URL}/users/forgot-password`, {}, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in forgetPasswordApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export const verifyOtpApi = async (otp) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/verify-otp`, { otp }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in verifyOtpApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export const enterNewPasswordApi = async (newPassword) => {
+  try {
+    const response = await axios.patch(`${API_URL}/users/enter-new-password`, { newPassword }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in enterNewPasswordApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export const deleteProfileApi = async () => {
+  try {
+    const response = await axios.delete(`${API_URL}/users/delete-profile`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleteProfileApi:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+
+
+
 

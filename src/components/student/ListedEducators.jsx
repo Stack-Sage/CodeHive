@@ -47,7 +47,7 @@ const ListedEducators = () => {
                   <h3 className="text-lg font-bold text-gray-900">{user.fullname}</h3>
                     {user?.price && (
                         <p className="text-sm font-semibold italic tracking-tight text-gray-800 absolute right-2  ">
-                          Hourly Rate: {user?.price}
+                          Hourly Rate: {'₹ '}{user?.price} 
                         </p>
                      )}
                      {user.createdAt && (
@@ -116,7 +116,7 @@ const ListedEducators = () => {
                 <div className="flex-1 flex flex-col gap-2">
                   <h3 className="text-xl font-bold text-gray-900">{user.fullname}  {user?.price && (
                         <p className="text-sm font-semibold italic tracking-tight text-gray-800   ">
-                          Hourly Rate: {user?.price}
+                          Hourly Rate: {'₹ '}{user?.price} 
                         </p>
                      )} </h3>
                   

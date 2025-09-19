@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaLock, FaKey, FaFlag } from "react-icons/fa";
 import { buttonStyleTwo } from "@/ui/CustomCSS";
 import { useRouter } from "next/navigation";
+import { deleteProfileApi } from "@/services/user.service";
+import { showSuccess } from "@/ui/toast";
 
 const MyProfile = () => {
   const [user, setUser] = useState(null);
@@ -39,6 +41,25 @@ const MyProfile = () => {
 
   const joined = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—";
 
+
+  const handleEdit = (field) => {
+    // Logic to handle editing the specified field
+  };
+
+  const deleteProfile = async () => {
+  
+    try {
+      await deleteProfileApi();
+      localStorage.removeItem("user");
+      
+      showSuccess("Profile deleted successfully.");
+
+      router.push("/register");
+    } catch (error) {
+      console.error("Error deleting profile:", error);
+    }
+  };
+
   return (
     <section className="max-w-5xl mx-auto p-6 min-h-screen pt-10 flex flex-col gap-6">
       <div className="bg-white/20 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
@@ -73,8 +94,8 @@ const MyProfile = () => {
               </button>
             </div>
             <div>
-              <span className="font-semibold">🆔 User ID: </span>
-              {user._id || "—"}
+              <span className="font-semibold"> Hourly Rate </span>
+               {'₹ '}{user?.price} 
             </div>
             <div>
               <span className="font-semibold">📅 Joined: </span>
@@ -85,28 +106,24 @@ const MyProfile = () => {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+        <button onclick = {handleEdit("fullname")} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
           <FaEdit /> Edit Fullname
         </button>
-        <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+        <button onclick = {handleEdit("bio")} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
           <FaEdit /> Edit Bio
         </button>
         <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
           <FaKey /> Change Password
         </button>
-        <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+        <button onclick = {handleEdit("email")} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
           <FaLock /> Forgot Password
         </button>
-        <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+        <button onclick = {deleteProfile} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
           <FaTrash /> Delete Profile
         </button>
-        <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
-          <FaFlag /> Report Flag
-        </button>
+       
 
-        <div className="col-span-full text-center text-sm text-gray-600 italic">
-          Note: Some actions may not be functional in this demo yet 
-        </div>  
+      
         <button className="col-span-full text-center text-lg bg-black/40 rounded-xl px-4 py-4 flex items-center gap-2 shadow-xl text-gray-900 italic"
           onClick={() => router.push('/student')}
         >

@@ -110,7 +110,7 @@ const ListedSearchUser = () => {
                       {user.fullname}
                       {user?.price && (
                         <span className="ml-3 text-sm font-semibold italic tracking-tight text-gray-800">
-                          Hourly Rate: {user?.price}
+                          Hourly Rate: {'₹ '}{user?.price} 
                         </span>
                       )}
                     </h3>
