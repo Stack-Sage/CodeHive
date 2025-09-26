@@ -5,6 +5,7 @@ import React, { useContext,useState } from "react";
 import { loginUserApi } from "@/services/user.service";
 import { useRouter } from "next/navigation";
 import GlobalProvider, { useGlobalContext } from "@/context/global.context";
+import LoadingHand from "./LoadingHand";
 
 const loginFields = [
   { 
@@ -26,6 +27,7 @@ const loginFields = [
 const Login = () => {
 
   const { setUser, user, isLogin, setIsLogin } = useGlobalContext();
+  const [submitted, setSubmitted] = useState(false);
 
   const [login, setLogin] = useState();
 
@@ -53,6 +55,7 @@ const Login = () => {
     };
 
     setLogin("Logging in...");
+    setSubmitted(true);
     
     try {
       const response = await loginUserApi(payload);
@@ -65,6 +68,7 @@ const Login = () => {
     
         localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
+        setSubmitted(false);
         setIsLogin(true);
       }
       router.push("/profile");
@@ -77,18 +81,33 @@ const Login = () => {
   };
 
   return (
-    <AuthForm
-      title="Login"
-      fields={loginFields}
-      buttonText={login}
-      showSocial={false}
-      onSubmit={handleLogin}
-      showBio={false}
-      forgotPassword={true}
-      showImageUpload={false}
-      agreementLink="/register"
-      agreementText="Don't have an account? Register"
-    />
+
+
+    <main className = "flex min-h-screen flex-col items-center justify-between relative ">
+    
+
+    {
+      submitted && <div className='absolute z-20 justify-center flex items-center min-h-screen  hue-rotate-180  '>
+
+      <LoadingHand/>
+      </div>
+    }
+
+   <AuthForm
+        title="Login"
+        fields={loginFields}
+        buttonText={login}
+        showSocial={false}
+        onSubmit={handleLogin}
+        showBio={false}
+        forgotPassword={true}
+        showImageUpload={false}
+        agreementLink="/register"
+        agreementText="Don't have an account? Register"
+      />
+    
+    </main>
+
   );
 };
 

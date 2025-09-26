@@ -1,21 +1,46 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaLock, FaKey, FaFlag } from "react-icons/fa";
+import { FaEdit, FaTrash, FaLock, FaKey, FaRunning } from "react-icons/fa";
 import { buttonStyleTwo } from "@/ui/CustomCSS";
 import { useRouter } from "next/navigation";
-import { deleteProfileApi } from "@/services/user.service";
-import { showSuccess } from "@/ui/toast";
+import {
+  deleteProfileApi,
+  changeFullnameApi,
+  changeContactApi,
+  changeEmailApi,
+  changePasswordApi,
+  forgetPasswordApi,
+} from "@/services/user.service";
+import { showSuccess, showError } from "@/ui/toast";
+
+import Logout from "./Logout";
+import ForgetPassword from "./ForgetPassword";
 
 const MyProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [editingField, setEditingField] = useState(null);
+  const [formValues, setFormValues] = useState({});
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+  });
+
+  const [showModal, setShowModal] = useState(false);
+
+  const [showForget, setShowForget] = useState(false);
+
   const router = useRouter();
 
+ const {useLogout} = Logout()
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem("user") : null;
     if (stored) {
       try {
-        setUser(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setUser(parsed);
+        setFormValues(parsed);
       } catch {
         setUser(null);
       }
@@ -41,26 +66,104 @@ const MyProfile = () => {
 
   const joined = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—";
 
-
-  const handleEdit = (field) => {
-    // Logic to handle editing the specified field
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSave = async (field) => {
+    try {
+      let updatedUser = { ...user };
+
+      if (field === "fullname") {
+        await changeFullnameApi(formValues.fullname);
+        updatedUser.fullname = formValues.fullname;
+      } else if (field === "email") {
+        await changeEmailApi(formValues.email);
+        updatedUser.email = formValues.email;
+      } else if (field === "contact") {
+        await changeContactApi(formValues.contact);
+        updatedUser.contact = formValues.contact;
+      } else if (field === "bio") {
+        // If you have changeBio API, add here
+        updatedUser.bio = formValues.bio;
+      }
+
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      showSuccess(`${field} updated successfully`);
+    } catch (error) {
+      showError(`Failed to update ${field}`);
+      console.error(`Error updating ${field}:`, error);
+    } finally {
+      setEditingField(null);
+    }
+  };
+
+
   const deleteProfile = async () => {
-  
     try {
       await deleteProfileApi();
       localStorage.removeItem("user");
-      
       showSuccess("Profile deleted successfully.");
-
       router.push("/register");
     } catch (error) {
+      showError("Failed to delete profile");
       console.error("Error deleting profile:", error);
     }
   };
 
+
+  
+
+  const handleChangePassword = async () => {
+    try {
+      console.log(passwordForm.currentPassword, passwordForm.newPassword);
+      await changePasswordApi(passwordForm.currentPassword, passwordForm.newPassword);
+    
+      showSuccess("Password changed successfully.");
+      setShowPasswordForm(false);
+      setPasswordForm({ currentPassword: "", newPassword: "" });
+    } catch (error) {
+      showError("Failed to change password");
+      console.error("Error in change password:", error);
+    }
+  };
+
+
+  const EditableField = ({ label, name, type = "text" }) => (
+    <div className="flex items-center gap-2">
+      {label && <span className="font-semibold">{label}</span>}
+      <input
+        type={type}
+        name={name}
+        value={formValues[name] || ""}
+        onChange={handleChange}
+        readOnly={editingField !== name}
+        className={`bg-transparent border-none focus:ring-0 ${
+          editingField === name ? "border-b border-indigo-500" : ""
+        }`}
+      />
+      {editingField === name ? (
+        <button
+          onClick={() => handleSave(name)}
+          className="text-green-600 hover:text-green-800"
+        >
+          Save
+        </button>
+      ) : (
+        <button
+          onClick={() => setEditingField(name)}
+          className="text-indigo-600 hover:text-indigo-800"
+        >
+          <FaEdit />
+        </button>
+      )}
+    </div>
+  );
+
   return (
+
     <section className="max-w-5xl mx-auto p-6 min-h-screen pt-10 flex flex-col gap-6">
       <div className="bg-white/20 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden p-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
         <div className="relative">
@@ -75,28 +178,48 @@ const MyProfile = () => {
         </div>
 
         <div className="flex-1 flex flex-col gap-4">
-          <h2 className="text-3xl font-bold flex flex-row text-gray-900">{user.fullname}  </h2>
-           <p className="text-md italic font-semibold font-sans "> Hourly Rate: {user.price}  </p>
-          <p className="text-gray-600 italic">{user.bio || "No bio added."}</p>
+          
+          <EditableField label="" name="fullname" />
+
+        
+          <div className="flex items-center gap-2">
+            <textarea
+              name="bio"
+              value={formValues.bio || ""}
+              onChange={handleChange}
+              readOnly={editingField !== "bio"}
+              className={`w-full bg-transparent border-none focus:ring-0 resize-none ${
+                editingField === "bio" ? "border-b border-indigo-500" : ""
+              }`}
+            />
+            {editingField === "bio" ? (
+              <button
+                onClick={() => handleSave("bio")}
+                className="text-green-600 hover:text-green-800"
+              >
+                Save
+              </button>
+            ) : (
+              <button
+                onClick={() => setEditingField("bio")}
+                className="text-indigo-600 hover:text-indigo-800"
+              >
+                <FaEdit />
+              </button>
+            )}
+          </div>
+
+        
           <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-800">
+            <EditableField label="📧 Email:" name="email" type="email" />
+            <EditableField label="📞 Contact:" name="contact" />
+
             <div>
-              <span className="font-semibold">📧 Email: </span>
-              {user.email}
-              <button className="ml-2 text-indigo-600 hover:text-indigo-800">
-                <FaEdit />
-              </button>
+              <span className="font-semibold">Hourly Rate: </span>
+              {"₹ "}
+              {user?.price}
             </div>
-            <div>
-              <span className="font-semibold">📞 Contact: </span>
-              {user.contact}
-              <button className="ml-2 text-indigo-600 hover:text-indigo-800">
-                <FaEdit />
-              </button>
-            </div>
-            <div>
-              <span className="font-semibold"> Hourly Rate </span>
-               {'₹ '}{user?.price} 
-            </div>
+
             <div>
               <span className="font-semibold">📅 Joined: </span>
               {joined}
@@ -105,34 +228,95 @@ const MyProfile = () => {
         </div>
       </div>
 
+      
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <button onclick = {handleEdit("fullname")} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
-          <FaEdit /> Edit Fullname
-        </button>
-        <button onclick = {handleEdit("bio")} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
-          <FaEdit /> Edit Bio
-        </button>
-        <button className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+     
+        <button
+          onClick={() => setShowPasswordForm(true)}
+          className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}
+        >
           <FaKey /> Change Password
         </button>
-        <button onclick = {handleEdit("email")} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+
+       
+        <button
+          onClick={() => setShowForget(!showModal)}
+
+          className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}
+        >
           <FaLock /> Forgot Password
         </button>
-        <button onclick = {deleteProfile} className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}>
+
+        <button
+          onClick={deleteProfile}
+          className={`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}
+        >
           <FaTrash /> Delete Profile
         </button>
-       
 
-      
-        <button className="col-span-full text-center text-lg bg-black/40 rounded-xl px-4 py-4 flex items-center gap-2 shadow-xl text-gray-900 italic"
-          onClick={() => router.push('/student')}
+        <button
+          onClick={useLogout}
+          className= {`${buttonStyleTwo} px-4 py-3 bg-black/20 rounded-xl flex items-center gap-2 shadow-lg`}
         >
-
-          Check other Teachers
-
+          <FaRunning /> Logout
         </button>
 
+      
+        <button
+          className="col-span-full text-center text-lg bg-black/40 rounded-xl px-4 py-4 flex items-center gap-2 shadow-xl text-gray-900 italic"
+          onClick={() => router.push("/student")}
+        >
+          Check other Teachers
+        </button>
       </div>
+
+
+        
+      
+      {showForget && (
+        <ForgetPassword showModal={showForget} setShowModal={setShowForget} />
+      )}
+               
+
+      {showPasswordForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4">
+            <h2 className="text-xl font-bold text-gray-800">Change Password</h2>
+            <input
+              type="password"
+              placeholder="Current Password"
+              value={passwordForm.currentPassword}
+              onChange={(e) =>
+                setPasswordForm((prev) => ({ ...prev, currentPassword: e.target.value }))
+              }
+              className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <input
+              type="password"
+              placeholder="New Password"
+              value={passwordForm.newPassword}
+              onChange={(e) =>
+                setPasswordForm((prev) => ({ ...prev, newPassword: e.target.value }))
+              }
+              className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500  "
+            />
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowPasswordForm(false)}
+                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleChangePassword}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

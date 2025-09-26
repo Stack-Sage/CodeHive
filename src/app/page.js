@@ -43,7 +43,7 @@ export default function page() {
         >
         
           <Explore/>
-          <NotifyForm />
+          {/* <NotifyForm /> */}
           <About />
         
         </motion.div>

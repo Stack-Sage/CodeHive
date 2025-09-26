@@ -1,4 +1,5 @@
 'use client'
+import { showInfo, showSuccess } from "@/ui/toast";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, useEffect, use } from "react";
 
@@ -11,20 +12,16 @@ export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [otp,setOtp] = useState('');
 
-//   useEffect(() => {
-//     const storedUser = localStorage.getItem("user");
-//     if (storedUser) {
-//       setUser(JSON.parse(storedUser));
-//       setIsLogin(true);
-//       // router.push("/student");
-//     }
-//   }, []);
+  useEffect(() => {
+    showInfo("This Website is still in beta Mode. Some features might not work as expected.");
+  }, []);
 
 
 
   return (
-    <GlobalContext.Provider value={{ user, setUser, isLogin, setIsLogin, allUser, setAllUser, visitedUser, setVisitedUser, searchResults, setSearchResults }}>
+    <GlobalContext.Provider value={{ user, setUser, isLogin, setIsLogin, allUser, setAllUser, visitedUser, setVisitedUser, searchResults, setSearchResults , otp, setOtp }}>
       {children}
     </GlobalContext.Provider>
   );

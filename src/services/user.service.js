@@ -95,9 +95,11 @@ export const changeFullnameApi = async (newFullname) => {
 
 }
 
-export const changePasswordApi = async (currentPassword, newPassword) => {
+export const changePasswordApi = async (oldPassword, newPassword) => {
   try {
-    const response = await axios.patch(`${API_URL}/users/change-password`, { currentPassword, newPassword }, { withCredentials: true });
+
+    console.log(oldPassword, newPassword);
+    const response = await axios.patch(`${API_URL}/users/change-password`, { oldPassword, newPassword },  { withCredentials: true });
     return response.data;
   } catch (error) {
     console.error("Error in changePasswordApi:", error.response?.data || error.message);
@@ -127,25 +129,6 @@ export const changeEmailApi = async (newEmail) => {
 }
 
 
-export const forgetPasswordApi = async () => {
-  try {
-    const response = await axios.post(`${API_URL}/users/forgot-password`, {}, { withCredentials: true });
-    return response.data;
-  } catch (error) {
-    console.error("Error in forgetPasswordApi:", error.response?.data || error.message);
-    throw error;
-  }
-}
-
-export const verifyOtpApi = async (otp) => {
-  try {
-    const response = await axios.post(`${API_URL}/users/verify-otp`, { otp }, { withCredentials: true });
-    return response.data;
-  } catch (error) {
-    console.error("Error in verifyOtpApi:", error.response?.data || error.message);
-    throw error;
-  }
-}
 
 export const enterNewPasswordApi = async (newPassword) => {
   try {
