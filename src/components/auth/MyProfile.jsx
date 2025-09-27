@@ -117,22 +117,22 @@ const MyProfile = () => {
 
       {/* Change password modal */}
       {showPasswordForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white/10 rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4">
-            <h2 className="text-xl font-bold text-gray-800">Change Password</h2>
+        <div className="fixed inset-0 bg-black/20 flex backdrop-blur-sm items-center justify-center z-50 p-4">
+          <div className="bg-black/70 rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4">
+            <h2 className="text-xl font-bold text-gray-100">Change Password</h2>
             <input
               type="password"
               placeholder="Current Password"
               value={passwordForm.currentPassword}
               onChange={(e) => setPasswordForm((prev) => ({ ...prev, currentPassword: e.target.value }))}
-              className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <input
               type="password"
               placeholder="New Password"
               value={passwordForm.newPassword}
               onChange={(e) => setPasswordForm((prev) => ({ ...prev, newPassword: e.target.value }))}
-              className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full border rounded-lg px-3 text-white py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <div className="flex justify-end gap-3">
               <button onClick={() => setShowPasswordForm(false)} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
