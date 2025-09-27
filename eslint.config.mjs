@@ -1,4 +1,4 @@
-import { dirname } from "path";
+If I could look atimport { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 
