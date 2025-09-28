@@ -36,7 +36,11 @@ export const logoutUserApi = async () => {
     const response = await axios.post(`${API_URL}/users/logout`, {}, { withCredentials: true });
     return response.data;
   } catch (error) {
-    console.error("Error in logoutUserApi:", error.response?.data || error.message);
+    if (error.response && error.response.data) {
+      console.error("Error in logoutUserApi:", error.response.data);
+    } else {
+      console.error("Error in logoutUserApi:", error.message || error);
+    }
     throw error;
   }
 };
@@ -84,6 +88,37 @@ export const searchUserApi = async (query) => {
 // userRouter.route("/change-email").patch(verifyJWT, changeEmail);
 
 
+
+export const changeBioApi = async (newBio) => {
+  try {
+    const response = await axios.patch(`${API_URL}/users/change-bio`, { bio: newBio }, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in changeBioApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+export const changeAvatarApi = async (avatar) => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+    const response = await axios.patch(
+      `${API_URL}/users/change-avatar`,
+      formData,
+      {
+        withCredentials: true,
+      
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error in changeAvatarApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 export const changeFullnameApi = async (newFullname) => {
   try {
     const response = await axios.patch(`${API_URL}/users/change-fullname`, { fullname: newFullname }, { withCredentials: true });
@@ -120,7 +155,9 @@ export const changeContactApi = async (newContact) => {
 
 export const changeEmailApi = async (newEmail) => {
   try {
+    
     const response = await axios.patch(`${API_URL}/users/change-email`, { email: newEmail }, { withCredentials: true });
+
     return response.data;
   } catch (error) {
     console.error("Error in changeEmailApi:", error.response?.data || error.message);

@@ -2,6 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { logoutUserApi } from '@/services/user.service';
 import { useGlobalContext } from '@/context/global.context';
+import { showSuccess } from '@/ui/toast';
 
 const Logout = () => {
 

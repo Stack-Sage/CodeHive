@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ProfileCard } from "./ProfileCard";
 import { ActionButtons } from "./ActionButtons";
-
 import Logout from "./Logout";
 import {
   deleteProfileApi,
@@ -11,6 +10,8 @@ import {
   changeContactApi,
   changeEmailApi,
   changePasswordApi,
+  changeBioApi,
+  changeAvatarApi,
 } from "@/services/user.service";
 import { showSuccess, showError } from "@/ui/toast";
 
@@ -22,11 +23,7 @@ const MyProfile = () => {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "" });
   const [showForget, setShowForget] = useState(false);
-  const [settings, setSettings] = useState({
-    emailNotifications: true,
-    darkMode: false,
-    lightMode: true,
-  });
+  const [avatarPreview, setAvatarPreview] = useState(null);
 
   const router = useRouter();
   const { useLogout } = Logout();
@@ -47,12 +44,32 @@ const MyProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
+    setFormValues(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleAvatarChange = async (file) => {
+  setAvatarPreview(URL.createObjectURL(file));
+
+  try {
+    const result = await changeAvatarApi(file); // result is the API response object
+    if (result && result.success && result.data) {
+      setFormValues(prev => ({ ...prev, avatar: result.data.avatar }));
+      setUser(result.data);
+      localStorage.setItem("user", JSON.stringify(result.data));
+      showSuccess("Avatar updated successfully");
+    } else {
+      showError(result?.message || "Failed to upload avatar");
+    }
+  } catch (error) {
+    showError("Failed to upload avatar");
+    console.error(error);
+  }
+};
 
   const handleSave = async (field) => {
     try {
       let updatedUser = { ...user };
+
       if (field === "fullname") {
         await changeFullnameApi(formValues.fullname);
         updatedUser.fullname = formValues.fullname;
@@ -63,14 +80,16 @@ const MyProfile = () => {
         await changeContactApi(formValues.contact);
         updatedUser.contact = formValues.contact;
       } else if (field === "bio") {
+        await changeBioApi(formValues.bio);
         updatedUser.bio = formValues.bio;
       }
+
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
       showSuccess(`${field} updated successfully`);
     } catch (error) {
       showError(`Failed to update ${field}`);
-      console.error(`Error updating ${field}:`, error);
+      console.error(error);
     } finally {
       setEditingField(null);
     }
@@ -84,17 +103,15 @@ const MyProfile = () => {
       router.push("/register");
     } catch (error) {
       showError("Failed to delete profile");
-      console.error("Error deleting profile:", error);
+      console.error(error);
     }
   };
-
-  const handleToggle = (key) => setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
 
   if (loading) return <div className="flex items-center justify-center min-h-screen text-gray-500 animate-pulse">Loading profile...</div>;
   if (!user) return <div className="flex items-center justify-center min-h-screen text-red-500">User not found.</div>;
 
   return (
-    <section className="max-w-6xl mx-auto p-6 min-h-screen flex flex-col gap-10">
+    <section className="max-w-6xl mx-auto p-6 min-h-screen bg-gradient-to-br flex flex-col gap-10">
       <ProfileCard
         user={user}
         editingField={editingField}
@@ -102,6 +119,8 @@ const MyProfile = () => {
         setEditingField={setEditingField}
         handleChange={handleChange}
         handleSave={handleSave}
+        handleAvatarChange={handleAvatarChange}
+        avatarPreview={avatarPreview}
       />
 
       <ActionButtons
@@ -113,9 +132,6 @@ const MyProfile = () => {
         router={router}
       />
 
-      
-
-      {/* Change password modal */}
       {showPasswordForm && (
         <div className="fixed inset-0 bg-black/20 flex backdrop-blur-sm items-center justify-center z-50 p-4">
           <div className="bg-black/70 rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4">
@@ -124,14 +140,14 @@ const MyProfile = () => {
               type="password"
               placeholder="Current Password"
               value={passwordForm.currentPassword}
-              onChange={(e) => setPasswordForm((prev) => ({ ...prev, currentPassword: e.target.value }))}
+              onChange={(e) => setPasswordForm(prev => ({ ...prev, currentPassword: e.target.value }))}
               className="w-full border text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <input
               type="password"
               placeholder="New Password"
               value={passwordForm.newPassword}
-              onChange={(e) => setPasswordForm((prev) => ({ ...prev, newPassword: e.target.value }))}
+              onChange={(e) => setPasswordForm(prev => ({ ...prev, newPassword: e.target.value }))}
               className="w-full border rounded-lg px-3 text-white py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <div className="flex justify-end gap-3">

@@ -6,6 +6,9 @@ import { loginUserApi } from "@/services/user.service";
 import { useRouter } from "next/navigation";
 import GlobalProvider, { useGlobalContext } from "@/context/global.context";
 import LoadingHand from "./LoadingHand";
+import { buttonStyleTwo } from "@/ui/CustomCSS";
+import { FaLock, FaLockOpen, FaUserLock } from "react-icons/fa";
+import ForgetPassword from "./ForgetPassword";
 
 const loginFields = [
   { 
@@ -28,6 +31,7 @@ const Login = () => {
 
   const { setUser, user, isLogin, setIsLogin } = useGlobalContext();
   const [submitted, setSubmitted] = useState(false);
+  const [showForget, setShowForget] = useState(false);
 
   const [login, setLogin] = useState();
 
@@ -75,15 +79,18 @@ const Login = () => {
       
 
     } catch (error) {
+      setIsLogin(false);
+      setSubmitted(false);
+      setLogin("Login");
       console.error("Login failed:", error.response?.data || error.message);
-      showError("Login failed. Please check your credentials.");
+      showError(error.response?.data?.message || "Login failed");
     }
   };
 
   return (
 
 
-    <main className = "flex min-h-screen flex-col items-center justify-between relative ">
+    <main className = "flex h-screen flex-col items-center justify-between relative ">
     
 
     {
@@ -93,8 +100,10 @@ const Login = () => {
       </div>
     }
 
+    
+
    <AuthForm
-        title="Login"
+        title={login ? login : "Login to your account"}
         fields={loginFields}
         buttonText={login}
         showSocial={false}
@@ -105,7 +114,17 @@ const Login = () => {
         agreementLink="/register"
         agreementText="Don't have an account? Register"
       />
+
     
+     <button
+        onClick={() => setShowForget(!showForget)}
+        className={` w-fit px-6 py-4 h-fit absolute top-[500px] text-black rounded-xl flex items-center justify-center gap-3  cursor-pointer hover:scale-105 transition-all duration-300 font-semibold`}
+      >
+        <FaUserLock /> Forgot Password
+      </button> 
+
+        {showForget && <ForgetPassword showModal={showForget} setShowModal={setShowForget} />}
+
     </main>
 
   );

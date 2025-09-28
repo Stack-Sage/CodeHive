@@ -1,8 +1,24 @@
+'use client'
+import { FaBackward } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+
 export default function Page() {
+  const router = useRouter();
+
   return (
     <main className="max-w-3xl mx-auto py-12 px-4 text-gray-800">
+
+       <button
+            onClick={() => router.back()}
+            className="text-black z-30 lg:flex-row lg:flex hover:text-indigo-700 cursor-pointer hover:scale-105 duration-300 transition-all ease-out hidden items-center justify-center gap-2 mr-10 text-xl absolute top-10 left-4 font-medium hover:underline "
+          >
+              <FaBackward/> Go Back 
+             </button>
+
+       
       <h1 className="text-5xl font-extrabold mb-8 text-gray-900"> CodeHype Documentation</h1>
-      
+    
+       
       
       <section className="mb-10">
         <h2 className="text-3xl font-semibold mb-4"> Introduction</h2>

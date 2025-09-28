@@ -123,7 +123,6 @@ const handleSearch = async (e) => {
         <div className="sm:hidden px-4 pb-4 pt-2 flex flex-col gap-3   shadow-md">
        
 
-          {/* Nav Links */}
           <div className="flex flex-col items-center justify-between gap-3 text-black font-medium">
             <Link href="/docs" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
               Docs

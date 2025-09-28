@@ -5,7 +5,8 @@ import Image from 'next/image'
 
 const page = () => {
   return (
-   <div
+   <div 
+   className='h-screen w-screen overflow-hidden '
     >
 
       <Image

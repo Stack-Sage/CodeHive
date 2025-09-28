@@ -7,6 +7,8 @@ const baseStyle = {
   fontSize: "0.95rem",
   padding: "0.75rem 1.25rem",
   backdropFilter: "blur(12px)",
+
+  zIndex:"9999",
   border: "1px solid rgba(255,255,255,0.3)",
   boxShadow:
     "0 8px 24px rgba(0,0,0,0.25), inset 0 1px 3px rgba(255,255,255,0.2)",
@@ -33,7 +35,6 @@ export const showSuccess = (message) => {
   });
 };
 
-// ❌ Error → frosted glass with rose glow
 export const showError = (message) => {
   toast.error(message, {
     id: "error-toast", // prevent duplicates
