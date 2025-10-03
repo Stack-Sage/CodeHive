@@ -12,8 +12,7 @@ import LenisWrapper from '../ui/LenisWrapper';
 import Image from 'next/image';
 import Explore from "../components/comingSoon/Explore";
 import Footer from '@/components/comingSoon/Footer';
-import { useEffect } from 'react';
-import { showInfo } from '@/ui/toast';
+
 
 
 
@@ -21,9 +20,6 @@ import { showInfo } from '@/ui/toast';
 export default function page() {
     
   
-  useEffect(() => {
-    showInfo("This Website is under development. Some features may not work as expected.");
-  }, []);
 
   return (
     <main className="h-fit min-h-screen max-w-screen min-w-screen  relative ">

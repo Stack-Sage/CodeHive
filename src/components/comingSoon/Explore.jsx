@@ -8,9 +8,15 @@ import { useGlobalContext } from "@/context/global.context";
 import { showInfo, showSuccess } from "@/ui/toast";
 
 
+
 const Explore = () => {
   const router = useRouter();
   const {setUser,setIsLogin,user} = useGlobalContext()
+
+    useEffect(() => {
+    showInfo("This Website is under development. Some features may not work as expected.");
+  }, []);
+
 
   const handleTeacher = () => {
     const storedUser = localStorage.getItem("user");
