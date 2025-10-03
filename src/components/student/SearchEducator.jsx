@@ -5,13 +5,16 @@ import { FaSearch, FaBars, FaTimes, FaBackward } from "react-icons/fa";
 import Link from "next/link";
 import { searchUserApi } from "@/services/user.service";
 import { useGlobalContext } from "@/context/global.context";
+import LogoutStudent from "./stuAuth/logout";
+
+
 
 const Navbar = ({goBack}) => {
   
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const {setSearchResults} = useGlobalContext();
+  const {setSearchResults, isStuLogin, setIsStuLogin} = useGlobalContext();
 
 
 const handleSearch = async (e) => {
@@ -25,7 +28,9 @@ const handleSearch = async (e) => {
     setSearchResults(Array.isArray(users) ? users : []);   
     
       console.log("search result is", users);
-      router.push(`/student/searchResult`);       
+
+      router.push(`/student/searchResult`);
+
 
   } catch (error) {
     console.error("Search error:", error);
@@ -82,12 +87,20 @@ const handleSearch = async (e) => {
             <Link href="/docs" className="hover:text-blue-900  hover:underline transition ">
               Docs
             </Link>
-            <Link href="/profile" className="hover:text-blue-900  hover:underline   transition">
+            <Link href="/studentChat/stuProfile" className="hover:text-blue-900  hover:underline   transition">
               Profile
             </Link>
-            <Link href="/logout" className="hover:text-blue-900 hover:underline   transition">
-              Logout
-            </Link>
+
+           { isStuLogin === "true" ? (
+      
+              <LogoutStudent />
+
+            ) : (
+              <Link href="/studentChat/auth/register" className="hover:text-blue-900 hover:underline transition">
+                SignIn
+              </Link>
+            )}
+         
           </div>
 
           <div className="sm:hidden flex items-center">
@@ -127,12 +140,18 @@ const handleSearch = async (e) => {
             <Link href="/docs" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
               Docs
             </Link>
-            <Link href="/profile" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
+            <Link href="/studentChat/stuProfile" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
               Profile
             </Link>
-            <Link href="/logout" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
-              Logout
-            </Link>
+            { isStuLogin === "true" ? (
+            
+              <LogoutStudent />
+       
+            ) : (
+              <Link href="/studentChat/auth/register" className="hover:text-blue-900 hover:underline transition">
+                SignIn
+              </Link>
+            )}
           </div>
         </div>
       )}

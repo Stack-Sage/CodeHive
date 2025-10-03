@@ -3,11 +3,11 @@
 import React from 'react'
 import { useGlobalContext } from '@/context/global.context'
 import { buttonStyleTwo } from '@/ui/CustomCSS'
-import { FaFlag, FaPhone, FaRegCopy, FaThumbsUp, FaUserAlt } from 'react-icons/fa'
+import { FaFlag, FaPhone, FaRegCopy, FaThumbsUp, FaUserAlt, FaRegComment } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 
 const ListedSearchUser = () => {
-  const { searchResults } = useGlobalContext();
+  const { searchResults, openChatWithUser, startChatWithUser } = useGlobalContext();
   const router = useRouter();
 
   const handleCopy = async (e, text, label) => {
@@ -87,8 +87,13 @@ const ListedSearchUser = () => {
                 </div>
 
                 <div className="flex flex-row justify-center w-full items-center gap-4">
-                  <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}>
+                  <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}
+                  onClick={() => router.push(`/student/${user._id}`)}>
                     <FaUserAlt />
+                  </button>
+                  <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}
+                  onClick={() => startChatWithUser(user._id)}>
+                    <FaRegComment />
                   </button>
                   <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}>
                     <FaPhone />
@@ -154,6 +159,12 @@ const ListedSearchUser = () => {
                   <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`} 
                    onClick={() => router.push(`/student/${user._id}`)} >
                     <FaUserAlt /> View Profile
+                  </button>
+                  <button
+                    className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`} 
+                    onClick={() => startChatWithUser(user._id)}
+                  >
+                    <FaRegComment /> Message
                   </button>
                   <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`}  >
                     <FaPhone /> Contact

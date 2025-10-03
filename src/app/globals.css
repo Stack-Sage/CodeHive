@@ -16,11 +16,11 @@
 .animate-gradient-magical {
   background: linear-gradient(
     135deg,
-    #f8dbff 0%,
+    #fae8ff 0%,
     #d5c6ff 20%,
-    #d8bcff 45%,
-    #cbdcff 75%,
-    #d1bcff 100%
+    #e7fcff 45%,
+    #cddeff 75%,
+    #aeb5ff 100%
   );
   background-size: 400% 400%;
 

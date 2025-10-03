@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '@/context/global.context'
 import useUserHook from '@/hooks/user.hook'
 import { buttonStyleTwo } from '@/ui/CustomCSS'
-import { FaFlag, FaPhone, FaRegCopy, FaThumbsUp, FaUserAlt } from 'react-icons/fa'
+import { FaFlag, FaPhone, FaRegComment, FaRegCommentAlt, FaRegCopy, FaSnapchat, FaThumbsUp, FaUserAlt } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 
 // Shimmer skeleton for user card
@@ -40,7 +40,7 @@ const UserCardShimmer = () => {
 
 const ListedEducators = () => {
   const { getAllUser } = useUserHook();
-  const { allUser } = useGlobalContext();
+  const { allUser, openChatWithUser, startChatWithUser } = useGlobalContext();
   const [loading, setLoading] = useState(true)
   const router = useRouter();
 
@@ -64,7 +64,7 @@ const ListedEducators = () => {
                 key={user._id}
                 className="bg-white/10 magical-gradient min-w-[90%] items-center justify-center rounded-2xl shadow-lg hover:shadow-2xl ring-1 ring-white/50 hover:ring-sky-500 transition-all duration-300 ease-out hover:scale-[1.01] cursor-pointer overflow-hidden hover:bg-white/20"
               >
-                {/* Mobile Layout */}
+                {/* Mobile layout */}
                 <div className="flex flex-col p-6 gap-4 md:hidden">
                   <div className="flex relative items-center justify-start gap-4">
                     <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-indigo-900 shadow-md">
@@ -119,8 +119,13 @@ const ListedEducators = () => {
                   </div>
 
                   <div className="flex flex-row justify-center w-full items-center gap-4">
-                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}>
+                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}
+                    onClick={() => router.push(`/student/${user._id}`)}>
                       <FaUserAlt />
+                    </button>
+                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}
+                    onClick={() => startChatWithUser(user._id)}>
+                      <FaRegComment />
                     </button>
                     <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic rounded-lg text-md`}>
                       <FaPhone />
@@ -192,18 +197,21 @@ const ListedEducators = () => {
 
                   <div className="flex flex-col gap-2 min-w-[160px]">
                     <button
-                      className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`}
+                      className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center items-center rounded-lg text-md`}
                       onClick={() => router.push(`/student/${user._id}`)}
                     >
                       <FaUserAlt /> View Profile
                     </button>
-                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`}>
-                      <FaPhone /> Contact
+                    <button
+                      className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md items-center `  }
+                      onClick={() => startChatWithUser(user._id)}
+                    >
+                      <FaRegComment/> Message
                     </button>
-                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`}>
+                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md item-center`}>
                       <FaThumbsUp /> Favorite
                     </button>
-                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md`}>
+                    <button className={`${buttonStyleTwo} px-3 py-2 scale-90 hover:scale-[0.94] italic flex flex-row gap-2 justify-center rounded-lg text-md items-center`}>
                       <FaFlag /> Report
                     </button>
                   </div>

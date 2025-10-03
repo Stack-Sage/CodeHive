@@ -4,6 +4,7 @@ import Footer from "../components/comingSoon/Footer";
 import LenisWrapper from "../ui/LenisWrapper";
 import {Toaster} from 'react-hot-toast'
 import { GlobalProvider } from "@/context/global.context";
+import { ChatProvider } from "@/context/chat.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,8 @@ export default function RootLayout({ children }) {
       
 
         <GlobalProvider>
+          <ChatProvider>
+
 
         <div className="absolute inset-0 -z-10 animate-gradient-magical  opacity-90 " />
 
@@ -45,6 +48,7 @@ export default function RootLayout({ children }) {
           
          
         </LenisWrapper>
+          </ChatProvider>
         </GlobalProvider>
       </body>
     </html>

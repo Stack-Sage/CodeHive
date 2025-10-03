@@ -188,6 +188,23 @@ export const deleteProfileApi = async () => {
 }
 
 
+export const refreshAccessToken = async () => {
+  try {
+    
+    const response = await axios.post(
+      `${API_URL}/users/refresh-access-token`,
+      {},
+      { withCredentials: true }
+    );
+    
+    return response.data.data; 
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+ 
+    window.location.href = '/login';
+    throw error;
+  }
+};
 
 
 
