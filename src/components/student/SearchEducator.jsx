@@ -5,17 +5,19 @@ import { FaSearch, FaBars, FaTimes, FaBackward } from "react-icons/fa";
 import Link from "next/link";
 import { searchUserApi } from "@/services/user.service";
 import { useGlobalContext } from "@/context/global.context";
-import LogoutStudent from "./stuAuth/logout";
+import Logout from "../auth/Logout";
 
 
 
 const Navbar = ({goBack}) => {
+
   
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const {setSearchResults, isStuLogin, setIsStuLogin} = useGlobalContext();
-
+  const {setSearchResults, isStuLogin, isLogin, setIsStuLogin} = useGlobalContext();
+  
+  console.log(isLogin , "the login state in navbar");
 
 const handleSearch = async (e) => {
   e.preventDefault();
@@ -29,7 +31,7 @@ const handleSearch = async (e) => {
     
       console.log("search result is", users);
 
-      router.push(`/student/searchResult`);
+      router.push(`/listing/searchResult`);
 
 
   } catch (error) {
@@ -87,16 +89,18 @@ const handleSearch = async (e) => {
             <Link href="/docs" className="hover:text-blue-900  hover:underline transition ">
               Docs
             </Link>
-            <Link href="/studentChat/stuProfile" className="hover:text-blue-900  hover:underline   transition">
+            <Link href="/profile" className="hover:text-blue-900  hover:underline   transition">
               Profile
             </Link>
 
-           { isStuLogin === "true" ? (
-      
-              <LogoutStudent />
+            { isLogin === true ? (
+
+              <Link href = "/" className="hover:text-blue-900 hover:underline transition">
+                Logout
+              </Link>
 
             ) : (
-              <Link href="/studentChat/auth/register" className="hover:text-blue-900 hover:underline transition">
+              <Link href="/register" className="hover:text-blue-900 hover:underline transition">
                 SignIn
               </Link>
             )}
@@ -140,15 +144,17 @@ const handleSearch = async (e) => {
             <Link href="/docs" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
               Docs
             </Link>
-            <Link href="/studentChat/stuProfile" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
+            <Link href="/profile" onClick={() => setMenuOpen(false)} className="hover:text-gray-700 transition">
               Profile
             </Link>
-            { isStuLogin === "true" ? (
-            
-              <LogoutStudent />
-       
+            { isLogin === true ? (
+
+              <Link href = "/" className="hover:text-blue-900 hover:underline transition">
+                Logout
+              </Link>
+
             ) : (
-              <Link href="/studentChat/auth/register" className="hover:text-blue-900 hover:underline transition">
+              <Link href="/register" className="hover:text-blue-900 hover:underline transition">
                 SignIn
               </Link>
             )}

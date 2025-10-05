@@ -36,7 +36,7 @@ const Explore = () => {
   
   const handleStudent = ()=>{
     showSuccess("Welcome to CodeHive! Explore and Learn.")
-    router.push("/student")
+    router.push("/listing");
   }
 
   

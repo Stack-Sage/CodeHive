@@ -16,6 +16,7 @@ const ForgetPassword = ({ showModal, setShowModal, userEmail, onPasswordReset })
   const user = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))
     : null
+  // Use user.email for OTP and password reset
 
   const sendOtp = () => {
     if (!user?.email) {

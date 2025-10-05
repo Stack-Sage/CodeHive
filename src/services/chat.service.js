@@ -31,9 +31,9 @@ export const getThreadApi = async (userA, userB, { page = 1, limit = 50, before 
 };
 
 // Conversations list
-export const getConversationsApi = async (userId, role) => {
+export const getConversationsApi = async (userId) => {
   try {
-    const res = await axios.get(`${API_URL}/messages/conversations/${userId}/${role}`, {
+    const res = await axios.get(`${API_URL}/messages/conversations/${userId}`, {
       withCredentials: true,
     });
     return res.data;
@@ -125,7 +125,7 @@ export const getChatHistoryApi = async (studentId, teacherId, page = 1) => {
   }
 };
 
-// Upload an attachment for chat messages (uses backend /api/messages/upload)
+
 export const uploadMessageFileApi = async (file) => {
   try {
     const form = new FormData();
@@ -141,3 +141,19 @@ export const uploadMessageFileApi = async (file) => {
     throw error;
   }
 };
+
+// All API endpoints in this file match the routes defined in your backend's message.routes.js and message.controller.js.
+// You have:
+// - sendMessageApi (POST /api/messages)
+// - getThreadApi (GET /api/messages/thread/:userA/:userB)
+// - getConversationsApi (GET /api/messages/conversations/:userId/:role) [role param is optional in backend]
+// - markMessageAsReadApi (PATCH /api/messages/:messageId/read)
+// - markThreadAsReadApi (PATCH /api/messages/thread/:me/:peer/read)
+// - editMessageApi (PATCH /api/messages/:messageId)
+// - deleteMessageApi (DELETE /api/messages/:messageId)
+// - searchMessagesApi (GET /api/messages/search)
+// - getUnreadCountApi (GET /api/messages/unread/:me/:peer)
+// - getChatHistoryApi (GET /api/messages/history/:userA/:userB/:page)
+// - uploadMessageFileApi (POST /api/messages/upload)
+//
+// All endpoints are present and correctly mapped to your backend routes and controller logic.

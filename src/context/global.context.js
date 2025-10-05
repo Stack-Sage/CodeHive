@@ -1,10 +1,10 @@
 'use client'
 import { showInfo, showSuccess } from "@/ui/toast";
-import { setupTokenRefresh } from "@/utils/setupTokenRefresh";
-import { setupTokenRefreshStu } from "@/utils/setupTokenRefreshStu";
+
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useState, useEffect } from "react"; // remove "use"
-import { sendMessageApi } from "@/services/chat.service"; // add
+import { createContext, useContext, useState, useEffect } from "react";
+import { sendMessageApi } from "@/services/chat.service";
+import { set } from "date-fns";
 
 const GlobalContext = createContext();
 
@@ -13,16 +13,7 @@ export const GlobalProvider = ({ children }) => {
   const [allUser, setAllUser] = useState([]);
   const [visitedUser, setVisitedUser] = useState(null);
 
-  // Hydrate from localStorage synchronously (prevents redirect flicker on new tab)
-  const [studentUser, setStudentUser] = useState(() => {
-    try {
-      if (typeof window !== "undefined") {
-        const s = localStorage.getItem("studentUser");
-        return s ? JSON.parse(s) : null;
-      }
-    } catch {}
-    return null;
-  });
+
   const [user, setUser] = useState(() => {
     try {
       if (typeof window !== "undefined") {
@@ -32,38 +23,52 @@ export const GlobalProvider = ({ children }) => {
     } catch {}
     return null;
   });
-  const [isStuLogin, setIsStuLogin] = useState(() => {
-    if (typeof window !== "undefined") {
-      const v = localStorage.getItem("isStuLogin");
-      return v === "true" || v === true;
-    }
-    return false;
-  });
-
   const [isLogin, setIsLogin] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [otp,setOtp] = useState('');
-
+  const [otp, setOtp] = useState('');
+  const [userRole, setUserRole] = useState("");
+  
   useEffect(() => {
-    setupTokenRefresh();
-    setupTokenRefreshStu();
-  }, []);
-
-  useEffect(() => {
-    // Keep auth flags in sync
     try {
       if (typeof window !== "undefined") {
-        localStorage.setItem("isStuLogin", String(isStuLogin === true || isStuLogin === "true"));
-        localStorage.setItem("studentUser", studentUser ? JSON.stringify(studentUser) : "");
-        localStorage.setItem("user", user ? JSON.stringify(user) : "");
-      }
-    } catch {}
-  }, [isStuLogin, studentUser, user]);
 
-  // Open a chat thread by user id (student->teacher by default)
-  const openChatWithUser = (targetUserId, targetRole = "teacher", newWindow = false) => {
+        localStorage.setItem("user", user ? JSON.stringify(user) : "");
+        localStorage.setItem("isLogin", !!user?._id);
+        setIsLogin(!!user?._id);
+
+        if(!localStorage.getItem("visitedUser")){
+          setVisitedUser(JSON.parse(localStorage.getItem("user")));
+        }
+
+        if (!user?._id) {
+          localStorage.removeItem("user");
+          setIsLogin(false);
+          showInfo("Please login to continue")
+        } 
+
+        if(user?._id){
+          setIsLogin(true);
+          if(user?.roles?.includes("educator")){
+            localStorage.setItem("userRole","teacher");
+            setUser(user);
+            setUserRole("teacher");
+          }
+          else{
+            localStorage.setItem("userRole","student");
+            setUserRole("student");
+          }
+
+          showSuccess(`Welcome back, ${user.fullname}!`)
+        }
+      }
+      
+    } catch {}
+  }, [user,isLogin]);
+
+
+  const openChatWithUser = (targetUserId, targetRole = "educator", newWindow = false) => {
     setVisitedUser({ _id: targetUserId, role: targetRole });
-    const base = targetRole === "teacher" ? "/studentChat/chat" : "/teacherChat/chat";
+    const base = "/chat";
     const url = `${base}/${targetUserId}`;
     if (newWindow && typeof window !== "undefined") {
       window.open(url, "_blank", "noopener,noreferrer");
@@ -72,22 +77,19 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  // Start a chat by sending an initial message, then open the chat
   const startChatWithUser = async (targetUserId, initialMessage = "Hi 👋") => {
     try {
-      // ensure student is logged-in
-      if (!(isStuLogin === true || isStuLogin === "true") || !studentUser?._id) {
-        router.push("/studentChat/auth/login");
+      if (!isLogin || !user?._id) {
+        router.push("/auth/login");
         return;
       }
       await sendMessageApi({
-        senderId: studentUser._id,
+        senderId: user._id,
         receiverId: targetUserId,
-        senderRole: "Student",
         message: initialMessage,
       });
-      showSuccess("Message sent to teacher");
-      openChatWithUser(targetUserId, "teacher", true);
+      showSuccess("Message sent");
+      openChatWithUser(targetUserId, "educator", true);
     } catch (e) {
       console.error("Failed to start chat:", e);
       showInfo("Unable to start chat. Please try again.");
@@ -102,14 +104,14 @@ export const GlobalProvider = ({ children }) => {
       visitedUser, setVisitedUser,
       searchResults, setSearchResults,
       otp, setOtp,
-      isStuLogin, setIsStuLogin,
-      studentUser, setStudentUser,
       openChatWithUser,
-      startChatWithUser, // add
+      startChatWithUser, 
+      userRole, setUserRole 
     }}>
       {children}
     </GlobalContext.Provider>
   );
 };
+
 
 export const useGlobalContext = () => useContext(GlobalContext);

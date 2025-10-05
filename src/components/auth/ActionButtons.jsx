@@ -9,51 +9,46 @@ export const ActionButtons = ({
   setShowPasswordForm,
   showForget,
   setShowForget,
-  router,
+  user,
 }) => (
-  <div className="flex flex-col gap-6 w-full">
+  <div className="flex flex-col items-center gap-8 w-full mt-8">
     {/* Main Action Buttons */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+    <div className="flex flex-wrap gap-6 justify-center w-full">
       <button
         onClick={() => setShowPasswordForm(true)}
-        className="w-full px-6 py-4 bg-white/20 dark:bg-gray-800/40 text-black rounded-2xl backdrop-blur-md flex items-center justify-center gap-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold"
+        className="flex-1 min-w-[180px] max-w-xs px-6 py-4 bg-gradient-to-r from-blue-100 via-indigo-100 to-blue-200 text-black rounded-xl backdrop-blur-md flex items-center justify-center gap-3 shadow hover:shadow-lg hover:bg-blue-200 hover:scale-105 transition-all duration-300 font-semibold"
       >
         <FaKey /> Change Password
       </button>
-
       <button
         onClick={() => setShowForget(!showForget)}
-        className="w-full px-6 py-4 bg-white/20 dark:bg-gray-800/40 text-black rounded-2xl backdrop-blur-md flex items-center justify-center gap-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold"
+        className="flex-1 min-w-[180px] max-w-xs px-6 py-4 bg-gradient-to-r from-blue-100 via-indigo-100 to-blue-200 text-black rounded-xl backdrop-blur-md flex items-center justify-center gap-3 shadow hover:shadow-lg hover:bg-blue-200 hover:scale-105 transition-all duration-300 font-semibold"
       >
         <FaLock /> Forgot Password
       </button>
-
-      <button
-        onClick={deleteProfile}
-        className="w-full px-6 py-4 bg-white/20 dark:bg-gray-800/40 text-black rounded-2xl backdrop-blur-md flex items-center justify-center gap-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold"
-      >
-        <FaTrash /> Delete Profile
-      </button>
-
+      {user?.roles?.includes("educator") && (
+        <button
+          onClick={deleteProfile}
+          className="flex-1 min-w-[180px] max-w-xs px-6 py-4 bg-gradient-to-r from-blue-100 via-indigo-100 to-blue-200 text-black rounded-xl backdrop-blur-md flex items-center justify-center gap-3 shadow hover:shadow-lg hover:bg-blue-200 hover:scale-105 transition-all duration-300 font-semibold"
+        >
+          <FaTrash /> Delete Profile
+        </button>
+      )}
       <button
         onClick={useLogout}
-        className="w-full px-6 py-4 bg-white/20 dark:bg-gray-800/40 text-black rounded-2xl backdrop-blur-md flex items-center justify-center gap-3 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold"
+        className="flex-1 min-w-[180px] max-w-xs px-6 py-4 bg-gradient-to-r from-blue-100 via-indigo-100 to-blue-200 text-black rounded-xl backdrop-blur-md flex items-center justify-center gap-3 shadow hover:shadow-lg hover:bg-blue-200 hover:scale-105 transition-all duration-300 font-semibold"
       >
         <FaRunning /> Logout
       </button>
     </div>
 
-    {/* Secondary Action */}
-    <div className="flex justify-center lg:justify-start">
-      <button
-        onClick={() => router.push("/student")}
-        className="w-full lg:w-auto px-8 py-4 text-lg text-black rounded-2xl bg-white/30 dark:bg-gray-800/40 backdrop-blur-md flex items-center justify-center gap-3 shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 font-semibold"
-      >
-        Check other Teachers
-      </button>
+    {/* Divider for neat separation */}
+    <div className="w-full flex justify-center">
+      <div className="h-[2px] w-2/3 bg-indigo-100 rounded-full"></div>
     </div>
 
     {/* Forget Password Modal */}
     {showForget && <ForgetPassword showModal={showForget} setShowModal={setShowForget} />}
   </div>
 );
+

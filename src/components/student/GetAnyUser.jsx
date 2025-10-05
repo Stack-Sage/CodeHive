@@ -46,75 +46,99 @@ const GetAnyUser = ({ id }) => {
   }
 
   const user = visitedUser;
+  const isEducator = user.roles?.includes("educator");
+  const joined = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—";
+  const updated = user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : "—";
 
   return (
-    <section className="relative max-w-7xl mx-auto px-6 py-16 min-h-screen flex flex-col gap-14">
-      {/* Magical gradient background glow */}
+    <section className="relative w-full  max-w-6xl 2xl:max-w-8xl mx-auto bg-gradient-to-br from-blue-100 via-indigo-50 to-blue-200 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden p-8 xl:p-20 flex flex-col md:flex-row gap-20 items-center md:items-start border border-indigo-100 min-h-[70vh]">
+      {/* Glowing background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-200/30 via-blue-100/20 to-blue-300/20 blur-2xl"></div>
 
-
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-200/50 via-purple-200/50 to-pink-100/50 blur-3xl opacity-40"></div>
-
-      {/* Profile Card */}
-      <div className="relative bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl shadow-2xl rounded-3xl overflow-hidden p-10 flex flex-col md:flex-row gap-12 items-center md:items-start min-h-[70vh] border border-white/30">
-        
+      {/* Back Button */}
       <button
-                onClick={() => router.back()}
-                className="text-black absolute left-4  lg:flex-row hidden  lg:flex  hover:text-indigo-900 top-4 cursor-pointer hover:scale-105 duration-300 transition-all ease-out  gap-2    mr-10 text-xl font-medium hover:underline "
-              >
-          <FaBackward/> 
+        onClick={() => router.back()}
+        className="absolute left-4 top-4 text-black hidden lg:flex items-center gap-2 text-xl font-medium hover:underline hover:text-indigo-900 transition-all duration-300"
+      >
+        <FaBackward />
+        Back
       </button>
-        {/* Avatar with glow */}
-        <div className="flex-shrink-0 relative">
-          <div className="absolute inset-0 w-full h-full rounded-full bg-indigo-500 blur-3xl opacity-30 animate-pulse"></div>
-          <img
-            src={user.avatar || "/default-avatar.png"}
-            alt={user.fullname}
-            className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-white shadow-2xl ring-4 ring-indigo-400/60"
-          />
-        </div>
 
-        {/* User Details */}
-        <div className="flex-1 flex flex-col gap-10">
-          {/* Name + Bio */}
-          <div>
-            <h2 className="text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight drop-shadow-md">
-              {user.fullname}
-            </h2>
-            <p className="mt-4 text-lg text-gray-700 dark:text-gray-300 italic leading-relaxed">
-              {user.bio || "No bio added yet."}
-            </p>
-          </div>
-
-          {/* Info Grid */}
-          <div className="grid sm:grid-cols-2 gap-6 text-base text-gray-800 dark:text-gray-200">
-            <div className="bg-white/70 dark:bg-gray-800/60 rounded-2xl p-5 shadow-md hover:shadow-lg transition">
-              <span className="block font-semibold text-indigo-700 dark:text-indigo-400">📧 Email</span>
-              <p>{user.email}</p>
-            </div>
-            <div className="bg-white/70 dark:bg-gray-800/60 rounded-2xl p-5 shadow-md hover:shadow-lg transition">
-              <span className="block font-semibold text-indigo-700 dark:text-indigo-400">📞 Contact</span>
-              <p>{user.contact || "Not provided"}</p>
-            </div>
-            <div className="bg-white/70 dark:bg-gray-800/60 rounded-2xl p-5 shadow-md hover:shadow-lg transition">
-              <span className="block font-semibold text-indigo-700 dark:text-indigo-400">🆔 Hourly Price</span>
-              <p className="truncate">{user.price}</p>
-            </div>
-            <div className="bg-white/70 dark:bg-gray-800/60 rounded-2xl p-5 shadow-md hover:shadow-lg transition">
-              <span className="block font-semibold text-indigo-700 dark:text-indigo-400">📅 Joined</span>
-              <p>{new Date(user.createdAt).toLocaleDateString()}</p>
-            </div>
-          </div>
-        </div>
+      {/* Avatar */}
+      <div className="relative flex-shrink-0 flex flex-col items-center">
+        <div className="absolute inset-0 rounded-full bg-indigo-400 blur-2xl opacity-30 animate-pulse"></div>
+        <img
+          src={user.avatar || "/default-avatar.png"}
+          alt={user.fullname || "User"}
+          className="relative w-36 h-36 xl:w-56 xl:h-56 rounded-full object-cover shadow-xl ring-4 ring-blue-200"
+        />
+        {/* Profile Role Badge below avatar */}
+        <span
+          className={`mt-6 px-10 py-3 rounded-2xl font-bold text-lg shadow-xl border-2 ${
+            isEducator
+              ? "bg-gradient-to-r from-indigo-500 via-blue-400 to-indigo-600 text-white border-indigo-300"
+              : "bg-gradient-to-r from-green-400 via-blue-200 to-green-600 text-white border-green-300"
+          }`}
+          style={{
+            letterSpacing: "0.08em",
+            boxShadow: "0 4px 24px 0 rgba(60,60,120,0.12)",
+          }}
+        >
+          {isEducator ? "Educator" : "Student"}
+        </span>
       </div>
 
-      {/* Recent Activity Section */}
-      <div className="flex flex-col gap-6 text-center">
-        <h3 className="text-3xl font-semibold text-gray-900 dark:text-white drop-shadow-sm">
-          ✨ Recent Activity
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 italic">
-          No recent activity to show.
-        </p>
+      {/* User Info */}
+      <div className="flex-1 flex flex-col gap-16">
+        {/* Grid for fields */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-20 gap-y-6 w-full">
+          <div className="flex flex-col gap-2 w-full mb-2">
+            <label className="font-medium min-w-[110px] text-black mb-1">Name:</label>
+            <div className="w-full bg-white/40 font-semibold rounded-lg px-4 py-2 text-sm text-black">{user.fullname}</div>
+          </div>
+          <div className="flex flex-col gap-2 w-full mb-2">
+            <label className="font-medium min-w-[110px] text-black mb-1">Email:</label>
+            <div className="w-full bg-white/40 font-semibold rounded-lg px-4 py-2 text-sm text-black">{user.email}</div>
+          </div>
+          {isEducator && (
+            <>
+              <div className="flex flex-col gap-2 w-full mb-2">
+                <label className="font-medium min-w-[110px] text-black mb-1">Country:</label>
+                <div className="w-full bg-white/40 font-semibold rounded-lg px-4 py-2 text-sm text-black">{user.country || "—"}</div>
+              </div>
+              <div className="flex flex-col gap-2 w-full mb-2">
+                <label className="font-medium min-w-[110px] text-black mb-1">Date of Birth:</label>
+                <div className="w-full bg-white/40 font-semibold rounded-lg px-4 py-2 text-sm text-black">{user.dob ? new Date(user.dob).toLocaleDateString() : "—"}</div>
+              </div>
+              <div className="flex flex-col gap-2 w-full mb-2">
+                <label className="font-medium min-w-[110px] text-black mb-1">Skills:</label>
+                <div className="w-full bg-white/40 font-semibold rounded-lg px-4 py-2 text-sm text-black">{Array.isArray(user.skills) ? user.skills.join(", ") : (user.skills || "—")}</div>
+              </div>
+              <div className="flex flex-col gap-2 w-full mb-2">
+                <label className="font-medium min-w-[110px] text-black mb-1">Hourly Rate (₹):</label>
+                <div className="w-full bg-white/40 font-semibold rounded-lg px-4 py-2 text-sm text-black">{user.price || "—"}</div>
+              </div>
+            </>
+          )}
+        </div>
+        {/* Bio stays full width */}
+        {isEducator && (
+          <div className="flex flex-col gap-4 w-full bg-blue-50/80 backdrop-blur-lg shadow-inner p-5 rounded-2xl mt-2">
+            <label className="font-medium text-black mb-1">Bio:</label>
+            <div className="w-full min-h-[80px] rounded-xl px-4 py-3 text-black bg-blue-100">{user.bio || "—"}</div>
+          </div>
+        )}
+        {/* Common Info */}
+        <div className="grid sm:grid-cols-2 gap-12 text-sm text-black mt-2">
+          <div className="bg-blue-50/80 backdrop-blur-lg p-4 rounded-xl shadow-md">
+            <span className="font-medium">📅 Joined: </span>
+            {joined}
+          </div>
+          <div className="bg-blue-50/80 backdrop-blur-lg p-4 rounded-xl shadow-md">
+            <span className="font-medium">📝 Last Updated: </span>
+            {updated}
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -76,19 +76,6 @@ export const searchUserApi = async (query) => {
   }
 };
 
-// refer from these route 
-// userRouter.route("/forgot-password").post(verifyJWT, forgotPassword);
-// userRouter.route("/verify-otp").post(verifyJWT, verifyOtp);
-// userRouter.route("/enter-new-password").patch(verifyJWT, enterNewPassword);
-
-
-// userRouter.route("/change-fullname").patch(verifyJWT, changeFullname);
-// userRouter.route("/change-password").patch(verifyJWT, changePassword);
-// userRouter.route("/change-contact").patch(verifyJWT, changeContact);
-// userRouter.route("/change-email").patch(verifyJWT, changeEmail);
-
-
-
 export const changeBioApi = async (newBio) => {
   try {
     const response = await axios.patch(`${API_URL}/users/change-bio`, { bio: newBio }, { withCredentials: true });
@@ -186,25 +173,6 @@ export const deleteProfileApi = async () => {
     throw error;
   }
 }
-
-
-export const refreshAccessToken = async () => {
-  try {
-    
-    const response = await axios.post(
-      `${API_URL}/users/refresh-access-token`,
-      {},
-      { withCredentials: true }
-    );
-    
-    return response.data.data; 
-  } catch (error) {
-    console.error("Error refreshing token:", error);
- 
-    window.location.href = '/login';
-    throw error;
-  }
-};
 
 
 

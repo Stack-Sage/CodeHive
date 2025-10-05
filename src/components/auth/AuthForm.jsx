@@ -51,7 +51,7 @@ const AuthForm = ({
   };
 
   return (
-    <div className="w-[85%] md:w-[60%] lg:w-[40%] xl:w-[30%] mx-auto bg-white/20 backdrop-blur-2xl rounded-3xl p-6 shadow-2xl border border-white/30">
+    <div className="w-full max-w-lg px-4 py-8 rounded-3xl shadow-2xl bg-white/80 backdrop-blur-lg border border-white/30 flex flex-col items-center">
       <div className="text-center font-extrabold text-3xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-5">
         {title}
       </div>

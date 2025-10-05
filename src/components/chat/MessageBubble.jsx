@@ -2,9 +2,7 @@
 import React from "react";
 
 export default function MessageBubble({ msg, currentUserId }) {
-  const isMine =
-    String(msg.fromStudent || "") === String(currentUserId || "") ||
-    String(msg.fromTeacher || "") === String(currentUserId || "");
+  const isMine = String(msg.fromUser) === String(currentUserId);
 
   const bubbleStyle = {
     maxWidth: "70%",
@@ -21,7 +19,7 @@ export default function MessageBubble({ msg, currentUserId }) {
         {msg.message && <div style={{ whiteSpace: "pre-wrap" }}>{msg.message}</div>}
         {msg.fileUrl && (
           <div style={{ marginTop: msg.message ? 8 : 0 }}>
-            {msg.fileType?.startsWith("image") || msg.fileType === "image" ? (
+            {msg.fileType?.startsWith("image") ? (
               <img src={msg.fileUrl} alt="attachment" style={{ maxWidth: "100%", borderRadius: 8 }} />
             ) : (
               <a href={msg.fileUrl} target="_blank" rel="noreferrer" style={{ color: isMine ? "#fff" : "#0a66c2" }}>

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ProfileCard } from "./ProfileCard";
-import { ActionButtons } from "./ActionButtons";
 import Logout from "./Logout";
 import {
   deleteProfileApi,
@@ -121,9 +120,6 @@ const MyProfile = () => {
         handleSave={handleSave}
         handleAvatarChange={handleAvatarChange}
         avatarPreview={avatarPreview}
-      />
-
-      <ActionButtons
         useLogout={useLogout}
         deleteProfile={deleteProfile}
         setShowPasswordForm={setShowPasswordForm}
@@ -134,7 +130,7 @@ const MyProfile = () => {
 
       {showPasswordForm && (
         <div className="fixed inset-0 bg-black/20 flex backdrop-blur-sm items-center justify-center z-50 p-4">
-          <div className="bg-black/70 rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4">
+          <div className="bg-black/70 rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-4 space-x-4">
             <h2 className="text-xl font-bold text-gray-100">Change Password</h2>
             <input
               type="password"
