@@ -22,16 +22,16 @@ export default function page() {
   
 
   return (
-    <main className="h-fit min-h-screen max-w-screen min-w-screen  relative ">
+    <main className="z-40 h-fit  min-h-screen max-w-screen min-w-screen  absolute  top-0 ">
      
         
           
       <section className="relative h-auto w-full  flex flex-col  scale-100  items-center justify-center">
-        <Image width={1920} height={1080}
-                className="absolute top-0 left-0 w-full h-full object-cover opacity-20 grayscale blur-[3px] -z-10"
+        {/* <Image width={1920} height={1080}
+                className="absolute top-0 left-0 w-full h-full min-h-screen object-fill  opacity-20 grayscale blur-[3px] -z-10"
                 src="/bg_1.jpg"
                 alt="Background image"
-              />
+              /> */}
     
         <div className="absolute inset-0  "></div>
         <div className="absolute inset-0   "></div>

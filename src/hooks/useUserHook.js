@@ -48,6 +48,7 @@ const useUserHook = () => {
       setUser(response.user);
       setIsLogin(true);
       localStorage.setItem("user", JSON.stringify(response.user));
+      // userRole is now in response.user.userRole (array)
       showSuccess("Login successful!");
       return response;
     } catch (error) {

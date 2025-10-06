@@ -11,37 +11,22 @@ import { showInfo, showSuccess } from "@/ui/toast";
 
 const Explore = () => {
   const router = useRouter();
-  const {setUser,setIsLogin,user} = useGlobalContext()
 
-    useEffect(() => {
+  useEffect(() => {
     showInfo("This Website is under development. Some features may not work as expected.");
   }, []);
 
 
-  const handleTeacher = () => {
-    const storedUser = localStorage.getItem("user");
-    console.log("stored user is ",storedUser)
-    if (storedUser === "undefined" || !storedUser) {
-      showInfo("Please register or login as a teacher to continue.");
-      router.push("/register");
-    }
-    else{
-      setUser(JSON.parse(storedUser));
-      setIsLogin(true);
-      showSuccess( `Welcome back, ${JSON.parse(storedUser).fullname}!`);
-      console.log("user is ",user)
-      router.push("/profile");
-    }
-  }
-  
-  const handleStudent = ()=>{
-    showSuccess("Welcome to CodeHive! Explore and Learn.")
-    router.push("/listing");
-  }
+  const handleLogin = () => {
+    router.push("/login");
+  };
 
-  
+  const handleSignUp = () => {
+    router.push("/register");
+  };
+
   return (
-    <section className="relative flex   mx-4 flex-col items-center justify-center overflow-hidden ">
+    <section className="relative flex mx-4 flex-col items-center justify-center overflow-hidden">
 
       <Hero/>
     
@@ -65,7 +50,7 @@ const Explore = () => {
         transition={{ delay: 0.4, duration: 0.8 }}
         className="mt-6 text-lg md:text-xl text-gray-700 text-center max-w-xl"
       >
-        Whether you're here to <span className="font-semibold text-blue-600">learn</span> or to <span className="font-semibold text-pink-600">teach</span>, we've got a space for you.  
+        To explore CodeHive, please <span className="font-semibold text-blue-600">login</span> or <span className="font-semibold text-pink-600">sign up</span> to continue.
       </motion.p>
 
       {/* Buttons */}
@@ -76,17 +61,17 @@ const Explore = () => {
         className="flex gap-6 justify-center mt-8 mb-2"
       >
         <button
-          onClick={handleStudent}
+          onClick={handleLogin}
           className={` ${buttonStyle} brightness-105 `}
         >
-          🎓 Join as Student
+          🔑 Login
         </button>
 
         <button
-          onClick={handleTeacher}
-          className=  {` ${buttonStyle} brightness-105`}
+          onClick={handleSignUp}
+          className={` ${buttonStyle} brightness-105 `}
         >
-          📚 Join as Teacher
+          📝 Sign Up
         </button>
       </motion.div>
     </section>

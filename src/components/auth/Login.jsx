@@ -50,9 +50,8 @@ const Login = () => {
 
     const payload = {
       email: isEmail ? identifier : "",
-     
       password,
-      role: role === "teacher" ? "educator" : "student", // Add role to payload
+      role: role === "teacher" ? "educator" : "student", 
     };
 
     setLogin("Logging in...");
@@ -62,6 +61,7 @@ const Login = () => {
       const response = await loginUserApi(payload);
       if(response.success){
         setLogin("Login successfull");
+        
         showSuccess(response.message || "Login Successful");
         const { user } = response.data;
         localStorage.setItem("user", JSON.stringify(user));
@@ -70,9 +70,9 @@ const Login = () => {
         setIsLogin(true);
         // Redirect based on role
         if (role === "teacher") {
-          router.push("/teacher/dashboard");
+          router.push("/dashboard");
         } else {
-          router.push("/profile");
+          router.push("/listing");
         }
       }
     } catch (error) {

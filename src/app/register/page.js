@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const page = () => {
   return (
-    <div className='relative min-h-screen min-w-screen flex items-center justify-center'
+    <div className='absolute top-0 z-50 min-h-screen min-w-screen flex items-center justify-center'
     >
     
       <Image

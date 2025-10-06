@@ -73,7 +73,8 @@ export default function Register() {
       const res = await registerUserApi(formData);
       setMessage("Registered Successfully");
       setSubmitted(false);
-      showSuccess(res?.message || "Registered Successfully");
+      showSuccess(res?.message || `A New ${res.roles[0]} Registered Successfully `);
+      
       router.push('/login');
     } catch (error) {
       showError(error?.response?.data?.message || "Failed");

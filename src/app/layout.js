@@ -5,6 +5,7 @@ import LenisWrapper from "../ui/LenisWrapper";
 import {Toaster} from 'react-hot-toast'
 import { GlobalProvider } from "@/context/global.context";
 import { ChatProvider } from "@/context/chat.context";
+import Navbar from '@/components/student/SearchEducator'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
         <GlobalProvider>
           <ChatProvider>
 
-
+        <Navbar/>
         <div className="absolute inset-0 -z-10 animate-gradient-magical  opacity-90 " />
 
         <LenisWrapper>
