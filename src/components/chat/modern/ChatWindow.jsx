@@ -30,11 +30,17 @@ export default function ChatWindow({
   const [message, setMessage] = useState('');
   const [file, setFile] = useState(null);
   const [sending, setSending] = useState(false);
+  const [fileWarning, setFileWarning] = useState('');
+  const [showLoader, setShowLoader] = useState(false);
 
   const { reloadThread, threadLoading, deleteMessageApi } = useChat();
 
-  // Auto scroll to bottom when messages change
+  // Auto scroll to bottom when messages change (force scroll for receiver/sender)
   useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
     scrollToBottom();
   }, [messages?.length]);
 
@@ -57,8 +63,15 @@ export default function ChatWindow({
   // Send message with optional file
   const handleSendMessage = async () => {
     if (!activePeer || !currentUser?._id) return;
+    // If file is present but message is empty, show warning and prevent send
+    if (file && !message.trim()) {
+      setFileWarning("Please add a short message along with your file.");
+      return;
+    }
     if (!message.trim() && !file) return;
+    setFileWarning('');
     setSending(true);
+    setShowLoader(true);
     let fileUrl = "";
     let fileType = "";
     try {
@@ -77,12 +90,13 @@ export default function ChatWindow({
       showSuccess("Message sent");
       setMessage('');
       setFile(null);
-      if (reloadThread) await reloadThread(); // <-- ensures sender sees latest message
+      if (reloadThread) await reloadThread();
       scrollToBottom();
     } catch (error) {
       showError("Failed to send message");
     } finally {
       setSending(false);
+      setShowLoader(false);
     }
   };
 
@@ -94,7 +108,7 @@ export default function ChatWindow({
     try {
       await deleteMessageApi(id);
       showSuccess('Message deleted');
-      if (reloadThread) await reloadThread(); // <-- this triggers SWR refetch
+      if (reloadThread) await reloadThread();
     } catch (err) {
       showError('Failed to delete message');
     }
@@ -127,10 +141,11 @@ export default function ChatWindow({
   // Fallback if messages is empty
   const isEmpty = !messages || messages.length === 0;
 
+  // Remove all backgrounds from main container and thread area
   return (
-    <div className="flex flex-col h-full min-h-0 bg-white">
+    <div className="flex flex-col h-full min-h-0 bg-gradient-to-br from-sky-200/20 via-gray-50 to-blue-100/30">
       {/* Chat Header - sticky/fixed */}
-      <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white">
+      <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-white/20  backdrop-blur-lg shadow-lg ">
         <div className="flex items-center gap-3">
           {showToggle && (
             <button
@@ -167,15 +182,17 @@ export default function ChatWindow({
         </div>
       </div>
 
-      {/* Chat Bubbles Area (yellow box) - scrollable */}
+      {/* Chat Bubbles Area (scrollable) */}
       <Suspense fallback={<div className="p-6 text-center text-gray-400">Loading messages...</div>}>
         <ChatErrorBoundary>
           <div
             ref={messagesContainerRef}
-            className="flex-1 overflow-y-auto px-4 py-2 space-y-1 bg-gray-50 scrollbar-thin scrollbar-thumb-gray-300"
+            className="flex-1 overflow-y-auto px-4 py-2 space-y-1 scrollbar-thin scrollbar-thumb-indigo-200"
             style={{
               minHeight: 0,
-              maxHeight: "100%",
+              maxHeight: "calc(100vh - 64px - 56px - 56px)", // NAV + header + input
+              background: "transparent",
+              borderRadius: "18px"
             }}
           >
             {hasMore && (
@@ -183,7 +200,7 @@ export default function ChatWindow({
                 <button
                   onClick={onLoadMore}
                   disabled={isLoading}
-                  className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm text-blue-600  hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Loading...' : 'Load older messages'}
                 </button>
@@ -206,6 +223,7 @@ export default function ChatWindow({
                     activePeer={activePeer}
                     currentUser={currentUser}
                     messages={messages}
+                    onDelete={handleDelete}
                   />
                 );
               }
@@ -243,8 +261,8 @@ export default function ChatWindow({
         </button>
       )}
 
-      {/* Chat Input - sticky/fixed */}
-      <div className="sticky bottom-0 z-20 border-t border-gray-200 bg-white px-4 py-3 flex gap-2 items-center">
+      {/* Chat Input - sticky/fixed at bottom */}
+      <div className="sticky bottom-0 z-20 border-t border-gray-200 bg-white bg-opacity-80 backdrop-blur-lg px-4 py-3 flex gap-2 items-center">
         {/* File upload */}
         <label className="flex items-center cursor-pointer">
           <FaPaperclip className="w-5 h-5 text-gray-500 mr-2" />
@@ -269,17 +287,35 @@ export default function ChatWindow({
             }
           }}
           placeholder="Type a message..."
-          className="flex-1 h-10 px-3 rounded-md border outline-none"
+          className="flex-1 h-10 px-3 rounded-md ring-1 ring-blue-800/40 focus:ring-blue-800/90 hover:ring-blue-70 outline-none"
           disabled={sending}
         />
         <button
           onClick={handleSendMessage}
-          className="h-10 px-4 rounded-md bg-emerald-600 text-white disabled:opacity-50"
+          className="h-10 px-4 rounded-md bg-blue-900 text-white ring-1 ring-black/20 disabled:cursor-not-allowed cursor-pointer font-semibold disabled:bg-white disabled:text-blue-800 shadow-md hover:brightness-125 transition-all duration-200 ease-in "
           disabled={sending || (!message.trim() && !file)}
         >
-          Send
+          {sending ? (
+            <span className="flex items-center gap-2">
+              <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+              Sending...
+            </span>
+          ) : "Send"}
         </button>
+        {/* File warning */}
+        {fileWarning && (
+          <span className="ml-4 text-xs text-red-500 animate-fadein">{fileWarning}</span>
+        )}
       </div>
+      <style jsx>{`
+        @keyframes fadein {
+          from { opacity: 0; transform: translateY(30px);}
+          to { opacity: 1; transform: translateY(0);}
+        }
+      `}</style>
     </div>
   );
 }

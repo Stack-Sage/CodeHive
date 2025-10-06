@@ -30,7 +30,9 @@ const ConversationItem = React.memo(function ConversationItem({ conversation, is
         flex items-center gap-3 p-3 cursor-pointer transition-all duration-200
         hover:bg-gray-50 active:bg-gray-100
         ${isActive ? 'bg-blue-50 border-r-2 border-blue-500' : ''}
+        animate-fadein
       `}
+      style={{ animation: "fadein 0.5s cubic-bezier(.4,0,.2,1)" }}
     >
       {/* Avatar */}
       <div className="relative flex-shrink-0">
@@ -75,6 +77,13 @@ const ConversationItem = React.memo(function ConversationItem({ conversation, is
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadein {
+          from { opacity: 0; transform: translateY(10px);}
+          to { opacity: 1; transform: translateY(0);}
+        }
+      `}</style>
     </div>
   );
 });

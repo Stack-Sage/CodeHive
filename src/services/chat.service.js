@@ -5,7 +5,20 @@ const API_URL = process.env.NEXT_PUBLIC_URL;
 // Create a message
 export const sendMessageApi = async (payload) => {
   try {
-    const res = await axios.post(`${API_URL}/messages`, payload, {
+    // Fix: map fileType to allowed enum
+    let fileType = "";
+    if (payload.fileType) {
+      if (payload.fileType.startsWith("image/")) fileType = "image";
+      else if (payload.fileType.startsWith("video/")) fileType = "video";
+      else if (payload.fileType.startsWith("audio/")) fileType = "audio";
+      else if (payload.fileType === "application/pdf") fileType = "pdf";
+      else if (payload.fileType === "application/msword" || payload.fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") fileType = "doc";
+      else fileType = "file";
+    }
+    const res = await axios.post(`${API_URL}/messages`, {
+      ...payload,
+      fileType,
+    }, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });
@@ -81,6 +94,7 @@ export const editMessageApi = async (messageId, newText) => {
 // Delete a message
 export const deleteMessageApi = async (messageId) => {
   try {
+    // Backend expects DELETE /api/messages/:messageId
     const res = await axios.delete(`${API_URL}/messages/${messageId}`, { withCredentials: true });
     return res.data;
   } catch (error) {

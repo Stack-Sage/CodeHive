@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
-import { FaTimes, FaSearch, FaPlus, FaUsers, FaComments } from 'react-icons/fa';
+import { FaTimes, FaSearch, FaUsers, FaComments } from 'react-icons/fa';
 import ConversationItem from './ConversationItem';
 import useUserHook from '@/hooks/useUserHook';
 import { useRouter } from 'next/navigation';
@@ -64,12 +64,15 @@ export default React.memo(function ConversationSidebar({
 
   // Memoized filtered lists
   const filteredConversations = useMemo(() => {
-    return sidebarConversations.filter(conv => 
-      (conv.partner?.fullname || conv.partner?.username || "")
-        .toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-      (conv.lastMessage || "").toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
-  }, [sidebarConversations, debouncedSearch]);
+    // Exclude self from conversations
+    return sidebarConversations
+      .filter(conv => String(conv.partner?._id) !== String(currentUser?._id))
+      .filter(conv => 
+        (conv.partner?.fullname || conv.partner?.username || "")
+          .toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        (conv.lastMessage || "").toLowerCase().includes(debouncedSearch.toLowerCase())
+      );
+  }, [sidebarConversations, debouncedSearch, currentUser]);
 
   const filteredUsers = useMemo(() => {
     return (allUser || []).filter(u =>
@@ -90,20 +93,25 @@ export default React.memo(function ConversationSidebar({
   }, [filteredUsers, page]);
 
   const handleConversationClick = (conversation) => {
-    onSelectConversation(conversation.partnerId);
-    router.push(`/chat/${conversation.partnerId}`);
+    // Always use partner._id from the mapped conversation
+    const userId = conversation.partner?._id || conversation.partnerId;
+    if (!userId) return;
+    onSelectConversation(userId);
+    router.push(`/chat/${userId}`);
   };
 
   const handleUserClick = (user) => {
+    // Always use user._id from the mapped user
+    if (!user?._id) return;
     onSelectConversation(user._id);
     router.push(`/chat/${user._id}`);
   };
 
   return (
-    <Suspense fallback={<div className="p-6 text-center text-gray-400">Loading contacts...</div>}>
-      <div className="flex flex-col h-full bg-white">
+    <Suspense fallback={<div className="p-6 text-center  text-gray-400">Loading contacts...</div>}>
+      <div className="flex flex-col h-full bg-gradient-to-tr from-sky-200/40 via-gray-100 to-blue-100/40 shadow-lg">
         {/* Header */}
-        <div className="px-4 py-3 border-b border-gray-200 bg-white">
+        <div className="px-4 py-3 border-b border-gray-200 bg-white/20 shadow-lg ">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               <img
@@ -135,9 +143,6 @@ export default React.memo(function ConversationSidebar({
                 onClick={() => { setShowAllUsers(false); setPage(1); }}
               >
                 <FaComments className="w-4 h-4 text-gray-600" />
-              </button>
-              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <FaPlus className="w-4 h-4 text-gray-600" />
               </button>
               {isMobile && (
                 <button 

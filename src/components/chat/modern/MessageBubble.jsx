@@ -103,8 +103,8 @@ export default function MessageBubble({ message, meta, showAvatar, activePeer, c
         <div className={`
           relative px-5 py-3 rounded-2xl max-w-full break-words
           ${meta.isMine 
-            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-br-md' 
-            : 'bg-white border border-gray-200 text-gray-900 rounded-bl-md shadow-sm'
+            ? 'bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600 text-white rounded-br-md' 
+            : 'bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-200 text-gray-900 rounded-bl-md shadow-sm'
           }
           ${message.__failed ? 'opacity-70' : ''}
         `}>

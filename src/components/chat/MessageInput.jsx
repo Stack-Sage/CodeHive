@@ -19,7 +19,7 @@ export default function MessageInput({ onSend }) {
   };
 
   return (
-    <div className="border-t bg-white p-3 flex gap-2">
+    <div className="border-t  p-3 flex gap-2">
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -29,7 +29,7 @@ export default function MessageInput({ onSend }) {
       />
       <button
         onClick={handleSend}
-        className="h-10 px-4 rounded-md bg-emerald-600 text-white disabled:opacity-50"
+        className="h-10 px-4 rounded-md bg-blue-700 text-white disabled:opacity-50"
         disabled={!text.trim()}
       >
         Send

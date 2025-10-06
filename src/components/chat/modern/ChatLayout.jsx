@@ -59,14 +59,30 @@ export default function ChatLayout({ currentPeerId }) {
 
   // Responsive: show tabs on mobile, columns on desktop
   return (
-    <div className="w-full h-screen flex flex-col md:flex-row bg-white">
+    <div
+      className="w-full h-screen flex flex-col md:flex-row"
+      style={{
+        background: "transparent",
+        minHeight: "100vh",
+        paddingTop: "64px", // NAV bar height
+        boxSizing: "border-box"
+      }}
+    >
       {/* Desktop: 3 columns */}
       <div className="hidden md:flex w-full h-full">
-        {/* Sidebar */}
-        <aside className="w-[320px] border-r bg-white flex-shrink-0 flex flex-col">
-          {/* Logo/Header */}
-          
-          {/* Search and Conversation List */}
+        {/* Sidebar - fixed, glassy gradient */}
+        <aside
+          className="w-[320px] flex-shrink-0 flex flex-col border-r border-gray-200"
+          style={{
+            height: "calc(100vh - 64px)",
+            position: "sticky",
+            top: "64px",
+           
+            backdropFilter: "blur(16px)",
+            boxShadow: "0 2px 24px 0 rgba(80,80,180,0.08)",
+            borderRadius: "24px 0 0 24px"
+          }}
+        >
           <ConversationSidebar
             conversations={conversations}
             activePeerId={activePeerId}
@@ -75,10 +91,17 @@ export default function ChatLayout({ currentPeerId }) {
             peerId={currentPeerId}
           />
         </aside>
-        {/* Chat Thread */}
-        <main className="flex-1 flex flex-col border-r min-h-0">
-          {/* REMOVE chat header and thread rendering here */}
-          {/* Only render ChatWindow */}
+        {/* Chat Thread - only this scrolls, glassy gradient */}
+        <main
+          className="flex-1 flex flex-col border-r min-h-0"
+          style={{
+            height: "calc(100vh - 64px)",
+          
+            backdropFilter: "blur(24px)",
+            boxShadow: "0 2px 24px 0 rgba(120,80,180,0.08)",
+            borderRadius: "0"
+          }}
+        >
           <ChatWindow
             activePeer={peer}
             messages={messages}
@@ -86,10 +109,21 @@ export default function ChatLayout({ currentPeerId }) {
             isLoading={threadLoading}
           />
         </main>
-        {/* Profile Card */}
-        <aside className="w-[340px] bg-white flex-shrink-0 flex flex-col items-center justify-center border-l">
+        {/* Profile Card - fixed, glassy gradient */}
+        <aside
+          className="w-[340px] flex-shrink-0 flex flex-col items-center justify-center border-l"
+          style={{
+            height: "calc(100vh - 64px)",
+            position: "sticky",
+            top: "64px",
+            background: "linear-gradient(135deg, #d6ebff 0%, #e7ecff 100%)",
+            backdropFilter: "blur(16px)",
+            boxShadow: "0 2px 24px 0 rgba(180,80,180,0.08)",
+            borderRadius: "0 24px 24px 0"
+          }}
+        >
           {peer ? <PeerProfileCard user={peer} /> : (
-            <div className="flex items-center justify-center h-full text-gray-400">
+            <div className="flex items-center justify-center h-full  text-gray-700">
               No profile info available.
             </div>
           )}

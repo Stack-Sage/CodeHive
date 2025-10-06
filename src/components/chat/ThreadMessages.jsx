@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 
-const ThreadMessages = React.memo(function ThreadMessages({ activePeer, currentUser, messages }) {
+const ThreadMessages = React.memo(function ThreadMessages({ activePeer, currentUser, messages, onDelete }) {
   const endRef = useRef(null);
 
   // Auto-scroll to bottom when messages change
@@ -24,6 +24,7 @@ const ThreadMessages = React.memo(function ThreadMessages({ activePeer, currentU
           key={message._id}
           msg={message}
           currentUserId={currentUser?._id}
+          onDelete={onDelete}
         />
       ))}
       <div ref={endRef} />
@@ -32,4 +33,3 @@ const ThreadMessages = React.memo(function ThreadMessages({ activePeer, currentU
 });
 
 export default ThreadMessages;
-         
