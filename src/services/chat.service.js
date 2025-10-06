@@ -9,7 +9,7 @@ export const sendMessageApi = async (payload) => {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });
-    return res.data;
+    return res.data; // returns the new message, but context will refetch thread
   } catch (error) {
     console.error("Error sending message:", error.response?.data || error.message);
     throw error;
@@ -17,12 +17,14 @@ export const sendMessageApi = async (payload) => {
 };
 
 // Fetch a thread between two users
-export const getThreadApi = async (userA, userB, { page = 1, limit = 50, before } = {}) => {
+export const getThreadApi = async (userA, userB) => {
   try {
+    // Always fetch the latest 50 messages
     const res = await axios.get(`${API_URL}/messages/thread/${userA}/${userB}`, {
-      params: { page, limit, before },
+      params: { page: 1, limit: 50 },
       withCredentials: true,
     });
+    // Should return an array of messages
     return res.data;
   } catch (error) {
     console.error("Error fetching thread:", error.response?.data || error.message);

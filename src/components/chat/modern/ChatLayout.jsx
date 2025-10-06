@@ -9,7 +9,7 @@ import PeerProfileCard from './PeerProfileCard';
 export default function ChatLayout({ currentPeerId }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [activeTab, setActiveTab] = useState(2); // 1: sidebar, 2: chat, 3: profile
+  const [activeTab, setActiveTab] = useState(1); // 1: Chats, 2: Thread, 3: Profile
 
   const {
     conversations,
@@ -33,7 +33,7 @@ export default function ChatLayout({ currentPeerId }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Set active peer when currentPeerId changes (e.g., after clicking "Message")
+  // Set active peer when currentPeerId changes
   useEffect(() => {
     if (currentPeerId && setActivePeerId) {
       setActivePeerId(currentPeerId);
@@ -57,60 +57,62 @@ export default function ChatLayout({ currentPeerId }) {
       ? visitedUser
       : conversations.find((c) => String(c.partner?._id) === String(activePeerId))?.partner;
 
-  // Tab change for mobile
-  const handleTabChange = (tab) => setActiveTab(tab);
-
+  // Responsive: show tabs on mobile, columns on desktop
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="w-full h-screen flex flex-col md:flex-row bg-white">
       {/* Desktop: 3 columns */}
-      <div className="hidden lg:flex w-full h-full">
-        {/* Left: Conversation list */}
-        <div className="w-[320px] border-r bg-white h-full flex-shrink-0 overflow-y-auto">
+      <div className="hidden md:flex w-full h-full">
+        {/* Sidebar */}
+        <aside className="w-[320px] border-r bg-white flex-shrink-0 flex flex-col">
+          {/* Logo/Header */}
+          
+          {/* Search and Conversation List */}
           <ConversationSidebar
             conversations={conversations}
             activePeerId={activePeerId}
             onSelectConversation={setActivePeerId}
             currentUser={user}
+            peerId={currentPeerId}
           />
-        </div>
-        {/* Center: Chat thread */}
-        <div className="flex-1 border-r h-full flex flex-col min-h-screen overflow-hidden">
-          <div className="flex flex-col h-full">
-            <ChatWindow
-              activePeer={peer}
-              messages={messages}
-              currentUser={user}
-              isLoading={threadLoading}
-            />
-          </div>
-        </div>
-        {/* Right: Peer profile */}
-        <div className="w-[340px] bg-white h-full flex-shrink-0 overflow-y-auto">
+        </aside>
+        {/* Chat Thread */}
+        <main className="flex-1 flex flex-col border-r min-h-0">
+          {/* REMOVE chat header and thread rendering here */}
+          {/* Only render ChatWindow */}
+          <ChatWindow
+            activePeer={peer}
+            messages={messages}
+            currentUser={user}
+            isLoading={threadLoading}
+          />
+        </main>
+        {/* Profile Card */}
+        <aside className="w-[340px] bg-white flex-shrink-0 flex flex-col items-center justify-center border-l">
           {peer ? <PeerProfileCard user={peer} /> : (
             <div className="flex items-center justify-center h-full text-gray-400">
               No profile info available.
             </div>
           )}
-        </div>
+        </aside>
       </div>
-      {/* Mobile: Tabs/sliding */}
-      <div className="lg:hidden w-full h-full flex flex-col">
+      {/* Mobile: Tabs */}
+      <div className="md:hidden w-full h-full flex flex-col">
         <div className="flex w-full border-b bg-white">
           <button
             className={`flex-1 py-3 font-bold ${activeTab === 1 ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-500"}`}
-            onClick={() => handleTabChange(1)}
+            onClick={() => setActiveTab(1)}
           >
             Chats
           </button>
           <button
             className={`flex-1 py-3 font-bold ${activeTab === 2 ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-500"}`}
-            onClick={() => handleTabChange(2)}
+            onClick={() => setActiveTab(2)}
           >
             Thread
           </button>
           <button
             className={`flex-1 py-3 font-bold ${activeTab === 3 ? "text-indigo-600 border-b-2 border-indigo-600" : "text-gray-500"}`}
-            onClick={() => handleTabChange(3)}
+            onClick={() => setActiveTab(3)}
           >
             Profile
           </button>
@@ -122,28 +124,25 @@ export default function ChatLayout({ currentPeerId }) {
               activePeerId={activePeerId}
               onSelectConversation={setActivePeerId}
               currentUser={user}
+              peerId={currentPeerId}
               isMobile
             />
           )}
           {activeTab === 2 && (
-            <div className="flex flex-col h-full min-h-screen">
-              <ChatWindow
-                activePeer={peer}
-                messages={messages}
-                currentUser={user}
-                isLoading={threadLoading}
-                showToggle
-              />
-            </div>
+            <ChatWindow
+              activePeer={peer}
+              messages={messages}
+              currentUser={user}
+              isLoading={threadLoading}
+              showToggle
+            />
           )}
           {activeTab === 3 && (
-            <div className="h-full overflow-y-auto">
-              {peer ? <PeerProfileCard user={peer} /> : (
-                <div className="flex items-center justify-center h-full text-gray-400">
-                  No profile info available.
-                </div>
-              )}
-            </div>
+            peer ? <PeerProfileCard user={peer} /> : (
+              <div className="flex items-center justify-center h-full text-gray-400">
+                No profile info available.
+              </div>
+            )
           )}
         </div>
       </div>

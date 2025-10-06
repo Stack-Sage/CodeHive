@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useChat } from "@/context/chat.context";
 import { useGlobalContext } from "@/context/global.context";
 import ConversationSidebar from "./modern/ConversationSidebar";
 import ChatWindow from "./modern/ChatWindow";
 import PeerProfileCard from "./modern/PeerProfileCard";
 
-export default function ModernChatLayout({ peerId, role }) {
+const ModernChatLayout = React.memo(function ModernChatLayout({ peerId, role }) {
   const { user, isLogin, visitedUser, setVisitedUser } = useGlobalContext();
   const {
     conversations,
@@ -18,21 +18,12 @@ export default function ModernChatLayout({ peerId, role }) {
   // Responsive tab state for mobile
   const [activeTab, setActiveTab] = useState(1); // 1: sidebar, 2: chat, 3: profile
 
-  // Ensure activePeerId is set when peerId changes (e.g., when clicking "Message")
+  // Ensure activePeerId is set when peerId changes
   useEffect(() => {
     if (peerId && setActivePeerId) {
       setActivePeerId(peerId);
     }
   }, [peerId, setActivePeerId]);
-
-  // Poll for new messages every 1.5s when chat is open
-  useEffect(() => {
-    if (!activePeerId || !isLogin || !user?._id) return;
-    const interval = setInterval(() => {
-      setActivePeerId(activePeerId);
-    }, 1500);
-    return () => clearInterval(interval);
-  }, [activePeerId, isLogin, user, setActivePeerId]);
 
   // Get peer info (visitedUser if set, otherwise from conversations)
   const peer =
@@ -55,29 +46,31 @@ export default function ModernChatLayout({ peerId, role }) {
       {/* Desktop: 3 columns */}
       <div className="hidden md:flex w-full h-full">
         {/* Left: Conversation list */}
-        <div className="w-[320px] border-r bg-white h-full">
-          <ConversationSidebar
-            conversations={conversations}
-            activePeerId={activePeerId}
-            onSelectConversation={setActivePeerId}
-            currentUser={user}
-            role={role}
-          />
-        </div>
+        <Suspense fallback={<div className="p-6 text-center text-gray-400">Loading sidebar...</div>}>
+          <div className="w-[320px] border-r bg-white h-full">
+            <ConversationSidebar
+              conversations={conversations}
+              activePeerId={activePeerId}
+              onSelectConversation={setActivePeerId}
+              currentUser={user}
+              role={role}
+            />
+          </div>
+        </Suspense>
         {/* Center: Chat thread */}
-        <div className="flex-1 border-r h-full flex flex-col">
-          <ChatWindow
-            activePeer={peer}
-            messages={messages}
-            currentUser={user}
-            role={role}
-            isLoading={threadLoading}
-            // ...existing code...
-          />
-        </div>
+        <Suspense fallback={<div className="p-6 text-center text-gray-400">Loading chat...</div>}>
+          <div className="flex-1 border-r h-full flex flex-col">
+            <ChatWindow
+              activePeer={peer}
+              messages={messages}
+              currentUser={user}
+              role={role}
+              isLoading={threadLoading}
+            />
+          </div>
+        </Suspense>
         {/* Right: Peer profile */}
         <div className="w-[340px] bg-white h-full">
-          {/* Always show peer profile if peer exists */}
           {peer ? <PeerProfileCard user={peer} /> : (
             <div className="flex items-center justify-center h-full text-gray-400">
               No profile info available.
@@ -109,25 +102,28 @@ export default function ModernChatLayout({ peerId, role }) {
         </div>
         <div className="flex-1 w-full h-full overflow-y-auto">
           {activeTab === 1 && (
-            <ConversationSidebar
-              conversations={conversations}
-              activePeerId={activePeerId}
-              onSelectConversation={setActivePeerId}
-              currentUser={user}
-              role={role}
-              isMobile
-            />
+            <Suspense fallback={<div className="p-6 text-center text-gray-400">Loading sidebar...</div>}>
+              <ConversationSidebar
+                conversations={conversations}
+                activePeerId={activePeerId}
+                onSelectConversation={setActivePeerId}
+                currentUser={user}
+                role={role}
+                isMobile
+              />
+            </Suspense>
           )}
           {activeTab === 2 && (
-            <ChatWindow
-              activePeer={peer}
-              messages={messages}
-              currentUser={user}
-              role={role}
-              isLoading={threadLoading}
-              showToggle
-              // ...existing code...
-            />
+            <Suspense fallback={<div className="p-6 text-center text-gray-400">Loading chat...</div>}>
+              <ChatWindow
+                activePeer={peer}
+                messages={messages}
+                currentUser={user}
+                role={role}
+                isLoading={threadLoading}
+                showToggle
+              />
+            </Suspense>
           )}
           {activeTab === 3 && (
             peer ? <PeerProfileCard user={peer} /> : (
@@ -140,4 +136,5 @@ export default function ModernChatLayout({ peerId, role }) {
       </div>
     </div>
   );
-}
+});
+

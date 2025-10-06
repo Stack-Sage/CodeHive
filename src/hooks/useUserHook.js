@@ -85,11 +85,13 @@ const useUserHook = () => {
 
   // Get user by ID
   const getUserById = async (id) => {
+    if (!id || typeof id !== "string") return null;
+    // Guard: only fetch if not already loaded
+    if (visitedUser && visitedUser._id === id) return visitedUser;
     try {
       const response = await getUserByIdApi(id);
       localStorage.setItem("visitedUser", JSON.stringify(response.data));
       setVisitedUser(response.data);
-    
       return response.data;
     } catch (error) {
       showError("Failed to fetch user");

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 
-export default function ConversationItem({ conversation, isActive, onClick }) {
+const ConversationItem = React.memo(function ConversationItem({ conversation, isActive, onClick }) {
   const formatTime = (timestamp) => {
     if (!timestamp) return '';
     
@@ -36,7 +36,8 @@ export default function ConversationItem({ conversation, isActive, onClick }) {
       <div className="relative flex-shrink-0">
         <img
           src={conversation.partner.avatar || '/avatar.png'}
-          alt={conversation.partner.name}
+          alt={conversation.partner.fullname || conversation.partner.username || 'User'}
+          loading="lazy"
           className="w-12 h-12 rounded-full object-cover border border-gray-200"
           onError={(e) => { e.target.src = '/avatar.png'; }}
         />
@@ -51,7 +52,7 @@ export default function ConversationItem({ conversation, isActive, onClick }) {
             font-medium truncate text-sm
             ${isActive ? 'text-blue-700' : 'text-gray-900'}
           `}>
-            {conversation.partner.name || 'Unknown User'}
+            {conversation.partner.fullname || conversation.partner.username || 'Unknown User'}
           </h3>
           <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
             {formatTime(conversation.lastMessageAt)}
@@ -76,4 +77,6 @@ export default function ConversationItem({ conversation, isActive, onClick }) {
       </div>
     </div>
   );
-}
+});
+
+export default ConversationItem;

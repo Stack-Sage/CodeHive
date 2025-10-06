@@ -9,7 +9,9 @@ export default function MessageList({ messages, currentUserId }) {
   return (
     <div className="space-y-3">
       {(messages || []).map((m) => {
-        const isMine = String(m.fromUser) === String(currentUserId);
+        // Fix: compare with m.fromUser._id if populated
+        const senderId = m.fromUser?._id || m.fromUser;
+        const isMine = String(senderId) === String(currentUserId);
         return (
           <div key={m._id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
             <div
@@ -54,4 +56,3 @@ export default function MessageList({ messages, currentUserId }) {
     </div>
   );
 }
-              
