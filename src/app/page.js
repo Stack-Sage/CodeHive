@@ -6,6 +6,10 @@ import NotifyForm from '../components/comingSoon/NotifyForm';
 
 import About from "../components/comingSoon/About";
 import Hero from "../components/comingSoon/Hero";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { showInfo,showSuccess } from '@/ui/toast';
 
 import SecondPageAbout from '../components/comingSoon/SecondPageAbout';
 import LenisWrapper from '../ui/LenisWrapper';
@@ -17,8 +21,27 @@ import Footer from '@/components/comingSoon/Footer';
 
 
 
-export default function page() {
+export default function Page() {
     
+  const router = useRouter();
+
+  useEffect(() => {
+      showInfo("This Website is under development. Some features may not work as expected.");
+      if(localStorage.getItem("isLogin") === "true"){
+        if(localStorage.userRole === "student"){
+        showSuccess("Welcome Back! \n You are already logged in as a Student! \n Redirecting to Educator Listings...")
+        setTimeout(() => {
+          router.push("/listing");
+        }, 1000); 
+      }
+      if(localStorage.userRole === "teacher"){
+        showSuccess("Welcome Back! \n You are already logged in as an Educator! \n Redirecting to Dashboard...")
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1000);
+      }
+      }
+  }, []);
   
 
   return (
