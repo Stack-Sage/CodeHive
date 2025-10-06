@@ -29,13 +29,13 @@ export default function Page() {
       showInfo("This Website is under development. Some features may not work as expected.");
       if(localStorage.getItem("isLogin") === "true"){
         if(localStorage.userRole === "student"){
-        showSuccess("Welcome Back! \n You are already logged in as a Student! \n Redirecting to Educator Listings...")
+        showSuccess("Already logged in as a Student! Redirecting to Educator Listings...")
         setTimeout(() => {
           router.push("/listing");
         }, 1000); 
       }
       if(localStorage.userRole === "teacher"){
-        showSuccess("Welcome Back! \n You are already logged in as an Educator! \n Redirecting to Dashboard...")
+        showSuccess("Already logged in as an Educator! Redirecting to Dashboard...")
         setTimeout(() => {
           router.push("/dashboard");
         }, 1000);
