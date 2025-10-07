@@ -129,9 +129,9 @@ export const getUnreadCountApi = async (me, peer) => {
 };
 
 // Chat history (paged)
-export const getChatHistoryApi = async (studentId, teacherId, page = 1) => {
+export const getChatHistoryApi = async (studentId, teacherId) => {
   try {
-    const res = await axios.get(`${API_URL}/messages/history/${studentId}/${teacherId}/${page}`, {
+    const res = await axios.get(`${API_URL}/messages/history/${studentId}/${teacherId}`, {
       withCredentials: true,
     });
     return res.data;

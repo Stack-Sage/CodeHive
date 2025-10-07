@@ -9,29 +9,29 @@ export default function LenisWrapper({ children }) {
     if (!enabled) return;
 
     const lenis = new Lenis({
-      duration: 0.8, 
-      easing: (t) => 1 - Math.pow(1 - t, 4), 
+      duration: 1.2, // Medium scroll speed (higher = slower)
+      easing: (t) => 1 - Math.pow(1 - t, 4), // Smooth quart easing for natural feel
       smooth: true,
-      smoothTouch: false, 
+      smoothTouch: true,
+      touchMultiplier: 1.2, // Keeps mobile scroll balanced
+      infinite: false,
     });
 
-    function raf(time) {
+    const raf = (time) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
-    }
+    };
     requestAnimationFrame(raf);
 
     return () => lenis.destroy();
   }, [enabled]);
 
-
   useEffect(() => {
-    function handleKey(e) {
-      if (e?.key?.toLowerCase() === "l" && ( e.ctrlKey)) {
+    const handleKey = (e) => {
+      if (e?.key?.toLowerCase() === "l" && e.ctrlKey) {
         setEnabled((prev) => !prev);
-        console.log(`[Lenis] Smooth scroll ${!enabled ? "enabled" : "disabled"}`);
       }
-    }
+    };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [enabled]);

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaChalkboardTeacher, FaLightbulb, FaPeopleCarry, FaTeamspeak, FaUsers } from 'react-icons/fa';
 
-export default function SecondPageAbout() {
+export default function SecondPageAbout({ achievements = [] }) {
   const visionCards = [
     {
       id: 1,
@@ -32,54 +32,61 @@ export default function SecondPageAbout() {
   ];
 
   return (
-    <section className="h-fit w-full snap-start flex flex-col items-center justify-center relative px-4 mt-10 sm:px-6 md:px-12 py-12 overflow-hidden">
-   
+    <motion.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="w-full mx-4 flex flex-col items-center justify-center relative px-2 md:px-4 py-8 md:py-12 rounded-3xl shadow-xl
+        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 backdrop-blur-2xl border border-blue-200/40 max-w-7xl mx-auto mb-10 md:mb-16"
+      style={{
+        boxShadow: "0 8px 32px 0 rgba(31,38,135,0.18)",
+        background: "linear-gradient(120deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%)"
+      }}
+    >
       <motion.h2
-        className="text-xl sm:text-2xl md:text-3xl font-extrabold text-center mb-4 sm:mb-6 max-w-full md:max-w-3xl lg:max-w-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="text-xl md:text-2xl font-extrabold text-center mb-4 md:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
       >
         “Knowledge grows when shared. Every skill you master is a spark waiting to ignite someone else’s journey.”
       </motion.h2>
-
       <motion.p
-        className="text-gray-700 text-center text-sm sm:text-base md:text-lg mb-8 sm:mb-12 max-w-full sm:max-w-2xl md:max-w-3xl px-2 sm:px-0 leading-relaxed"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, delay: 0.2 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+        className="text-gray-700 text-center text-sm md:text-base mb-6 md:mb-10 max-w-xl mx-auto"
       >
         CodeHive is more than a platform. It’s where curiosity meets expertise, learners meet mentors, and every session sparks growth. 
         From coding to chess, art to calligraphy, your skills find a home and a chance to shine.
       </motion.p>
-
-      <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 max-w-full">
-        {visionCards.map((card, idx) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
+        {achievements.map((ach, idx) => (
           <motion.div
-            key={card.id}
-            className="flex flex-col items-center lg:w-[20%] lg:h-[40%] md:w-[20%] md:h-[30%] w-[42%] h-[20%] text-center bg-white/10 backdrop-blur-lg rounded-3xl p-4 sm:p-6 md:p-8 shadow-lg   hover:scale-105 transition-all hover:contrast-125 duration-300 ease-out hover:hue-rotate-15 "
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: idx * 0.25 }}
+            key={ach.title}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: idx * 0.1, ease: "easeOut" }}
+            whileHover={{
+              scale: 1.05,
+              rotateZ: ach.done ? 2 : -2,
+              boxShadow: "0 8px 32px 0 rgba(139,92,246,0.18)",
+            }}
+            className={`relative bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 backdrop-blur-xl rounded-2xl shadow-xl border border-blue-200/40 p-6 transition-all duration-300 cursor-pointer`}
           >
-            <div className="mb-3">{card.icon}</div>
-            <h3 className="font-semibold lg:text-lg text-gray-800 text-sm sm:text-base md:text-lg mb-2">{card.title}</h3>
-            <p className="text-gray-700 text-xs sm:text-sm md:text-base">{card.description}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <span className={`inline-block w-3 h-3 rounded-full ${ach.done ? "bg-green-400" : "bg-yellow-400"} shadow`} />
+              <span className="font-bold text-lg text-blue-900">{ach.title}</span>
+            </div>
+            <div className="text-gray-700">{ach.desc}</div>
+            <span className="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-0 hover:opacity-100 transition-opacity duration-300"></span>
           </motion.div>
         ))}
       </div>
-
-      <div className="absolute top-8 left-1/4 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-pink-400 opacity-20 blur-3xl animate-blob"></div>
-   
-      <div className="absolute bottom-16 right-1/4 w-20 sm:w-32 h-20 sm:h-32 rounded-full bg-blue-400 opacity-20 blur-3xl animate-blob animation-delay-2000"></div>
-     
-      <div className="absolute top-1/3 right-1/3 w-14 sm:w-28 h-14 sm:h-28 rounded-full bg-purple-400 opacity-20 blur-3xl animate-blob animation-delay-4000"></div>
-
-
-      
-    </section>
+    </motion.section>
   );
 }

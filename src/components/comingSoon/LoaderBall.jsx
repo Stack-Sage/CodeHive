@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const LoaderBall = () => {
   return (
     <StyledWrapper>
-      <div className="loader-wrapper">
+      <div className="loader-wrapper glassy-bg animate-fadein">
         <span className="loader-letter">C</span>
         <span className="loader-letter">o</span>
         <span className="loader-letter">m</span>
@@ -22,6 +22,18 @@ const LoaderBall = () => {
 }
 
 const StyledWrapper = styled.div`
+  .glassy-bg {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08) 60%, rgba(139,92,246,0.07) 100%);
+    border-radius: 50%;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(59,130,246,0.10);
+    animation: fadein 0.7s ease-out;
+  }
+  @keyframes fadein {
+    from { opacity: 0; transform: scale(0.95);}
+    to { opacity: 1; transform: scale(1);}
+  }
   .loader-wrapper {
     position: relative;
     display: flex;

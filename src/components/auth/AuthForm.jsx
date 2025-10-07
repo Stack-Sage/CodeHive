@@ -13,6 +13,9 @@ const AuthForm = ({
   agreementText = "Already have an account? Log In",
   showBio = true,
   showImageUpload = true,
+  avatarLabel = "", // new prop for avatar label
+  onAvatarChange, // new prop
+  onBioChange,    // new prop
 }) => {
   const [image, setImage] = useState(null); // original uploaded image
   const [preview, setPreview] = useState(null); // cropped preview
@@ -30,6 +33,7 @@ const AuthForm = ({
     if (file) {
       setImage(URL.createObjectURL(file));
       setPreview(null);
+      if (onAvatarChange) onAvatarChange(file); // notify parent
     }
   };
 
@@ -59,25 +63,30 @@ const AuthForm = ({
       <form className="w-full space-y-4" onSubmit={onSubmit} encType="multipart/form-data">
         {showImageUpload && (
           <div className="flex flex-col items-center space-y-3">
-            <label
-              htmlFor="avatar"
-              className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-purple-500 shadow cursor-pointer group"
-            >
-              {preview ? (
-                <img src={preview} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400 bg-white/40">+</div>
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="avatar"
+                className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-purple-500 shadow cursor-pointer group"
+              >
+                {preview ? (
+                  <img src={preview} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 bg-white/40">+</div>
+                )}
+                <input
+                  type="file"
+                  id="avatar"
+                  name="avatar"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  ref={fileInputRef}
+                />
+              </label>
+              {avatarLabel && (
+                <span className="ml-2 text-sm font-semibold text-indigo-600">{avatarLabel}</span>
               )}
-              <input
-                type="file"
-                id="avatar"
-                name="avatar"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-                ref={fileInputRef}
-              />
-            </label>
+            </div>
 
             {image && (
               <div className="relative w-full max-w-[600px] h-[400px] lg:h-[500px] bg-gray-800 rounded-xl overflow-hidden mt-4">
@@ -121,6 +130,7 @@ const AuthForm = ({
             name="bio"
             placeholder="Briefly mention about yourself & your expertise ..."
             className="w-full bg-white/40 border border-gray-200 px-5 py-3 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none min-h-[110px]"
+            onChange={onBioChange}
           />
         )}
 
@@ -130,11 +140,14 @@ const AuthForm = ({
           </a>
         </span>
 
-        <input
-          className={`w-full font-bold bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 text-white py-3 mt-4 rounded-xl shadow-lg hover:scale-[1.02] transition ${buttonStyle}`}
-          type="submit"
-          value={buttonText}
-        />
+        {/* Only show submit button if buttonText is not empty */}
+        {buttonText && (
+          <input
+            className={`w-full font-bold bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 text-white py-3 mt-4 rounded-xl shadow-lg hover:scale-[1.02] transition ${buttonStyle}`}
+            type="submit"
+            value={buttonText}
+          />
+        )}
       </form>
     </div>
   );

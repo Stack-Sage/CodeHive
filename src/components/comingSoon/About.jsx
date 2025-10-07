@@ -1,85 +1,114 @@
 'use client'
 
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import { motion } from "framer-motion";
 
-export default function About() {
-  const skills = [
+export default function About({
+  studentPoints = [],
+  teacherPoints = [],
+}) {
+  const staggerList = {
+    visible: {
+      transition: {
+        staggerChildren: 0.2 // 200ms between each item
+      }
+    }
+  };
 
-    { id: 1, icon: "💻", title: "Coding", colorFrom: "from-pink-200/30", colorTo: "to-purple-300", description: "Master coding skills 1v1.", tooltip: "Learn to code!" },
-
-    { id: 2, icon: "🎨", title: "Art", colorFrom: "from-blue-200/40", colorTo: "to-indigo-300", description: "Improve your creativity.", tooltip: "Master your art skills!" },
-
-    { id: 3, icon: "♟️", title: "Chess", colorFrom: "from-green-200/30", colorTo: "to-pink-300/20", description: "Sharpen your strategy.", tooltip: "Sharpen your chess!" },
-
-    { id: 4, icon: "🎵", title: "Music", colorFrom: "from-yellow-200/30", colorTo: "to-orange-300/20", description: "Learn instruments & compose.", tooltip: "Play and compose!" },
-
-    { id: 5, icon: "🖋️", title: "Calligraphy", colorFrom: "from-purple-200/40", colorTo: "to-pink-300/20", description: "Write beautifully.", tooltip: "Master calligraphy!" },
-
-    { id: 6, icon: "🏀", title: "Sports", colorFrom: "from-green-200/30", colorTo: "to-blue-300/30", description: "Improve your skills.", tooltip: "Train your sports!" }
-
-
-  ];
-
-  const repeatedSkills = [...skills, ...skills, ...skills]; 
+  const staggerItem = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  };
 
   return (
-
-    <section className="max-w-7xl mx-auto text-center lg:mb-32 px-6 py-4  relative overflow-hidden">
-      
-    
+    <motion.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={{ visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } } }}
+      className="w-full mx-auto max-w-7xl text-center mb-10 md:mb-16 px-2 md:px-8 py-6 md:py-12 rounded-3xl shadow-2xl
+        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 backdrop-blur-2xl border border-blue-200/40"
+      style={{
+        boxShadow: "0 8px 32px 0 rgba(31,38,135,0.18)",
+        background: "linear-gradient(120deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%)"
+      }}
+    >
       <motion.h3
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-8 drop-shadow-lg"
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
       >
-        About <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600">CodeHive</span>
+        About <span className="bg-clip-text text-transparent bg-gradient-to-br from-pink-600 via-blue-600 to-indigo-600">CodeHive</span>
       </motion.h3>
-
-    
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-        className="text-gray-700 text-md mx-10 lg:mx-auto md:text-base lg:text-lg leading-relaxed lg:mb-10  mb-10 max-w-4xl "
-      >
-        We believe every skill has value  from <span className="font-semibold">coding</span> to <span className="font-semibold">chess</span>, <span className="font-semibold">art</span> to <span className="font-semibold">music</span>. <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-blue-500 to-purple-600">CodeHive</span> empowers you to showcase your talents and connect with learners in engaging 1v1 sessions.
-      </motion.p>
-
-  
-      <div className="w-[90vw]  overflow-hidden lg:w-[50vw] mx-auto items-center justify-center  ">
-        
+      <div className="flex flex-col lg:flex-row gap-10 justify-center items-stretch w-full">
+        {/* Student Features */}
         <motion.div
-          className="flex gap-4 md:gap-6 lg:gap-8 whitespace-nowrap"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
+          initial="hidden"
+          animate="visible"
+          variants={staggerList}
+          className="flex-1 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl px-4 py-6 mb-8 lg:mb-0"
         >
-          {repeatedSkills.map((skill, idx) => (
-            <motion.div
-              key={idx}
-              data-tooltip-id={`tooltip-${skill.id}-${idx}`}
-              whileHover={{ y: -4, scale: 1.05, boxShadow: "0 10px 30px rgba(59,130,246,0.4)" }}
-              className={`inline-flex flex-col items-center justify-center min-w-[160px]  sm:min-w-[180px] md:min-w-[200px] max-w-[220px] h-24 md:h-44 lg:h-48  bg-gradient-to-br ${skill.colorFrom} via-white/30 ${skill.colorTo} shadow-lg rounded-2xl
-                          cursor-pointer transition-all duration-300 hover:ring-2 hover:ring-rose-400 px-3 py-3`}
-            >
-              <span className="text-3xl sm:text-4xl md:text-5xl mb-1">{skill.icon}</span>
-              <span className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg">{skill.title}</span>
-              <p className="mt-1 text-xs sm:text-sm md:text-sm text-gray-700 px-1">{skill.description}</p>
-              <Tooltip id={`tooltip-${skill.id}-${idx}`} content={skill.tooltip} place="top" />
-            </motion.div>
-          ))}
+          <motion.h4
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-xl md:text-2xl font-bold text-blue-700 mb-4"
+          >
+            What Students Get
+          </motion.h4>
+          <motion.ul
+            variants={staggerList}
+            initial="hidden"
+            animate="visible"
+            className="space-y-4"
+          >
+            {studentPoints.map((point, idx) => (
+              <motion.li
+                key={point}
+                variants={staggerItem}
+                transition={{ duration: 0.5, delay: (idx + 1) * 0.2 }}
+                className="bg-white/40 backdrop-blur-lg rounded-xl px-4 py-3 shadow-md text-blue-900 font-medium hover:scale-105 hover:shadow-xl transition-all cursor-pointer"
+              >
+                {point}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.div>
+        {/* Teacher Features */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerList}
+          className="flex-1 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl px-4 py-6"
+        >
+          <motion.h4
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xl md:text-2xl font-bold text-purple-700 mb-4"
+          >
+            What Educators Get
+          </motion.h4>
+          <motion.ul
+            variants={staggerList}
+            initial="hidden"
+            animate="visible"
+            className="space-y-4"
+          >
+            {teacherPoints.map((point, idx) => (
+              <motion.li
+                key={point}
+                variants={staggerItem}
+                transition={{ duration: 0.5, delay: (idx + 1) * 0.2 }}
+                className="bg-white/40 backdrop-blur-lg rounded-xl px-4 py-3 shadow-md text-purple-900 font-medium hover:scale-105 hover:shadow-xl transition-all cursor-pointer"
+              >
+                {point}
+              </motion.li>
+            ))}
+          </motion.ul>
         </motion.div>
       </div>
-
-  
-      <div className="absolute top-0 left-1/4 w-24 sm:w-32 h-24 sm:h-32 rounded-full bg-pink-400 opacity-50 blur-3xl animate-blob"></div>
-    
-      <div className="absolute top-1/3 right-1/4 w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-rose-400 opacity-30 blur-3xl animate-blob animation-delay-2000"></div>
-
-      <div className="absolute bottom-0 left-1/3 w-28 sm:w-36 h-28 sm:h-36 rounded-full bg-purple-400 opacity-50 blur-3xl animate-blob animation-delay-4000"></div>
-      
-    </section>
+    </motion.section>
   );
 }

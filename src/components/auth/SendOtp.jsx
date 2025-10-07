@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { useGlobalContext } from '@/context/global.context'
 import emailjs from '@emailjs/browser'
 
 function generateNumericOtp(length = 6) {
@@ -18,22 +17,23 @@ function sendOtpEmail(toEmail, otp) {
   )
 }
 
-export default function SendOtp({ userEmail }) {
-  const { setOtp } = useGlobalContext()
+export default function SendOtp({ userEmail, onOtpSend }) {
   const [status, setStatus] = useState('')
-  const sentRef = useRef(false) // 🚀 guard
+  const sentRef = useRef({ email: null, sent: false })
 
   useEffect(() => {
-    if (!userEmail || sentRef.current) return
-    sentRef.current = true // ensure only one send
-
-    const newOtp = generateNumericOtp()
-    setOtp(newOtp)
-    setStatus('Sending...')
-    sendOtpEmail(userEmail, newOtp)
-      .then(() => setStatus('✅ OTP sent to your email'))
-      .catch(() => setStatus('❌ Failed to send OTP'))
-  }, [userEmail, setOtp])
+    if (!userEmail) return
+    // Only send OTP if email changes or not sent yet
+    if (sentRef.current.email !== userEmail || !sentRef.current.sent) {
+      const newOtp = generateNumericOtp()
+      sentRef.current = { email: userEmail, sent: true }
+      if (onOtpSend) onOtpSend(newOtp)
+      setStatus('Sending...')
+      sendOtpEmail(userEmail, newOtp)
+        .then(() => setStatus('✅ OTP sent to your email'))
+        .catch(() => setStatus('❌ Failed to send OTP'))
+    }
+  }, [userEmail, onOtpSend])
 
   return <div className="mt-2 text-sm">{status}</div>
 }

@@ -19,7 +19,7 @@ export default function Page() {
   }, [peerId, visitedUser, getUserById, setVisitedUser]);
 
   return (
-    <div className="h-screen w-full fixed top-0">
+    <div className="h-screen w-full  -mt-16">
       <ChatLayout currentPeerId={peerId} />
     </div>
   );
