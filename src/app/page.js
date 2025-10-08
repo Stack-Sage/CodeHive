@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import LandingPage from '../components/comingSoon/LandingPage';
-import { a } from 'framer-motion/dist/types.d-DsEeKk6G';
+
 import { everythingOkayApi } from '@/services/user.service';
 import { showInfo } from '@/ui/toast';
 

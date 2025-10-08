@@ -27,13 +27,13 @@ export default function VisionScroll({ onCardClick }) {
     <div className="w-full max-w-7xl mx-auto overflow-x-hidden relative py-8 px-2">
       <div
         ref={scrollRef}
-        className="flex gap-4 sm:gap-6 md:gap-10 justify-center not-lg:w-fit max-w-screen overflow-x-hidden items-center"
+        className="flex gap-4 sm:gap-6 md:gap-10 justify-center not-lg:w-fit max-w-screen overflow-x-hidden overflow-y-hidden  items-center"
         style={{ willChange: "transform" }}
       >
         {cards.map((card, idx) => (
           <button
             key={card.id + "-" + idx}
-            className="flex-shrink-0 min-w-[180px] max-w-xs w-fit md:w-[260px] h-[180px] sm:h-[220px] bg-gradient-to-br from-white/80 via-blue-100/60 to-purple-100/60 rounded-3xl shadow-2xl border-2 border-blue-200/40 flex flex-col items-center justify-center px-4 py-4 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_8px_32px_rgba(139,92,246,0.25)] active:scale-95"
+            className="flex-shrink-0 min-w-[180px] max-w-xs w-fit md:w-[260px] h-[280px] sm:h-[220px] bg-gradient-to-br from-white/80 via-blue-100/60 to-purple-100/60 rounded-3xl shadow-2xl border-2 border-blue-200/40 flex flex-col items-center justify-center px-4 py-4 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-[0_8px_32px_rgba(139,92,246,0.25)] active:scale-95 overflow-y-hidden "
             onClick={() => onCardClick?.(card)}
             tabIndex={0}
             aria-label={card.title}
