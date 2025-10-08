@@ -3,6 +3,16 @@ import axios from "axios";
 const API_URL = process.env.NEXT_PUBLIC_URL; 
 
 
+export const everythingOkayApi = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/users/everything-ok`, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error("Error in everythingOkayApi:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 export const registerUserApi = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/users/register`, userData, {

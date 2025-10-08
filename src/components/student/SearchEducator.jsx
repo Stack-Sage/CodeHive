@@ -120,7 +120,7 @@ const Navbar = ({goBack}) => {
                 <FaBackward/>
               </button>
             )}
-            <div className="flex-shrink-0 lg:text-2xl tracking-tighter text-lg md:tracking-tight lg:tracking-wider font-extrabold text-blue-900 drop-shadow cursor-pointer">
+            <div className="flex-shrink-0 lg:text-2xl tracking-tighter text-lg md:tracking-tight lg:tracking-wider font-extrabold text-blue-900 drop-shadow cursor-pointer  ">
               <Link href="/">CodeHive</Link>
             </div>
             {/* Small screen: Search bar next to logo for students */}
@@ -129,7 +129,7 @@ const Navbar = ({goBack}) => {
                 onSubmit={handleSearch}
                 className="flex sm:hidden items-center justify-center ml-2 w-full"
               >
-                <div className="relative w-1/2 min-w-[140px] max-w-[250px] mx-auto">
+                <div className="relative w-1/2 min-w-[240px] not-lg:ml-28  max-w-[250px] mx-auto">
                   <input
                     type="text"
                     value={query}
@@ -148,8 +148,7 @@ const Navbar = ({goBack}) => {
             )}
           </div>
 
-          {/* Center: Search Bar (only for students) or empty for teachers */}
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1  w-full  justify-center flex  mr-40 ">
             {/* Desktop only */}
             {isStudent ? (
               <form
@@ -162,7 +161,7 @@ const Navbar = ({goBack}) => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search for Educators or Topics"
-                    className="w-full rounded-full px-4 py-2 pr-12 text-gray-800 focus:outline-none shadow-lg bg-white/70 border border-blue-100/40 backdrop-blur transition-all duration-200 focus:ring-2 focus:ring-blue-200"
+                    className="w-full rounded-full px-4 py-2 pr-12 text-gray-800 focus:outline-none shadow-lg bg-white/70 border border-blue-100/40 backdrop-blur transition-all duration-200 focus:ring-2 focus:ring-blue-400"
                   />
                   <button
                     type="submit"

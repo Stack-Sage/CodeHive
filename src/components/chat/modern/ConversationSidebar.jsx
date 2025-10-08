@@ -30,6 +30,7 @@ export default React.memo(function ConversationSidebar({
   const [peerUser, setPeerUser] = useState(null);
   const [showAllUsers, setShowAllUsers] = useState(false);
   const [page, setPage] = useState(1);
+  const [sidebarAvatarError, setSidebarAvatarError] = useState(false);
   const { getUserById, getAllUser } = useUserHook();
   const router = useRouter();
   const { allUser } = useGlobalContext();
@@ -64,8 +65,9 @@ export default React.memo(function ConversationSidebar({
 
   // Memoized filtered lists
   const filteredConversations = useMemo(() => {
-    // Exclude self from conversations
+    // Exclude self and deleted users (no partner or missing fullname/email)
     return sidebarConversations
+      .filter(conv => conv.partner && conv.partner._id && conv.partner.fullname && conv.partner.email)
       .filter(conv => String(conv.partner?._id) !== String(currentUser?._id))
       .filter(conv => 
         (conv.partner?.fullname || conv.partner?.username || "")
@@ -75,10 +77,13 @@ export default React.memo(function ConversationSidebar({
   }, [sidebarConversations, debouncedSearch, currentUser]);
 
   const filteredUsers = useMemo(() => {
-    return (allUser || []).filter(u =>
-      (u.fullname || u.username || "").toLowerCase().includes(debouncedSearch.toLowerCase())
-      && String(u._id) !== String(currentUser?._id)
-    );
+    // Exclude deleted users (missing fullname/email)
+    return (allUser || [])
+      .filter(u => u && u._id && u.fullname && u.email)
+      .filter(u =>
+        (u.fullname || u.username || "").toLowerCase().includes(debouncedSearch.toLowerCase())
+        && String(u._id) !== String(currentUser?._id)
+      );
   }, [allUser, debouncedSearch, currentUser]);
 
   // Pagination
@@ -114,12 +119,23 @@ export default React.memo(function ConversationSidebar({
         <div className="px-4 py-3 border-b border-gray-200 bg-white/20 shadow-lg ">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <img
-                src={currentUser?.avatar || '/avatar.png'}
-                alt={currentUser?.fullname || 'User'}
-                loading="lazy"
-                className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
-              />
+              {sidebarAvatarError ? (
+                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 border border-gray-300">
+                  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="16" fill="#e5e7eb"/>
+                    <circle cx="16" cy="13" r="6" fill="#a5b4fc"/>
+                    <ellipse cx="16" cy="24" rx="8" ry="5" fill="#c7d2fe"/>
+                  </svg>
+                </span>
+              ) : (
+                <img
+                  src={currentUser?.avatar || '/default-avatar.png'}
+                  alt={currentUser?.fullname || 'User'}
+                  loading="lazy"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+                  onError={() => setSidebarAvatarError(true)}
+                />
+              )}
               <div>
                 <h2 className="font-semibold text-gray-900 text-lg">
                   {currentUser?.fullname || currentUser?.username || 'Unknown User'}

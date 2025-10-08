@@ -1,5 +1,15 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
+
+const DefaultAvatarIcon = () => (
+  <span className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-200 border border-gray-300">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="16" fill="#e5e7eb"/>
+      <circle cx="16" cy="13" r="6" fill="#a5b4fc"/>
+      <ellipse cx="16" cy="24" rx="8" ry="5" fill="#c7d2fe"/>
+    </svg>
+  </span>
+);
 
 const ConversationItem = React.memo(function ConversationItem({ conversation, isActive, onClick }) {
   const formatTime = (timestamp) => {
@@ -23,6 +33,13 @@ const ConversationItem = React.memo(function ConversationItem({ conversation, is
     return message.length > maxLength ? `${message.substring(0, maxLength)}...` : message;
   };
 
+  // Do not render if partner is missing or deleted
+  if (!conversation.partner || !conversation.partner._id || !conversation.partner.fullname || !conversation.partner.email) {
+    return null;
+  }
+
+  const [avatarError, setAvatarError] = useState(false);
+
   return (
     <div
       onClick={onClick}
@@ -36,13 +53,17 @@ const ConversationItem = React.memo(function ConversationItem({ conversation, is
     >
       {/* Avatar */}
       <div className="relative flex-shrink-0">
-        <img
-          src={conversation.partner.avatar || '/avatar.png'}
-          alt={conversation.partner.fullname || conversation.partner.username || 'User'}
-          loading="lazy"
-          className="w-12 h-12 rounded-full object-cover border border-gray-200"
-          onError={(e) => { e.target.src = '/avatar.png'; }}
-        />
+        {avatarError ? (
+          <DefaultAvatarIcon />
+        ) : (
+          <img
+            src={conversation.partner.avatar || '/default-avatar.png'}
+            alt={conversation.partner.fullname || conversation.partner.username || 'User'}
+            loading="lazy"
+            className="w-12 h-12 rounded-full object-cover border border-gray-200"
+            onError={() => setAvatarError(true)}
+          />
+        )}
         {/* Online indicator - you can add online status logic here */}
         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
       </div>
