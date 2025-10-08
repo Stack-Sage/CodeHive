@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
           <ChatProvider>
 
         <Navbar/>
-        <div className="absolute inset-0 -z-10 animate-gradient-magical  opacity-90 " />
+        <div className="absolute inset-0 -z-10 animate-gradient-magical w-screen  opacity-90 " />
 
         <LenisWrapper>
         

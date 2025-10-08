@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import LandingPage from '../components/comingSoon/LandingPage';
 
+
 export default function Page() {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState("");
@@ -16,9 +17,9 @@ export default function Page() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center -mt-16 relative">
+    <main className="flex min-h-screen flex-col   overflow-hidden  overflow-x-hidden items-center justify-center -mt-16 relative w-screen">
+ 
       <LandingPage user={user} userRole={userRole} />
     </main>
   );
 }
- 

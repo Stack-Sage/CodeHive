@@ -1,114 +1,106 @@
 'use client'
+import { useEffect, useRef } from "react";
+import { FaUserGraduate, FaChalkboardTeacher } from "react-icons/fa";
+import gsap from "gsap";
 
-import { motion } from "framer-motion";
+const studentIcons = [
+  <FaUserGraduate className="text-blue-500 text-2xl" />,
+  <FaUserGraduate className="text-indigo-500 text-2xl" />,
+  <FaUserGraduate className="text-purple-500 text-2xl" />,
+  <FaUserGraduate className="text-pink-500 text-2xl" />,
+  <FaUserGraduate className="text-blue-400 text-2xl" />,
+];
+
+const teacherIcons = [
+  <FaChalkboardTeacher className="text-purple-500 text-2xl" />,
+  <FaChalkboardTeacher className="text-indigo-500 text-2xl" />,
+  <FaChalkboardTeacher className="text-blue-500 text-2xl" />,
+  <FaChalkboardTeacher className="text-pink-500 text-2xl" />,
+  <FaChalkboardTeacher className="text-purple-400 text-2xl" />,
+];
 
 export default function About({
   studentPoints = [],
   teacherPoints = [],
 }) {
-  const staggerList = {
-    visible: {
-      transition: {
-        staggerChildren: 0.2 // 200ms between each item
-      }
-    }
-  };
+  const studentRef = useRef([]);
+  const teacherRef = useRef([]);
 
-  const staggerItem = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-  };
+  useEffect(() => {
+    gsap.fromTo(
+      studentRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power2.out",
+      }
+    );
+    gsap.fromTo(
+      teacherRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.15,
+        ease: "power2.out",
+        delay: 0.2,
+      }
+    );
+  }, []);
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 40 }}
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={{ visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } } }}
-      className="w-full mx-auto max-w-7xl text-center mb-10 md:mb-16 px-2 md:px-8 py-6 md:py-12 rounded-3xl shadow-2xl
-        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 backdrop-blur-2xl border border-blue-200/40"
+    <section
+      className="max-w-7xl overflow-x-hidden text-center mb-10 md:mb-16 py-6 md:py-12 rounded-3xl shadow-2xl bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 border border-blue-200/40"
       style={{
         boxShadow: "0 8px 32px 0 rgba(31,38,135,0.18)",
         background: "linear-gradient(120deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%)"
       }}
     >
-      <motion.h3
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
-      >
+      <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
         About <span className="bg-clip-text text-transparent bg-gradient-to-br from-pink-600 via-blue-600 to-indigo-600">CodeHive</span>
-      </motion.h3>
+      </h3>
       <div className="flex flex-col lg:flex-row gap-10 justify-center items-stretch w-full">
         {/* Student Features */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerList}
-          className="flex-1 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl px-4 py-6 mb-8 lg:mb-0"
-        >
-          <motion.h4
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-xl md:text-2xl font-bold text-blue-700 mb-4"
-          >
+        <div className="flex-1 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl px-4 py-6 mb-8 lg:mb-0">
+          <h4 className="text-xl md:text-2xl font-bold text-blue-700 mb-6">
             What Students Get
-          </motion.h4>
-          <motion.ul
-            variants={staggerList}
-            initial="hidden"
-            animate="visible"
-            className="space-y-4"
-          >
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {studentPoints.map((point, idx) => (
-              <motion.li
+              <div
                 key={point}
-                variants={staggerItem}
-                transition={{ duration: 0.5, delay: (idx + 1) * 0.2 }}
-                className="bg-white/40 backdrop-blur-lg rounded-xl px-4 py-3 shadow-md text-blue-900 font-medium hover:scale-105 hover:shadow-xl transition-all cursor-pointer"
+                ref={el => studentRef.current[idx] = el}
+                className="flex items-center gap-4 bg-white/60 rounded-xl px-4 py-4 shadow-md hover:scale-105 hover:shadow-xl transition-all cursor-pointer border border-blue-100"
               >
-                {point}
-              </motion.li>
+                <span>{studentIcons[idx % studentIcons.length]}</span>
+                <span className="text-blue-900 font-medium text-left">{point}</span>
+              </div>
             ))}
-          </motion.ul>
-        </motion.div>
+          </div>
+        </div>
         {/* Teacher Features */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerList}
-          className="flex-1 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl px-4 py-6"
-        >
-          <motion.h4
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl font-bold text-purple-700 mb-4"
-          >
+        <div className="flex-1 bg-white/30 backdrop-blur-lg rounded-2xl shadow-xl px-4 py-6">
+          <h4 className="text-xl md:text-2xl font-bold text-purple-700 mb-6">
             What Educators Get
-          </motion.h4>
-          <motion.ul
-            variants={staggerList}
-            initial="hidden"
-            animate="visible"
-            className="space-y-4"
-          >
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {teacherPoints.map((point, idx) => (
-              <motion.li
+              <div
                 key={point}
-                variants={staggerItem}
-                transition={{ duration: 0.5, delay: (idx + 1) * 0.2 }}
-                className="bg-white/40 backdrop-blur-lg rounded-xl px-4 py-3 shadow-md text-purple-900 font-medium hover:scale-105 hover:shadow-xl transition-all cursor-pointer"
+                ref={el => teacherRef.current[idx] = el}
+                className="flex items-center gap-4 bg-white/60 rounded-xl px-4 py-4 shadow-md hover:scale-105 hover:shadow-xl transition-all cursor-pointer border border-purple-100"
               >
-                {point}
-              </motion.li>
+                <span>{teacherIcons[idx % teacherIcons.length]}</span>
+                <span className="text-purple-900 font-medium text-left">{point}</span>
+              </div>
             ))}
-          </motion.ul>
-        </motion.div>
+          </div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

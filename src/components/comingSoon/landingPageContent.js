@@ -7,8 +7,7 @@ export const heroButtons = [
 export const studentPoints = [
   "Explore teachers by expertise.",
   "Direct messaging (text, files, photos).",
-  "Real-time notifications.",
-  "Access profile, listing, messages pages.",
+  "Real-time messages and notifications.",
   "Secure login with token-based encryption.",
 ];
 
@@ -16,7 +15,6 @@ export const teacherPoints = [
   "Showcase skills, bio, rates, language fluency.",
   "Appear in listing page.",
   "Personalized dashboard: messages, sessions, earnings.",
-  "Direct messaging with students.",
   "Future: integrated payment gateway & video calls.",
 ];
 
@@ -27,6 +25,9 @@ export const achievements = [
   { title: "Recommendation System", desc: "Smart suggestions for students.", done: true },
   { title: "Video Calls", desc: "Integrated video sessions (coming soon).", done: false },
   { title: "Payment Gateway", desc: "Secure payments (coming soon).", done: false },
+  { title: "Ratings & Reviews", desc: "Feedback system for quality assurance (coming soon).", done: false },
+  { title: "AI Recommendations", desc: "Personalized skill suggestions (coming soon).", done: false },
+
 ];
 
 export const socialLinks = [
@@ -52,3 +53,50 @@ export const iconMap = {
     </svg>
   ),
 };
+
+export const visionCards = [
+  {
+    id: 1,
+    icon: (
+      <svg className="text-pink-500 w-10 h-10" fill="none" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+        <path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    title: "Empower Mentors",
+    description: "Provide a platform for skilled individuals to teach and share knowledge effectively.",
+  },
+  {
+    id: 2,
+    icon: (
+      <svg className="text-blue-500 w-10 h-10" fill="none" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+        <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    title: "Connect Learners",
+    description: "Help learners discover mentors and 1v1 sessions tailored to their interests.",
+  },
+  {
+    id: 3,
+    icon: (
+      <svg className="text-purple-500 w-10 h-10" fill="none" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+        <path d="M12 8v4l3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    title: "Inspire Growth",
+    description: "Create a space where every skill, from coding to calligraphy, can flourish.",
+  },
+  {
+    id: 4,
+    icon: (
+      <svg className="text-indigo-500 w-10 h-10" fill="none" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+        <path d="M7 12l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+    title: "Collaborate",
+    description: "Connect With Other Educators and Collaborate Together to reach new heights.",
+  },
+];

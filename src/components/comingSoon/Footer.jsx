@@ -1,16 +1,10 @@
 'use client'
 
-import { motion } from "framer-motion";
-
 export default function Footer({ socialLinks = [], iconMap = {} }) {
   return (
-    <motion.footer
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className="relative w-full mx-4 backdrop-blur-xl text-gray-700 pt-8 md:pt-10 pb-4 md:pb-6 px-2 md:px-4 rounded-b-3xl shadow-xl
-        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 border-t border-blue-200/40"
+    <footer
+      className="relative w-screen flex justify-center items-center pb-10  text-gray-700 pt-8  rounded-b-3xl shadow-xl
+        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 border-t border-blue-200/40 animate-fadein"
       style={{
         boxShadow: "0 8px 32px 0 rgba(31,38,135,0.18)",
         background: "linear-gradient(120deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%)"
@@ -61,6 +55,6 @@ export default function Footer({ socialLinks = [], iconMap = {} }) {
           </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }

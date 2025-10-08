@@ -16,11 +16,11 @@
 .animate-gradient-magical {
   background: linear-gradient(
     135deg,
-    #fae8ff 0%,
-    #c2bfe9 20%,
-    #e0faff 45%,
-    #e7d8ff 75%,
-    #dad3ff 100%
+    #f8dfff 0%,
+    #ebf4ff 20%,
+    #e5deff 45%,
+    #e3e0fe 75%,
+    #fce1ff 100%
   );
   background-size: 400% 400%;
 
@@ -86,4 +86,31 @@ html.lenis body {
 }
 .animate-flame {
   animation: flame 2s ease-in-out infinite;
+}
+
+/* Lightweight fade-in animation for sections/components */
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fadein {
+  animation: fadein 0.7s ease-out forwards;
+}
+
+/* Staggered fade-in for list items (use inline style for delay) */
+@keyframes fadein-stagger {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.animate-fadein-stagger {
+  animation: fadein-stagger 0.5s ease-out forwards;
+}
+
+/* Bounce slow for logo */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 4s infinite;
 }

@@ -6,12 +6,12 @@ import Link from "next/link";
 import { searchUserApi } from "@/services/user.service";
 import { useGlobalContext } from "@/context/global.context";
 import Logout from "../auth/Logout";
+import { showInfo } from "@/ui/toast";
 
 const ICON_STYLE = "text-lg md:text-xl rounded-full p-2 transition-all duration-200 shadow-sm border border-blue-100 bg-white/60 backdrop-blur hover:bg-blue-50 hover:shadow-lg hover:scale-110 active:bg-blue-400";
 const ACTIVE_ICON_STYLE = "text-lg md:text-xl rounded-full p-2 transition-all duration-200 shadow-md border-2 border-blue-100 bg-blue-400 backdrop-blur ";
 
 const NAV_ITEMS = [
-  // Educator/Teacher nav will be conditionally rendered below
   { name: "Docs", href: "/docs", icon: <FaBook />, aria: "Documentation" },
   { name: "Messages", href: "/chat", icon: <FaEnvelope />, aria: "Messages" },
   { name: "Notifications", href: "/notifications", icon: <FaBell />, aria: "Notifications" },
@@ -25,25 +25,23 @@ const Navbar = ({goBack}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
   const [showMsgDropdown, setShowMsgDropdown] = useState(false);
+  const [hoveredNav, setHoveredNav] = useState(null);
   const router = useRouter();
-  const pathname = usePathname(); // Next.js hook for current route
+  const pathname = usePathname();
   const { setSearchResults, isLogin, user, notificationCount, messageCount } = useGlobalContext();
   const notifRef = useRef(null);
   const msgRef = useRef(null);
 
-  console.log("user in navbar is", user?.roles);
-  // Helper to check if user is a student or teacher
   const isStudent = isLogin && Array.isArray(user?.roles) && user?.roles.includes("student");
   const isTeacher = isLogin && Array.isArray(user?.roles) && (user?.roles.includes("teacher") || user?.roles.includes("educator"));
+  const isGuest = !isLogin && user?.roles?.includes("guest");
 
-  // Compose nav items based on role
   const navItems = [
     ...(isStudent ? [{ name: "Educators", href: "/listing", icon: <FaListAlt />, aria: "Educators" }] : []),
     ...(isTeacher ? [{ name: "Dashboard", href: "/dashboard", icon: <FaTachometerAlt />, aria: "Dashboard" }] : []),
     ...NAV_ITEMS
   ];
 
-  // Use pathname for active nav (updates instantly on navigation)
   const getActiveNav = () => {
     if (isLogin) {
       if (pathname.startsWith("/listing")) return "Educators";
@@ -60,7 +58,6 @@ const Navbar = ({goBack}) => {
   };
   const activeNav = getActiveNav();
 
-  // Close dropdowns on outside click
   React.useEffect(() => {
     function handleClick(e) {
       if (notifRef.current && !notifRef.current.contains(e.target)) setShowNotifDropdown(false);
@@ -70,19 +67,16 @@ const Navbar = ({goBack}) => {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  // Add handleSearch function before return
   const handleSearch = async (e) => {
     e.preventDefault();
     const q = query.trim();
     if (!q) return;
-
     try {
       const res = await searchUserApi(q);
       const users = res?.data ?? res;
       setSearchResults(Array.isArray(users) ? users : []);
       router.push(`/listing/searchResult`);
     } catch (error) {
-      console.error("Search error:", error);
       setSearchResults([]);
     } finally {
       setQuery("");
@@ -94,6 +88,17 @@ const Navbar = ({goBack}) => {
     pathname === "/" ||
     pathname === "/login" ||
     pathname === "/register";
+
+  const handleNavClick = (item) => {
+    if (isGuest) {
+      if (item.name !== "Educators") {
+        showInfo("Please login or register to access this feature.");
+        router.push("/login");
+        return;
+      }
+    }
+    router.push(item.href);
+  };
 
   return (
     <nav
@@ -180,49 +185,54 @@ const Navbar = ({goBack}) => {
             }).map(item => {
               const isActive = activeNav === item.name;
               return (
-                <Link
+                <div
                   key={item.name}
-                  href={item.href}
-                  aria-label={item.aria}
-                  className={`flex items-center relative rounded-xl px-2 py-2
-                  
-                    ${isActive
-                      ? "bg-gradient-to-r from-blue-300 to-blue-100 border-2 border-blue-500 shadow-xl text-blue-900 scale-105"
-                      : "bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow-md hover:border-blue-300 text-gray-700"}
-                    transition-all duration-300
-                    hover:scale-105 active:scale-95`}
-                  style={{
-                    minWidth: 44,
-                    letterSpacing: "-0.5px",
-                    fontWeight: isActive ? 600 : 500,
-                    marginRight: "0.5rem",
-                    maxWidth: isActive ? "160px" : "44px",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap"
-                  }}
+                  className="relative group"
+                  onMouseEnter={() => setHoveredNav(item.name)}
+                  onMouseLeave={() => setHoveredNav(null)}
                 >
-                  {item.icon}
-                  <span
-                    className={`ml-2 transition-all duration-300 ease-in-out
-                      ${isActive ? "opacity-100 text-base tracking-tight" : "opacity-0 w-0"}
-                    `}
+                  <button
+                    onClick={() => handleNavClick(item)}
+                    aria-label={item.aria}
+                    className={`flex items-center rounded-xl px-2 py-2
+                      ${isActive
+                        ? "bg-gradient-to-r from-blue-300 to-blue-100 border-2 border-blue-500 shadow-xl text-blue-900 scale-105"
+                        : "bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow-md hover:border-blue-300 text-gray-700"}
+                      transition-all duration-300
+                      hover:scale-105 active:scale-95`}
                     style={{
-                      maxWidth: isActive ? "100px" : "0px",
-                      fontSize: "1rem",
-                      fontWeight: 500,
+                      minWidth: 44,
+                      letterSpacing: "-0.5px",
+                      fontWeight: isActive ? 600 : 500,
+                      marginRight: "0.5rem",
+                      maxWidth: isActive || hoveredNav === item.name ? "160px" : "44px",
                       overflow: "hidden",
-                      display: "inline-block"
+                      whiteSpace: "nowrap"
                     }}
                   >
-                    {isActive ? item.name : ""}
-                  </span>
-                  {item.name === "Messages" && messageCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-1">{messageCount}</span>
-                  )}
-                  {item.name === "Notifications" && notificationCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-1">{notificationCount}</span>
-                  )}
-                </Link>
+                    {item.icon}
+                    <span
+                      className={`ml-2 transition-all duration-300 ease-in-out
+                        ${(isActive || hoveredNav === item.name) ? "opacity-100 text-base tracking-tight" : "opacity-0 w-0"}
+                      `}
+                      style={{
+                        maxWidth: isActive || hoveredNav === item.name ? "100px" : "0px",
+                        fontSize: "1rem",
+                        fontWeight: 500,
+                        overflow: "hidden",
+                        display: "inline-block"
+                      }}
+                    >
+                      {(isActive || hoveredNav === item.name) ? item.name : ""}
+                    </span>
+                    {item.name === "Messages" && messageCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-1">{messageCount}</span>
+                    )}
+                    {item.name === "Notifications" && notificationCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-1">{notificationCount}</span>
+                    )}
+                  </button>
+                </div>
               );
             })}
           </div>
@@ -248,9 +258,9 @@ const Navbar = ({goBack}) => {
               if (item.auth === undefined) return true;
               return item.auth === isLogin;
             }).map(item => (
-              <Link
+              <button
                 key={item.name}
-                href={item.href}
+                onClick={() => handleNavClick(item)}
                 className="flex items-center rounded-lg px-3 py-2 bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow transition-all duration-200"
               >
                 {item.icon}
@@ -261,7 +271,7 @@ const Navbar = ({goBack}) => {
                 {item.name === "Notifications" && notificationCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs px-1">{notificationCount}</span>
                 )}
-              </Link>
+              </button>
             ))}
           </div>
         </div>
