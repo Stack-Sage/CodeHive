@@ -4,8 +4,8 @@ const API_URL = process.env.NEXT_PUBLIC_URL;
 
 
 export const everythingOkayApi = async () => {
-  // Make sure this matches your backend route
-  return axios.get(`${API_URL}/everything-okay`);
+    const response = await axios.get(`${API_URL}/users/everything-okay`);
+    return response;
 };
 
 export const registerUserApi = async (userData) => {
