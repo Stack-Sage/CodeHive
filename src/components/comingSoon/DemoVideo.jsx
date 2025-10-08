@@ -13,8 +13,8 @@ export default function DemoVideo() {
           className="rounded-3xl w-full h-[220px] sm:h-[320px] md:h-[420px] lg:h-[540px] object-cover"
           poster="/demo-poster.png"
         />
-        <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 px-4 py-2 rounded-xl shadow-lg text-white font-bold">
-          <FaPlayCircle className="text-xl" />
+        <div className="absolute top-0 left-0  flex items-center gap-2 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-pink-500/50 px-3 py-2 rounded-xl shadow-lg text-white font-bold opacity-90  ">
+          <FaPlayCircle className="text-lg" />
           <span>Website Demo</span>
         </div>
       </div>

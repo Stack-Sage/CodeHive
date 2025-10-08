@@ -33,7 +33,7 @@ export default function SecondPageAbout({ achievements = [] }) {
   return (
     <section
       className="w-full mx-4 flex flex-col items-center justify-center relative px-2 md:px-4 py-8 md:py-12 rounded-3xl shadow-xl
-        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 border border-blue-200/40 max-w-7xl mx-auto mb-10 md:mb-16 animate-fadein"
+        bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 border border-blue-200/40 max-w-7xl  mb-10 md:mb-16 animate-fadein"
       style={{
         boxShadow: "0 8px 32px 0 rgba(31,38,135,0.18)",
         background: "linear-gradient(120deg, #e0e7ff 0%, #f3e8ff 50%, #fce7f3 100%)"
@@ -50,8 +50,8 @@ export default function SecondPageAbout({ achievements = [] }) {
         {achievements.map((ach, idx) => (
           <div
             key={ach.title}
-            className={`relative bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 backdrop-blur-xl rounded-2xl shadow-xl border border-blue-200/40 p-6 transition-all duration-300 cursor-pointer hover:scale-105 animate-fadein-stagger`}
-            style={{ animationDelay: `${idx * 100}ms` }}
+            className={`relative bg-gradient-to-br from-blue-200/60 via-purple-200/40 to-pink-200/60 backdrop-blur-xl rounded-2xl shadow-xl border border-blue-200/40 p-6 transition-all duration-300 cursor-pointer hover:scale-105`}
+            style={{ transitionDelay: `${idx * 100}ms` }}
           >
             <div className="flex items-center gap-2 mb-2">
               <span className={`inline-block w-3 h-3 rounded-full ${ach.done ? "bg-green-400" : "bg-yellow-400"} shadow`} />
@@ -65,3 +65,4 @@ export default function SecondPageAbout({ achievements = [] }) {
     </section>
   );
 }
+         
