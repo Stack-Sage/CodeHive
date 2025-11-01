@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Doughnut } from "react-chartjs-2";
@@ -7,6 +8,9 @@ import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 Chart.register(ArcElement, Tooltip, Legend);
 
 export default function SessionsDoughnut({ stats }) {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   const doughnutData = {
     labels: ["Completed", "Upcoming", "Cancelled"],
     datasets: [

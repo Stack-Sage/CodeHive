@@ -1,9 +1,13 @@
 'use client';
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { FaStar } from "react-icons/fa";
 
 export default function ReviewsList({ reviews = [] }) {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   if (!reviews.length) return <div className="p-6 text-blue-600">No reviews yet</div>;
 
   return (

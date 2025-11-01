@@ -68,6 +68,7 @@ const Login = () => {
         setUser(user);
         setSubmitted(false);
         setIsLogin(true);
+        
         // Redirect based on role
         if (role === "teacher") {
           router.push("/dashboard");

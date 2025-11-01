@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import useUserHook from '@/hooks/useUserHook';
 import { showSuccess } from '@/ui/toast';
-export default function LogoutPage() {
+
+export default function Page() {
    const router = useRouter();
    const { logoutUser } = useUserHook();
    useEffect(() => {
@@ -20,7 +21,7 @@ export default function LogoutPage() {
             localStorage.removeItem('visitedUser');
             localStorage.clear();
             setTimeout(() => {
-               router.push('/login');
+               router.push('/');
             }, 1000);
          };
 

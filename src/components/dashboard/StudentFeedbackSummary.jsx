@@ -1,9 +1,13 @@
 'use client';
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { FaSmileBeam } from "react-icons/fa";
 
 export default function StudentFeedbackSummary({ feedback }) {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   if (!feedback) return <div className="p-6 text-blue-600">Loading feedback...</div>;
 
   return (

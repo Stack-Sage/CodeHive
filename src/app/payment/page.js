@@ -1,9 +1,13 @@
 "use client";
 import axios from "axios";
+import { useGlobalContext } from "@/context/global.context";
 
 export default function PaymentPage() {
+  const { user } = useGlobalContext();
+
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
+      if (window.Razorpay) return resolve(true);
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = () => resolve(true);
@@ -19,12 +23,11 @@ export default function PaymentPage() {
       return;
     }
 
-    // Create order from backend
+    // 2. Create order from backend (amount in paise)
     const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/order`,
-      { amount: 499 } // Rs.499
+      `${process.env.NEXT_PUBLIC_URL}/payments/order`,
+      { amount: 49900, userId: user?._id } // ₹499 = 49900 paise
     );
-
     const { order } = data;
 
     const options = {
@@ -35,11 +38,11 @@ export default function PaymentPage() {
       description: "CodeHive Pro Membership",
       order_id: order.id,
       handler: async function (response) {
+        // 4. Verify payment on backend
         const verifyRes = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/verify`,
+          `${process.env.NEXT_PUBLIC_URL}/payments/verify`,
           response
         );
-
         if (verifyRes.data.success) {
           alert("✅ Payment Successful and Verified!");
         } else {
@@ -47,9 +50,9 @@ export default function PaymentPage() {
         }
       },
       prefill: {
-        name: "Adarsh - CodeHive User",
-        email: "adarsh@codehive.com",
-        contact: "9999999999",
+        name: user?.fullname || "",
+        email: user?.email || "",
+        contact: "",
       },
       theme: { color: "#0f172a" },
     };

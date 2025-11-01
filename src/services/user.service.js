@@ -1,5 +1,5 @@
 import axios from "axios";
-import Router from "next/router"; // For client-side navigation
+
 
 const API_URL = process.env.NEXT_PUBLIC_URL; 
 
@@ -66,7 +66,7 @@ export const logoutUserApi = async () => {
   if (typeof window !== "undefined") {
     localStorage.setItem("isLogin", "false");
     localStorage.removeItem("user");
-    window.location.href = "/auth/login";
+    window.location.href = "/login";
   }
 };
 

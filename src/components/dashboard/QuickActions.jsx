@@ -2,8 +2,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaEdit, FaCalendarPlus } from "react-icons/fa";
+import { useGlobalContext } from "@/context/global.context";
 
 export default function QuickActions() {
+  const { userRole } = useGlobalContext();
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -19,12 +22,14 @@ export default function QuickActions() {
         >
           <FaEdit /> Edit Profile
         </button>
-        <button
-          className="flex items-center gap-2 px-4 py-2 bg-pink-500 text-white rounded-full shadow hover:bg-pink-600 transition"
-          onClick={() => window.location.href = "/sessions/schedule"}
-        >
-          <FaCalendarPlus /> Schedule Session
-        </button>
+        {userRole === "teacher" && (
+          <button
+            className="flex items-center gap-2 px-4 py-2 bg-pink-500 text-white rounded-full shadow hover:bg-pink-600 transition"
+            onClick={() => window.location.href = "/sessions/schedule"}
+          >
+            <FaCalendarPlus /> Schedule Session
+          </button>
+        )}
       </div>
     </motion.div>
   );

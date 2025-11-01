@@ -1,5 +1,6 @@
 'use client';
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { FaChartBar } from "react-icons/fa";
 import { Bar } from "react-chartjs-2";
@@ -19,6 +20,9 @@ const barData = {
 };
 
 export default function ProfileClicksBar() {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -30 }}

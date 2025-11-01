@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '@/context/global.context'
 import useUserHook from '@/hooks/useUserHook'
 import { buttonStyleTwo } from '@/ui/CustomCSS'
-import { FaFlag, FaRegComment, FaThumbsUp, FaUserAlt, FaEye } from 'react-icons/fa'
+import { FaFlag, FaRegComment, FaUserAlt, FaEye, FaMoneyBillWave, FaCalendarPlus } from 'react-icons/fa'
 import { useRouter, usePathname } from 'next/navigation'
 
 const UserCardShimmer = () => (
@@ -156,10 +156,12 @@ const ListedEducators = () => {
                       onClick={() => handleRestrictedAction() || router.push(`/chat/${user._id}`)}>
                       <FaRegComment /> <span className="font-semibold">Message</span>
                     </button>
-                    <button className={`${buttonStyleTwo} px-3 py-2 rounded-lg text-base flex flex-row gap-2 items-center bg-white/70 text-blue-900 shadow hover:ring-2 hover:ring-blue-400 transition`}
-                      onClick={() => handleRestrictedAction()}>
-                      <FaThumbsUp /> <span className="font-semibold">Favorite</span>
-                    </button>
+                    {user.roles.includes('educator') && (
+                      <button className={`${buttonStyleTwo} px-3 py-2 rounded-lg text-base flex flex-row gap-2 items-center bg-white/70 text-blue-900 shadow hover:ring-2 hover:ring-blue-400 transition`}
+                        onClick={() => handleRestrictedAction() || router.push(`/bookSession/${user._id}`)}>
+                        <FaCalendarPlus /> <span className="font-semibold">Book Session</span>
+                      </button>
+                    )}
                     <button className={`${buttonStyleTwo} px-3 py-2 rounded-lg text-base flex flex-row gap-2 items-center bg-white/70 text-blue-900 shadow hover:ring-2 hover:ring-blue-400 transition`}
                       onClick={() => handleRestrictedAction()}>
                       <FaFlag /> <span className="font-semibold">Report</span>
@@ -174,10 +176,12 @@ const ListedEducators = () => {
                       onClick={() => handleRestrictedAction() || router.push(`/chat/${user._id}`)}>
                       <FaRegComment />
                     </button>
-                    <button className={`${buttonStyleTwo} px-2 py-2 rounded-lg text-base bg-white/70 text-blue-900 shadow hover:ring-2 hover:ring-blue-400 transition`}
-                      onClick={() => handleRestrictedAction()}>
-                      <FaThumbsUp />
-                    </button>
+                    {user.roles.includes('educator') && (
+                      <button className={`${buttonStyleTwo} px-2 py-2 rounded-lg text-base bg-white/70 text-blue-900 shadow hover:ring-2 hover:ring-blue-400 transition`}
+                        onClick={() => handleRestrictedAction() || router.push(`/bookSession/${user._id}`)}>
+                        <FaCalendarPlus />
+                      </button>
+                    )}
                     <button className={`${buttonStyleTwo} px-2 py-2 rounded-lg text-base bg-white/70 text-blue-900 shadow hover:ring-2 hover:ring-blue-400 transition`}
                       onClick={() => handleRestrictedAction()}>
                       <FaFlag />

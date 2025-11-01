@@ -1,9 +1,12 @@
 'use client';
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { FaEnvelopeOpenText, FaEnvelope } from "react-icons/fa";
 
 export default function MessagesStat({ sent = 24, received = 120 }) {
+  const { userRole } = useGlobalContext();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -15,12 +18,16 @@ export default function MessagesStat({ sent = 24, received = 120 }) {
         <div className="flex flex-col items-center">
           <FaEnvelopeOpenText className="text-blue-500 text-2xl mb-1" />
           <span className="text-lg font-bold text-black">{sent}</span>
-          <span className="text-gray-700 text-xs">Messages Sent</span>
+          <span className="text-gray-700 text-xs">
+            {userRole === "teacher" ? "Messages Sent" : "Messages Sent"}
+          </span>
         </div>
         <div className="flex flex-col items-center">
           <FaEnvelope className="text-pink-500 text-2xl mb-1" />
           <span className="text-lg font-bold text-black">{received}</span>
-          <span className="text-gray-700 text-xs">Messages Received</span>
+          <span className="text-gray-700 text-xs">
+            {userRole === "teacher" ? "Messages Received" : "Messages Received"}
+          </span>
         </div>
       </div>
     </motion.div>

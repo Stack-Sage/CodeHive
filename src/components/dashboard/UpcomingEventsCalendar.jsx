@@ -1,9 +1,13 @@
 'use client';
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 
 export default function UpcomingEventsCalendar({ events = [] }) {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   if (!events.length) return <div className="p-6 text-blue-600">No upcoming events</div>;
 
   return (

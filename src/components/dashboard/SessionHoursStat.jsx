@@ -2,8 +2,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaClock } from "react-icons/fa";
+import { useGlobalContext } from "@/context/global.context";
 
 export default function SessionHoursStat({ hours = 32 }) {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

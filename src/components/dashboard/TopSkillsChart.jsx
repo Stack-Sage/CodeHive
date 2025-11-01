@@ -1,11 +1,15 @@
 'use client';
 import React from "react";
+import { useGlobalContext } from "@/context/global.context";
 import { motion } from "framer-motion";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 Chart.register(ArcElement, Tooltip, Legend);
 
 export default function TopSkillsChart({ skills = [] }) {
+  const { userRole } = useGlobalContext();
+  if (userRole !== "teacher") return null;
+
   if (!skills.length) return <div className="p-6 text-blue-600">No skills data</div>;
 
   const skillsData = {
