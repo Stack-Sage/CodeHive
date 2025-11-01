@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { FaSearch, FaBars, FaTimes, FaBackward, FaBell, FaEnvelope, FaUser, FaBook, FaRunning, FaListAlt, FaTachometerAlt } from "react-icons/fa";
+import { FaSearch, FaBars, FaTimes, FaBackward, FaBell,FaMoneyBillWave,  FaEnvelope, FaUser, FaBook, FaRunning, FaListAlt, FaTachometerAlt, FaMoneyBill } from "react-icons/fa";
 import Link from "next/link";
 import { searchUserApi } from "@/services/user.service";
 import { useGlobalContext } from "@/context/global.context";
@@ -14,7 +14,7 @@ const ACTIVE_ICON_STYLE = "text-lg md:text-xl rounded-full p-2 transition-all du
 const NAV_ITEMS = [
   { name: "Docs", href: "/docs", icon: <FaBook />, aria: "Documentation" },
   { name: "Messages", href: "/chat", icon: <FaEnvelope />, aria: "Messages" },
-  { name: "Notifications", href: "/notifications", icon: <FaBell />, aria: "Notifications" },
+  { name: "Payments ", href: "/payment/history", icon: <FaMoneyBillWave />, aria: "Payments" },
   { name: "Profile", href: "/profile", icon: <FaUser />, aria: "Profile" },
   { name: "Logout", href: "/logout", icon: <FaRunning />, auth: true, aria: "Logout" },
   { name: "SignIn", href: "/register", icon: null, auth: false, aria: "Sign In" }
@@ -48,7 +48,7 @@ const Navbar = ({goBack}) => {
       if (pathname.startsWith("/dashboard")) return "Dashboard";
       if (pathname.startsWith("/docs")) return "Docs";
       if (pathname.startsWith("/chat")) return "Messages";
-      if (pathname.startsWith("/notifications")) return "Notifications";
+      if (pathname.startsWith("/payment/history")) return "Payments";
       if (pathname.startsWith("/profile")) return "Profile";
       if (pathname === "/logout") return "Logout";
     } else {

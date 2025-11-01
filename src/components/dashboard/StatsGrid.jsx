@@ -3,13 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaUserGraduate, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
 
-const dummyStats = {
-  students: 324,
-  messages: 1280,
-  sessions: 87,
-};
+export default function StatsGrid({ stats }) {
+  if (!stats) return <div className="p-6 text-blue-600">Loading stats...</div>;
 
-export default function StatsGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <motion.div
@@ -20,7 +16,7 @@ export default function StatsGrid() {
         className="bg-gradient-to-br from-blue-100/60 via-pink-100/40 to-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 flex flex-col items-center"
       >
         <FaUserGraduate className="text-blue-500 text-3xl mb-2" />
-        <span className="text-3xl font-extrabold text-black">{dummyStats.students}</span>
+        <span className="text-3xl font-extrabold text-black">{stats.studentCount ?? 0}</span>
         <span className="text-gray-700 mt-1 font-medium">Students</span>
       </motion.div>
       <motion.div
@@ -31,7 +27,7 @@ export default function StatsGrid() {
         className="bg-gradient-to-br from-indigo-100/60 via-blue-100/40 to-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 flex flex-col items-center"
       >
         <FaEnvelope className="text-indigo-500 text-3xl mb-2" />
-        <span className="text-3xl font-extrabold text-black">{dummyStats.messages}</span>
+        <span className="text-3xl font-extrabold text-black">{stats.messagesReceived ?? 0}</span>
         <span className="text-gray-700 mt-1 font-medium">Messages Received</span>
       </motion.div>
       <motion.div
@@ -42,7 +38,7 @@ export default function StatsGrid() {
         className="bg-gradient-to-br from-purple-100/60 via-blue-100/40 to-white/80 backdrop-blur-lg rounded-2xl shadow-lg p-6 flex flex-col items-center"
       >
         <FaCalendarAlt className="text-purple-500 text-3xl mb-2" />
-        <span className="text-3xl font-extrabold text-black">{dummyStats.sessions}</span>
+        <span className="text-3xl font-extrabold text-black">{stats.sessionsGiven ?? 0}</span>
         <span className="text-gray-700 mt-1 font-medium">Sessions Given</span>
       </motion.div>
     </div>

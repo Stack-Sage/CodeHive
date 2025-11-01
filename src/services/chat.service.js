@@ -1,6 +1,19 @@
 import axios from "axios";
+import Router from "next/router"; // For client-side navigation
 
 const API_URL = process.env.NEXT_PUBLIC_URL;
+
+// Helper: redirect to login on unauthorized
+function handleUnauthorized(error) {
+  if (
+    error?.response?.status === 401 ||
+    error?.response?.data?.message === "Unauthorized Request"
+  ) {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("unauthorized"));
+    }
+  }
+}
 
 // Create a message
 export const sendMessageApi = async (payload) => {
@@ -24,6 +37,7 @@ export const sendMessageApi = async (payload) => {
     });
     return res.data; // returns the new message, but context will refetch thread
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error sending message:", error.response?.data || error.message);
     throw error;
   }
@@ -40,6 +54,7 @@ export const getThreadApi = async (userA, userB) => {
     // Should return an array of messages
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error fetching thread:", error.response?.data || error.message);
     throw error;
   }
@@ -53,6 +68,7 @@ export const getConversationsApi = async (userId) => {
     });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error fetching conversations:", error.response?.data || error.message);
     throw error;
   }
@@ -64,6 +80,7 @@ export const markMessageAsReadApi = async (messageId) => {
     const res = await axios.patch(`${API_URL}/messages/${messageId}/read`, {}, { withCredentials: true });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error marking message as read:", error.response?.data || error.message);
     throw error;
   }
@@ -75,6 +92,7 @@ export const markThreadAsReadApi = async (me, peer) => {
     const res = await axios.patch(`${API_URL}/messages/thread/${me}/${peer}/read`, {}, { withCredentials: true });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error marking thread as read:", error.response?.data || error.message);
     throw error;
   }
@@ -86,6 +104,7 @@ export const editMessageApi = async (messageId, newText) => {
     const res = await axios.patch(`${API_URL}/messages/${messageId}`, { newText }, { withCredentials: true });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error editing message:", error.response?.data || error.message);
     throw error;
   }
@@ -98,6 +117,7 @@ export const deleteMessageApi = async (messageId) => {
     const res = await axios.delete(`${API_URL}/messages/${messageId}`, { withCredentials: true });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error deleting message:", error.response?.data || error.message);
     throw error;
   }
@@ -112,6 +132,7 @@ export const searchMessagesApi = async (me, peer, keyword) => {
     });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error searching messages:", error.response?.data || error.message);
     throw error;
   }
@@ -123,6 +144,7 @@ export const getUnreadCountApi = async (me, peer) => {
     const res = await axios.get(`${API_URL}/messages/unread/${me}/${peer}`, { withCredentials: true });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error fetching unread count:", error.response?.data || error.message);
     throw error;
   }
@@ -136,6 +158,7 @@ export const getChatHistoryApi = async (studentId, teacherId) => {
     });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error fetching chat history:", error.response?.data || error.message);
     throw error;
   }
@@ -153,6 +176,7 @@ export const uploadMessageFileApi = async (file) => {
     });
     return res.data;
   } catch (error) {
+    handleUnauthorized(error);
     console.error("Error uploading chat file:", error.response?.data || error.message);
     throw error;
   }

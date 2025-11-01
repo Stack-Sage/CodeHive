@@ -3,13 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaCalendarAlt } from "react-icons/fa";
 
-const events = [
-  { date: "2024-06-10", title: "Session: Python Basics" },
-  { date: "2024-06-12", title: "Session: React Advanced" },
-  { date: "2024-06-15", title: "Session: Data Science Q&A" },
-];
+export default function UpcomingEventsCalendar({ events = [] }) {
+  if (!events.length) return <div className="p-6 text-blue-600">No upcoming events</div>;
 
-export default function UpcomingEventsCalendar() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

@@ -73,6 +73,16 @@ export default function Explore({ user, userRole, heroButtons = [], handleAction
                   {userRole === "educator" ? "Go to Dashboard" : "Go to Listing"}
                 </span>
               </button>
+              <button
+                onClick={() => handleAction("/login")}
+                className={glassyButton + buttonShine + " transition-all duration-300 ease-in-out"}
+                style={{ animation: "fadein 0.7s ease-out forwards" }}
+              >
+                <span className="block w-full text-center text-base md:text-lg font-semibold whitespace-normal break-words">  
+                  Login as Different User
+                </span>
+                 </button>
+
             </div>
           )}
         </div>

@@ -1,8 +1,13 @@
 'use client';
 import React from "react";
 import { motion } from "framer-motion";
+import { useGlobalContext } from "@/context/global.context";
 
-export default function ProfileCompletionBar({ percent = 80 }) {
+export default function ProfileCompletionBar({ percent }) {
+  const { user } = useGlobalContext();
+  // Use percent from props if provided, else from user.profileCompletion
+  const completion = percent ?? user?.profileCompletion ?? 0;
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -14,13 +19,13 @@ export default function ProfileCompletionBar({ percent = 80 }) {
       <div className="w-full bg-blue-100 rounded-full h-4 mb-2">
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: `${percent}%` }}
+          animate={{ width: `${completion}%` }}
           transition={{ duration: 1 }}
           className="bg-blue-500 h-4 rounded-full"
-          style={{ width: `${percent}%` }}
+          style={{ width: `${completion}%` }}
         />
       </div>
-      <div className="text-right text-sm font-semibold text-blue-700">{percent}%</div>
+      <div className="text-right text-sm font-semibold text-blue-700">{completion}%</div>
     </motion.div>
   );
 }

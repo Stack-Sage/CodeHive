@@ -58,6 +58,21 @@ export const GlobalProvider = ({ children }) => {
     }
   }, [user]);
 
+  // Listen for unauthorized events (custom event from service files)
+  useEffect(() => {
+    function handleUnauthorizedEvent() {
+      // Clear login state and localStorage, redirect to login
+      localStorage.setItem("isLogin", "false");
+      localStorage.removeItem("user");
+      setUser(null);
+      setIsLogin(false);
+      setUserRole("");
+      window.location.href = "/auth/login";
+    }
+    window.addEventListener("unauthorized", handleUnauthorizedEvent);
+    return () => window.removeEventListener("unauthorized", handleUnauthorizedEvent);
+  }, []);
+
   const openChatWithUser = (targetUserId, targetRole = "educator", newWindow = false) => {
     setVisitedUser({ _id: targetUserId, role: targetRole });
     const base = "/chat";

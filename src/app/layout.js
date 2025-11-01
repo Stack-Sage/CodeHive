@@ -6,6 +6,7 @@ import {Toaster} from 'react-hot-toast'
 import { GlobalProvider } from "@/context/global.context";
 import { ChatProvider } from "@/context/chat.context";
 import Navbar from '@/components/student/SearchEducator'
+import { DashboardProvider } from "@/context/dashboard.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -95,6 +96,8 @@ export default function RootLayout({ children }) {
       
         <GlobalProvider>
           <ChatProvider>
+            <DashboardProvider>
+
 
         <Navbar/>
         <div className="absolute inset-0 -z-10 animate-gradient-magical w-screen  opacity-90 " />
@@ -107,6 +110,7 @@ export default function RootLayout({ children }) {
           
          
         </LenisWrapper>
+            </DashboardProvider>
           </ChatProvider>
         </GlobalProvider>
       </body>

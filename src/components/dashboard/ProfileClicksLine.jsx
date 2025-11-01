@@ -6,25 +6,6 @@ import { Line } from "react-chartjs-2";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-const lineData = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      label: "Profile Clicks",
-      data: [22, 34, 28, 41, 39, 55, 48],
-      fill: true,
-      backgroundColor: "rgba(59,130,246,0.12)",
-      borderColor: "rgba(59,130,246,0.9)",
-      pointBackgroundColor: "rgba(236,72,153,0.8)",
-      pointBorderColor: "#fff",
-      tension: 0.4,
-      borderWidth: 3,
-      pointRadius: 6,
-      pointHoverRadius: 8,
-    },
-  ],
-};
-
 const lineOptions = {
   plugins: { legend: { display: false } },
   scales: {
@@ -35,7 +16,49 @@ const lineOptions = {
   maintainAspectRatio: false,
 };
 
-export default function ProfileClicksLine() {
+export default function ProfileClicksLine({ stats }) {
+  if (!stats) return <div className="p-6 text-blue-600">Loading profile clicks...</div>;
+
+  // If you have stats.profileClicksHistory, use it for chart data
+  // Otherwise, show total profileClicks as a single value
+  const lineData = stats?.profileClicksHistory?.length
+    ? {
+        labels: stats.profileClicksHistory.map((_, index) => `Day ${index + 1}`),
+        datasets: [
+          {
+            label: "Profile Clicks",
+            data: stats.profileClicksHistory,
+            fill: true,
+            backgroundColor: "rgba(59,130,246,0.12)",
+            borderColor: "rgba(59,130,246,0.9)",
+            pointBackgroundColor: "rgba(236,72,153,0.8)",
+            pointBorderColor: "#fff",
+            tension: 0.4,
+            borderWidth: 3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+          },
+        ],
+      }
+    : {
+        labels: ["Total"],
+        datasets: [
+          {
+            label: "Profile Clicks",
+            data: [stats?.profileClicks || 0],
+            fill: true,
+            backgroundColor: "rgba(59,130,246,0.12)",
+            borderColor: "rgba(59,130,246,0.9)",
+            pointBackgroundColor: "rgba(236,72,153,0.8)",
+            pointBorderColor: "#fff",
+            tension: 0.4,
+            borderWidth: 3,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+          },
+        ],
+      };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -30 }}

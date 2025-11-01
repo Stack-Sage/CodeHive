@@ -3,7 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaSmileBeam } from "react-icons/fa";
 
-export default function StudentFeedbackSummary() {
+export default function StudentFeedbackSummary({ feedback }) {
+  if (!feedback) return <div className="p-6 text-blue-600">Loading feedback...</div>;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -15,10 +17,10 @@ export default function StudentFeedbackSummary() {
         <FaSmileBeam /> Student Feedback Summary
       </div>
       <div className="text-gray-700 text-sm">
-        <span className="font-bold text-blue-700">98%</span> of students rated sessions as "Excellent".
+        <span className="font-bold text-blue-700">{feedback?.excellentPercent ?? 0}%</span> of students rated sessions as "Excellent".
       </div>
       <div className="text-gray-700 text-sm mt-1">
-        <span className="font-bold text-green-600">95%</span> of students would recommend you to others.
+        <span className="font-bold text-green-600">{feedback?.recommendPercent ?? 0}%</span> of students would recommend you to others.
       </div>
     </motion.div>
   );

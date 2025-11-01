@@ -3,13 +3,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaStar } from "react-icons/fa";
 
-const reviews = [
-  { name: "Student A", rating: 5, comment: "Amazing educator! Learned a lot." },
-  { name: "Student B", rating: 4, comment: "Very helpful and patient." },
-  { name: "Student C", rating: 5, comment: "Great sessions, highly recommend." },
-];
+export default function ReviewsList({ reviews = [] }) {
+  if (!reviews.length) return <div className="p-6 text-blue-600">No reviews yet</div>;
 
-export default function ReviewsList() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -22,7 +18,7 @@ export default function ReviewsList() {
         {reviews.map((r, i) => (
           <li key={i} className="mb-3">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-black">{r.name}</span>
+              <span className="font-bold text-black">{r.student?.fullname || "Student"}</span>
               {[...Array(r.rating)].map((_, idx) => (
                 <FaStar key={idx} className="text-yellow-400 text-sm" />
               ))}

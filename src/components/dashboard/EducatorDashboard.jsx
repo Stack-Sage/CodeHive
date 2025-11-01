@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "@/context/global.context";
+import { useDashboard } from "@/context/dashboard.context";
 import ProfileCard from "./ProfileCard";
 import SiteStatsSidebar from "./SiteStatsSidebar";
 import StatsGrid from "./StatsGrid";
@@ -30,6 +31,12 @@ const fadeVariants = {
 
 export default function EducatorDashboard() {
   const { user } = useGlobalContext();
+  const { dashboardStats } = useDashboard();
+
+  // Optionally handle loading/fallback
+  if (!dashboardStats) {
+    return <div className="text-center py-20 text-xl text-blue-700">Loading dashboard...</div>;
+  }
 
   return (
     <section className="w-full max-w-screen-2xl mx-auto px-2 md:px-6 py-8">
@@ -69,43 +76,43 @@ export default function EducatorDashboard() {
         {/* Main dashboard content */}
         <div className="flex-1 flex flex-col gap-8 mx-auto w-full lg:w-auto">
           <motion.div {...fadeVariants.up} transition={{ duration: 0.5, delay: 0.1 }} whileHover={{ scale: 1.02 }}>
-            <StatsGrid />
+            <StatsGrid stats={dashboardStats} />
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div {...fadeVariants.right} transition={{ duration: 0.5, delay: 0.15 }} whileHover={{ scale: 1.02 }}>
-              <ProfileClicksLine />
+              <ProfileClicksLine stats={dashboardStats} />
             </motion.div>
             <motion.div {...fadeVariants.left} transition={{ duration: 0.5, delay: 0.18 }} whileHover={{ scale: 1.02 }}>
-              <SessionsDoughnut />
+              <SessionsDoughnut stats={dashboardStats} />
             </motion.div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div {...fadeVariants.right} transition={{ duration: 0.5, delay: 0.2 }} whileHover={{ scale: 1.02 }}>
-              <SearchResultStat count={7} />
+              <SearchResultStat count={dashboardStats.searchAppearances} />
             </motion.div>
             <motion.div {...fadeVariants.left} transition={{ duration: 0.5, delay: 0.22 }} whileHover={{ scale: 1.02 }}>
-              <MessagesStat sent={24} received={120} />
+              <MessagesStat sent={dashboardStats.messagesSent} received={dashboardStats.messagesReceived} />
             </motion.div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div {...fadeVariants.right} transition={{ duration: 0.5, delay: 0.25 }} whileHover={{ scale: 1.02 }}>
-              <SessionHoursStat hours={32} />
+              <SessionHoursStat hours={dashboardStats.sessionHours} />
             </motion.div>
             <motion.div {...fadeVariants.left} transition={{ duration: 0.5, delay: 0.28 }} whileHover={{ scale: 1.02 }}>
-              <TopSkillsChart />
+              <TopSkillsChart skills={dashboardStats.skills} />
             </motion.div>
           </div>
           <motion.div {...fadeVariants.center} transition={{ duration: 0.5, delay: 0.3 }} whileHover={{ scale: 1.02 }}>
-            <ExtraStats />
+            <ExtraStats stats={dashboardStats} />
           </motion.div>
           <motion.div {...fadeVariants.down} transition={{ duration: 0.5, delay: 0.32 }} whileHover={{ scale: 1.02 }}>
-            <StudentFeedbackSummary />
+            <StudentFeedbackSummary feedback={dashboardStats.feedbackSummary} />
           </motion.div>
           <motion.div {...fadeVariants.down} transition={{ duration: 0.5, delay: 0.34 }} whileHover={{ scale: 1.02 }}>
-            <ReviewsList />
+            <ReviewsList reviews={dashboardStats.reviews} />
           </motion.div>
           <motion.div {...fadeVariants.down} transition={{ duration: 0.5, delay: 0.36 }} whileHover={{ scale: 1.02 }}>
-            <UpcomingEventsCalendar />
+            <UpcomingEventsCalendar events={dashboardStats.upcomingEvents} />
           </motion.div>
         </div>
       </div>
