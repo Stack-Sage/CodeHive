@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { FaSearch, FaBars, FaTimes, FaBackward, FaBell, FaMoneyBillWave, FaEnvelope, FaUser, FaBook, FaRunning, FaListAlt, FaTachometerAlt, FaRegistered, FaCalendarAlt } from "react-icons/fa";
+import { FaSearch, FaBars, FaTimes, FaBackward,FaBook ,FaEnvelope,FaMoneyBillWave,FaCalendarAlt , FaUser, FaRunning,FaRegistered,FaListAlt,FaTachometerAlt } from "react-icons/fa";
 import Link from "next/link";
 import { searchUserApi } from "@/services/user.service";
 import { useGlobalContext } from "@/context/global.context";
@@ -96,181 +96,196 @@ const Navbar = ({ goBack }) => {
 
   return (
     <nav
-      className={`w-screen sticky top-0 ${
-        hideNavbar
-          ? "z-[-1] opacity-0 pointer-events-none"
-          : "z-50 opacity-100"
-      } bg-gradient-to-r from-white/60 via-blue-100/40 to-white/60 backdrop-blur-xl shadow-2xl border-b border-blue-100/40 transition-all duration-300`}
+      className={`w-screen sticky top-0 z-50 bg-gradient-to-r from-white/60 via-blue-100/40 to-white/60 backdrop-blur-xl shadow-2xl border-b border-blue-100/40 transition-all duration-300`}
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16 w-full">
-          {/* Left: Logo and Back Button */}
-          <div className="flex items-center min-w-[120px] gap-2">
-            {goBack && (
-              <button
-                onClick={() => router.back()}
-                className="text-black hover:text-blue-700 cursor-pointer hover:scale-105 duration-300 transition-all ease-out hidden lg:flex left-0 mr-4 text-xl font-medium hover:underline"
-              >
-                <FaBackward/>
-              </button>
-            )}
-            <div className="flex-shrink-0 lg:text-2xl tracking-tighter text-lg md:tracking-tight lg:tracking-wider font-extrabold text-blue-900 drop-shadow cursor-pointer">
-              <Link href="/">CodeHive</Link>
-            </div>
-          </div>
-          {/* Middle: Search Bar */}
-          <div className="hidden sm:flex flex-1 items-center justify-start ml-2">
-            {showSearchBar && (
-              <form
-                onSubmit={handleSearch}
-                className="w-full max-w-[180px] sm:max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm"
-              >
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search"
-                    className="w-full rounded-full px-3 py-2 pr-10 text-gray-800 focus:outline-none shadow bg-white/70 border border-blue-100/40 backdrop-blur transition-all duration-200 focus:ring-2 focus:ring-blue-200 text-sm"
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow transition-all duration-200"
-                  >
-                    <FaSearch size={16} />
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-          {/* Center: Main Nav */}
-          <div className="hidden lg:flex flex-1 justify-center items-center gap-2">
-            {mainNav.map(item => {
-              const isActive = activeNav === item.name;
-              return (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item)}
-                  aria-label={item.aria}
-                  className={`flex items-center rounded-xl px-2 py-2
-                    ${isActive
-                      ? "bg-gradient-to-r from-blue-300 to-blue-100 border-2 border-blue-500 shadow-xl text-blue-900 scale-105"
-                      : "bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow-md hover:border-blue-300 text-gray-700"}
-                    transition-all duration-300
-                    hover:scale-105 active:scale-95`}
-                  style={{
-                    minWidth: 44,
-                    letterSpacing: "-0.5px",
-                    fontWeight: isActive ? 600 : 500,
-                    marginRight: "0.5rem",
-                    maxWidth: isActive || hoveredNav === item.name ? "160px" : "44px",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap"
-                  }}
-                  onMouseEnter={() => setHoveredNav(item.name)}
-                  onMouseLeave={() => setHoveredNav(null)}
-                >
-                  {item.icon}
-                  <span
-                    className={`ml-2 transition-all duration-300 ease-in-out
-                      ${(isActive || hoveredNav === item.name) ? "opacity-100 text-base tracking-tight" : "opacity-0 w-0"}
-                    `}
-                    style={{
-                      maxWidth: isActive || hoveredNav === item.name ? "100px" : "0px",
-                      fontSize: "1rem",
-                      fontWeight: 500,
-                      overflow: "hidden",
-                      display: "inline-block"
-                    }}
-                  >
-                    {(isActive || hoveredNav === item.name) ? item.name : ""}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          {/* Right: Profile/Login/Logout */}
-          <div className="flex items-center gap-2 ml-2">
-            {rightNav.map(item => {
-              const isActive = activeNav === item.name;
-              return (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item)}
-                  aria-label={item.aria}
-                  className={`flex items-center rounded-xl px-2 py-2
-                    ${isActive
-                      ? "bg-gradient-to-r from-blue-300 to-blue-100 border-2 border-blue-500 shadow-xl text-blue-900 scale-105"
-                      : "bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow-md hover:border-blue-300 text-gray-700"}
-                    transition-all duration-300
-                    hover:scale-105 active:scale-95`}
-                  style={{
-                    minWidth: 44,
-                    letterSpacing: "-0.5px",
-                    fontWeight: isActive ? 600 : 500,
-                    marginRight: "0.5rem",
-                    maxWidth: isActive || hoveredNav === item.name ? "160px" : "44px",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap"
-                  }}
-                  onMouseEnter={() => setHoveredNav(item.name)}
-                  onMouseLeave={() => setHoveredNav(null)}
-                >
-                  {item.icon}
-                  <span
-                    className={`ml-2 transition-all duration-300 ease-in-out
-                      ${(isActive || hoveredNav === item.name) ? "opacity-100 text-base tracking-tight" : "opacity-0 w-0"}
-                    `}
-                    style={{
-                      maxWidth: isActive || hoveredNav === item.name ? "100px" : "0px",
-                      fontSize: "1rem",
-                      fontWeight: 500,
-                      overflow: "hidden",
-                      display: "inline-block"
-                    }}
-                  >
-                    {(isActive || hoveredNav === item.name) ? item.name : ""}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          {/* Mobile menu */}
-          <div className="sm:hidden flex items-center w-full justify-end">
+      <div
+        className={`
+          flex items-center h-16 w-full
+          ${hideNavbar ? "z-[-1] opacity-0 pointer-events-none" : "z-50 opacity-100"}
+          ${"lg:px-8 px-4 sm:px-6 lg:max-w-none max-w-7xl "}
+        `}
+        style={{
+        
+          paddingLeft: 10,
+          paddingRight: 10,
+        }}
+      >
+        {/* Left: Logo and Back Button */}
+        <div className="flex items-center min-w-[120px] gap-2 lg:pl-4 pl-2">
+          {goBack && (
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="text-black focus:outline-none ml-2"
+              onClick={() => router.back()}
+              className="text-black hover:text-blue-700 cursor-pointer hover:scale-105 duration-300 transition-all ease-out hidden lg:flex left-0 mr-4 text-xl font-medium hover:underline"
             >
-              {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+              <FaBackward/>
             </button>
+          )}
+          <div className="flex-shrink-0 lg:text-2xl tracking-tighter text-lg md:tracking-tight lg:tracking-wider font-extrabold text-blue-900 drop-shadow cursor-pointer">
+            <Link href="/">CodeHive</Link>
           </div>
         </div>
-        {/* Mobile: Full-width search bar below nav */}
-        {showSearchBar && (
-          <div className="sm:hidden w-full mt-2 mb-2">
+        {/* Middle: Search Bar */}
+        <div className="hidden sm:flex flex-1 items-center justify-start ml-10">
+          {showSearchBar && (
             <form
               onSubmit={handleSearch}
-              className="w-full px-1"
+              className="w-full max-w-[180px] sm:max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm"
             >
-              <div className="relative w-full">
+              <div className="relative">
                 <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search for Educators or Topics"
-                  className="w-full rounded-full px-4 py-2 pr-12 text-gray-800 focus:outline-none shadow-lg bg-white/70 border border-blue-100/40 backdrop-blur transition-all duration-200 focus:ring-2 focus:ring-blue-400 text-base"
+                  placeholder="Search"
+                  className="w-full rounded-full px-3 py-2 pr-10 text-gray-800 focus:outline-none shadow bg-white/70 border border-blue-100/40 backdrop-blur transition-all duration-200 focus:ring-2 focus:ring-blue-200 text-sm"
                 />
                 <button
                   type="submit"
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow transition-all duration-200"
                 >
-                  <FaSearch size={18} />
+                  <FaSearch size={16} />
                 </button>
               </div>
             </form>
-          </div>
-        )}
+          )}
+        </div>
+        {/* Center: Main Nav */}
+        <div className="hidden lg:flex flex-1 justify-center items-center gap-2">
+          {mainNav.map(item => {
+            const isActive = activeNav === item.name;
+            return (
+              <button
+                key={item.name}
+                onClick={() => handleNavClick(item)}
+                aria-label={item.aria}
+                className={`
+                  flex items-center rounded-xl px-4 py-2
+                  ${isActive
+                    ? "bg-gradient-to-r from-blue-300 to-blue-100 border-2 border-blue-500 shadow-xl text-blue-900 scale-105"
+                    : "bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow-md hover:border-blue-300 text-gray-700"}
+                  transition-all duration-300
+                  hover:scale-105 active:scale-95
+                `}
+                style={{
+                  minWidth: 44,
+                  letterSpacing: "-0.5px",
+                  fontWeight: isActive ? 600 : 500,
+                  marginRight: "0.5rem",
+                  maxWidth: "180px",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  justifyContent: "flex-start",
+                }}
+                onMouseEnter={() => setHoveredNav(item.name)}
+                onMouseLeave={() => setHoveredNav(null)}
+              >
+                {item.icon}
+                <span
+                  className={`
+                    ml-2 transition-all duration-300 ease-in-out
+                    text-base tracking-tight
+                    ${isActive || hoveredNav === item.name ? "opacity-100" : "opacity-80"}
+                  `}
+                  style={{
+                    maxWidth: "120px",
+                    fontSize: "1rem",
+                    fontWeight: 500,
+                    overflow: "hidden",
+                    display: "inline-block"
+                  }}
+                >
+                  {item.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {/* Right: Profile/Login/Logout */}
+        <div className="flex items-center gap-2 ml-2">
+          {rightNav.map(item => {
+            const isActive = activeNav === item.name;
+            return (
+              <button
+                key={item.name}
+                onClick={() => handleNavClick(item)}
+                aria-label={item.aria}
+                className={`
+                  flex items-center rounded-xl px-4 py-2
+                  ${isActive
+                    ? "bg-gradient-to-r from-blue-300 to-blue-100 border-2 border-blue-500 shadow-xl text-blue-900 scale-105"
+                    : "bg-white/80 border border-blue-100 hover:bg-blue-50 hover:shadow-md hover:border-blue-300 text-gray-700"}
+                  transition-all duration-300
+                  hover:scale-105 active:scale-95
+                `}
+                style={{
+                  minWidth: 44,
+                  letterSpacing: "-0.5px",
+                  fontWeight: isActive ? 600 : 500,
+                  marginRight: "0.5rem",
+                  maxWidth: "180px",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  justifyContent: "flex-start",
+                }}
+                onMouseEnter={() => setHoveredNav(item.name)}
+                onMouseLeave={() => setHoveredNav(null)}
+              >
+                {item.icon}
+                <span
+                  className={`
+                    ml-2 transition-all duration-300 ease-in-out
+                    text-base tracking-tight
+                    ${isActive || hoveredNav === item.name ? "opacity-100" : "opacity-80"}
+                  `}
+                  style={{
+                    maxWidth: "120px",
+                    fontSize: "1rem",
+                    fontWeight: 500,
+                    overflow: "hidden",
+                    display: "inline-block"
+                  }}
+                >
+                  {item.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {/* Mobile menu */}
+        <div className="sm:hidden flex items-center w-full justify-end">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="text-black focus:outline-none ml-2"
+          >
+            {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+          </button>
+        </div>
       </div>
+      {/* Mobile: Full-width search bar below nav */}
+      {showSearchBar && (
+        <div className="sm:hidden w-full mt-2 mb-2">
+          <form
+            onSubmit={handleSearch}
+            className="w-full px-1"
+          >
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search for Educators or Topics"
+                className="w-full rounded-full px-4 py-2 pr-12 text-gray-800 focus:outline-none shadow-lg bg-white/70 border border-blue-100/40 backdrop-blur transition-all duration-200 focus:ring-2 focus:ring-blue-400 text-base"
+              />
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow transition-all duration-200"
+              >
+                <FaSearch size={18} />
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
       {/* Mobile menu dropdown */}
       {menuOpen && (
         <div className="sm:hidden px-4 pb-4 pt-2 flex flex-col gap-3 shadow-md bg-white/90 backdrop-blur-lg rounded-b-xl border-t border-blue-100/40">

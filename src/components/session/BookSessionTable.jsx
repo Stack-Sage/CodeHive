@@ -26,7 +26,7 @@ export default function BookSessionTable({
           {sessions.map((s) => (
             <tr
               key={s._id}
-              className="border-b border-slate-200 sm:table-row block sm:table-row mb-4 sm:mb-0 bg-white rounded-lg sm:rounded-none shadow-sm sm:shadow-none"
+              className="border-b border-slate-200 sm:table-row block  mb-4 sm:mb-0 bg-white rounded-lg sm:rounded-none shadow-sm sm:shadow-none"
             >
               <td className="px-2 py-2 sm:table-cell block">
                 <span className="font-semibold sm:hidden">Teacher: </span>

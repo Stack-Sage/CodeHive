@@ -13,7 +13,7 @@ export default function BookSessionForm({ teacher }) {
     topic: "",
     skill: "",
     message: "",
-    proposedRate: teacher?.price || "",
+    proposedRate: 1, // <-- set minimum to 1 for testing
   });
   const [proposedDates, setProposedDates] = useState([""]);
   const [loading, setLoading] = useState(false);
@@ -32,9 +32,10 @@ export default function BookSessionForm({ teacher }) {
   const handleChange = e => {
     const { name, value } = e.target;
     if (name === "proposedRate") {
-      if (Number(value) < Number(teacher.price)) {
-        showError(`Minimum rate is ₹${teacher.price}`);
-        setForm(f => ({ ...f, [name]: teacher.price }));
+      // For testing: minimum is 1
+      if (Number(value) < 1) {
+        showError(`Minimum rate is ₹1`);
+        setForm(f => ({ ...f, [name]: 1 }));
         return;
       }
     }
@@ -156,12 +157,12 @@ export default function BookSessionForm({ teacher }) {
             type="number"
             value={form.proposedRate}
             onChange={handleChange}
-            placeholder={`Minimum ₹${teacher.price}`}
+            placeholder={`Minimum ₹1`}
             className="rounded px-3 py-2 border border-blue-200 w-full"
-            min={teacher.price}
+            min={1}
             required
           />
-          <span className="text-xs text-gray-500">Minimum: ₹{teacher.price}</span>
+          <span className="text-xs text-gray-500">Minimum: ₹1</span>
         </div>
         <div>
           <label className="block font-semibold mb-1 text-blue-800">Message for the Educator</label>
