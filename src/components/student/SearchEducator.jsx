@@ -11,7 +11,7 @@ const ICON_STYLE = "text-lg md:text-xl rounded-full p-2 transition-all duration-
 const ACTIVE_ICON_STYLE = "text-lg md:text-xl rounded-full p-2 transition-all duration-200 shadow-md border-2 border-blue-100 bg-blue-400 backdrop-blur ";
 
 const NAV_ITEMS = [
-  { name: "Docs", href: "/docs", icon: <FaBook />, aria: "Documentation" },
+  // { name: "Docs", href: "/docs", icon: <FaBook />, aria: "Documentation" },
   { name: "Messages", href: "/chat", icon: <FaEnvelope />, aria: "Messages" },
   { name: "Payments ", href: "/payment/history", icon: <FaMoneyBillWave />, aria: "Payments" },
   { name: "Book Session", href: "/bookSession", icon: <FaCalendarAlt />, aria: "Book Session" },
@@ -42,7 +42,7 @@ const Navbar = ({ goBack }) => {
     if (isLogin) {
       if (pathname.startsWith("/listing")) return "Educators";
       if (pathname.startsWith("/dashboard")) return "Dashboard";
-      if (pathname.startsWith("/docs")) return "Docs";
+      // if (pathname.startsWith("/docs")) return "Docs";
       if (pathname.startsWith("/chat")) return "Messages";
       if (pathname.startsWith("/payment/history")) return "Payments";
       if (pathname.startsWith("/profile")) return "Profile";
